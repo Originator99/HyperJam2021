@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Brick : MonoBehaviour {
 
+    public string IDOnGrid {
+        get {
+            if(data != null)
+                return data.gridNodeID;
+            return "";
+        }
+    }
+
     public BrickType currentType;
 
     private BrickData data;
@@ -47,11 +55,15 @@ public class Brick : MonoBehaviour {
             case BrickType.PATH:
                 SwitchToPath();
                 break;
+            case BrickType.END:
+                SwitchToEndBrick();
+                break;
         }
     }
 
     private void SwitchToBomb() {
-        spriteRender.enabled = false;
+        SwitchToNormal();
+        spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 50f); // to remove later
     }
 
     private void SwitchToPath() {
@@ -90,17 +102,24 @@ public class Brick : MonoBehaviour {
             ChangeBrickState(BrickType.PATH);
         }
     }
+
+    private void SwitchToEndBrick() {
+        SwitchToNormal();
+        spriteRender.color = Color.green;
+    }
 }
 
 
 public enum BrickType {
     NORMAL,
     BOMB,
-    PATH
+    PATH,
+    END
 }
 
 [System.Serializable]
 public class BrickData {
+    public string gridNodeID;
     public BrickGraphicData renderData;
     public BrickType type;
     public Vector2 worldPosition;

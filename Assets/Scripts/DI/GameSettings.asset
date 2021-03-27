@@ -21,12 +21,14 @@ MonoBehaviour:
   levelSettings:
     levelInfo:
       difficultyID: 1
-      gridSpace: 2.5
-      rows: 49
-      columns: 49
-      bombChance: 0.6
+      gridSpace: 1.5
+      worldSize: {x: 80, y: 80, z: 0}
+      bombChance: 0.5
       bricksData:
       - brickSprite: {fileID: 21300000, guid: 320e2e710925e424c815064b217b8179, type: 3}
         destroyEffect: {fileID: 0}
       emptyBrickPrefab: {fileID: 1678073492517804725, guid: 6f240879d486b8847a2f97bcb8bf41c0,
         type: 3}
+  cameraSettings:
+    cameraMovementSettings:
+      speed: 0.5

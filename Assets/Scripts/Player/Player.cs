@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class Player : MonoBehaviour {
+public class Player :MonoBehaviour {
 
     private PlayerStateFactory _stateFactory;
     private PlayerState _state;
 
     public Direction currentDirection;
+    public Node2D currentBrickCell;
 
     [Inject]
     public void Construct(PlayerStateFactory stateFactory) {
@@ -16,7 +17,7 @@ public class Player : MonoBehaviour {
 
         currentDirection = Direction.UP;
     }
-    
+
     private void Start() {
         ChangeState(PlayerStates.WaitingToStart);
     }
@@ -27,6 +28,12 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         _state?.OnTriggerEnter2D(collision);
+    }
+
+    public void ResetPlayerPosition(Node2D brickCelll) {
+        currentBrickCell = brickCelll;
+        transform.position = brickCelll.worldPosition;
+        ChangeState(PlayerStates.Moving);
     }
 
     public void ChangeState(PlayerStates state) {

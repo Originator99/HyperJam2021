@@ -11,10 +11,13 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
         Container.BindInstance(playerSettings.stateDash);
 
         Container.BindInstance(levelSettings.levelInfo);
+
+        Container.BindInstance(cameraSettings.cameraMovementSettings);
     }
 
     public PlayerSettings playerSettings;
     public LevelSettings levelSettings;
+    public CameraSettings cameraSettings;
 
     [System.Serializable]
     public class PlayerSettings {
@@ -25,5 +28,10 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
     [System.Serializable]
     public class LevelSettings {
         public LevelManager.Settings levelInfo;
+    }
+
+    [System.Serializable]
+    public class CameraSettings {
+        public CameraStateFollowing.Settings cameraMovementSettings;
     }
 }
