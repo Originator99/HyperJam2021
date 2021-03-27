@@ -18,6 +18,8 @@ MonoBehaviour:
       rotateSpeed: 0.15
     stateDash:
       dashSpeed: 0.2
+    stateDead:
+      deadEffect: {fileID: 0}
   levelSettings:
     levelInfo:
       difficultyID: 1
@@ -32,3 +34,6 @@ MonoBehaviour:
   cameraSettings:
     cameraMovementSettings:
       speed: 5
+  patterSettings:
+    radius: 5
+    radarOffset: 4

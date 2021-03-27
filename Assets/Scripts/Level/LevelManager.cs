@@ -4,7 +4,6 @@ using UnityEngine;
 using Zenject;
 
 public class LevelManager : ITickable, IFixedTickable {
-    private readonly List<Brick> levelBricks = new List<Brick>();
     private readonly LevelRandomizer _levelLogic;
     private readonly Settings _settings;
     private readonly Player _player;
@@ -39,14 +38,9 @@ public class LevelManager : ITickable, IFixedTickable {
     }
 
     public void ResetLevel() {
-        //clean this code later to reuse
-        if(levelBricks.Count > 0) {
-            foreach(Brick brick in levelBricks)
-                GameObject.Destroy(brick.gameObject);
+        if(grid == null) {
+            grid = new Grid2D(_settings.worldSize, _settings.gridSpace);
         }
-        levelBricks.Clear();
-
-        grid = new Grid2D(_settings.worldSize, _settings.gridSpace);
 
         SetStartPoint();
         SetEndPoint();
@@ -54,7 +48,12 @@ public class LevelManager : ITickable, IFixedTickable {
         for(int x = 0; x < grid.gridSizeX; x++) {
             for(int y = 0; y < grid.gridSizeY; y++) {
                 Node2D currentNode = grid.Grid[x, y];
-                Brick brick = GenerateEmptyBrickCell();
+                Brick brick = null;
+                if(currentNode.data == null) {
+                    brick = GenerateEmptyBrickCell();
+                } else {
+                    brick = currentNode.data as Brick;
+                }
 
                 int neighborsWithBombs = 0;
                 var neighbors = GetNeighborNodes(currentNode, true);
@@ -74,7 +73,8 @@ public class LevelManager : ITickable, IFixedTickable {
                 }
 
                 brick.InitializeBrick(data);
-                levelBricks.Add(brick);
+
+                currentNode.SetData(brick);
 
                 //for hirachy to look better 
                 brick.transform.name = "Brick" + x + "," + y;
@@ -84,9 +84,25 @@ public class LevelManager : ITickable, IFixedTickable {
         FindPath(startPoint, endPoint);
     }
 
-    public Node2D GetBrickInDirection(Direction direction, Node2D currentNode) {
+    public Node2D GetBrickInDirection(Direction direction, Node2D currentNode, int level = 1) {
         if(currentNode != null) {
-            return grid.GetNodeInDirection(direction, currentNode);
+            return grid.GetNodeInDirection(direction, currentNode, level);
+        } else {
+            Debug.LogError("Current Node is null, cannot find the next node in direction " + direction.ToString());
+            return null;
+        }
+    }
+
+    public List<Node2D> GetBricksInDirection(Direction direction, Node2D currentNode, int levels) {
+        if(currentNode != null) {
+            List<Node2D> nodes = new List<Node2D>();
+            for(int i = 1; i <= levels; i++) {
+                Node2D node = GetBrickInDirection(direction, currentNode, i);
+                if(node != null) {
+                    nodes.Add(node);
+                }
+            }
+            return nodes;
         } else {
             Debug.LogError("Current Node is null, cannot find the next node in direction " + direction.ToString());
             return null;
@@ -96,6 +112,7 @@ public class LevelManager : ITickable, IFixedTickable {
     public List<Node2D> GetNeighborNodes(Node2D currentNode, bool checkDiagonal) {
         return grid.GetNeighbors(currentNode, checkDiagonal);
     }
+
 
     private void SetStartPoint() {
         startPoint = grid.Grid[Random.Range(0, grid.gridSizeX / 5), Random.Range(0, grid.gridSizeY / 5)];
@@ -114,9 +131,9 @@ public class LevelManager : ITickable, IFixedTickable {
 
         if(grid.path != null) {
             foreach(var pathNode in grid.path) {
-                int index = levelBricks.FindIndex(x => x.IDOnGrid == pathNode.ID);
-                if(index >= 0) {
-                    levelBricks[index].DestroyBrick();
+                if(pathNode.data is Brick) {
+                    Brick brick = pathNode.data as Brick;
+                    brick.DestroyBrick();
                 }
             }
         } else {

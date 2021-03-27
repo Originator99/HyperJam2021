@@ -89,33 +89,32 @@ public class Grid2D {
         return neighbors;
     }
 
-    public Node2D GetNodeInDirection(Direction direction, Node2D node) {
+    public Node2D GetNodeInDirection(Direction direction, Node2D node, int level) {
         //checks and adds top neighbor
         if(direction == Direction.UP) {
-            if(node.GridX >= 0 && node.GridX < gridSizeX && node.GridY + 1 >= 0 && node.GridY + 1 < gridSizeY)
-                return (Grid[node.GridX, node.GridY + 1]);
+            if(node.GridX >= 0 && node.GridX < gridSizeX && node.GridY + level >= 0 && node.GridY + level < gridSizeY)
+                return (Grid[node.GridX, node.GridY + level]);
         }
         //checks and adds bottom neighbor
         if(direction == Direction.DOWN) {
-            if(node.GridX >= 0 && node.GridX < gridSizeX && node.GridY - 1 >= 0 && node.GridY - 1 < gridSizeY)
-                return (Grid[node.GridX, node.GridY - 1]);
+            if(node.GridX >= 0 && node.GridX < gridSizeX && node.GridY - level >= 0 && node.GridY - level < gridSizeY)
+                return (Grid[node.GridX, node.GridY - level]);
         }
 
         //checks and adds right neighbor
         if(direction == Direction.RIGHT) {
-            if(node.GridX + 1 >= 0 && node.GridX + 1 < gridSizeX && node.GridY >= 0 && node.GridY < gridSizeY)
-                return (Grid[node.GridX + 1, node.GridY]);
+            if(node.GridX + level >= 0 && node.GridX + level < gridSizeX && node.GridY >= 0 && node.GridY < gridSizeY)
+                return (Grid[node.GridX + level, node.GridY]);
         }
 
         //checks and adds left neighbor
         if(direction == Direction.LEFT) {
-            if(node.GridX - 1 >= 0 && node.GridX - 1 < gridSizeX && node.GridY >= 0 && node.GridY < gridSizeY)
-                return (Grid[node.GridX - 1, node.GridY]);
+            if(node.GridX - level >= 0 && node.GridX - level < gridSizeX && node.GridY >= 0 && node.GridY < gridSizeY)
+                return (Grid[node.GridX - level, node.GridY]);
         }
 
         return null; //means no node found in that direction
     }
-
     public Node2D NodeFromWorldPoint(Vector3 worldPosition) {
 
         int x = Mathf.RoundToInt(worldPosition.x - 1 + (gridSizeX / 2));
