@@ -5,30 +5,35 @@ using DG.Tweening;
 using Zenject;
 
 public class PlayerStateMoving :PlayerState {
-    private bool moving;
+    private bool moving, rotating;
     private Settings _settings;
     private Player _player;
     private LevelManager.Settings _levelSettings;
-
-    public Direction currentDirection;
 
     public PlayerStateMoving(Settings settings, Player player, LevelManager.Settings levelSettings) {
         _settings = settings;
         _player = player;
         _levelSettings = levelSettings;
-    }
 
-    public override void Start() {
         moving = false;
     }
 
+    public override void Start() {
+    }
+
     public override void Update() {
-        if(moving) {
-            return;
+        if(!moving) {
+            //Move(); disabling movement for now
         }
 
-        Move();
-        Rotate();
+        if(!rotating) {
+            Rotate();
+        }
+
+
+        if(Input.GetKeyDown(KeyCode.Space) && !moving && !rotating) {
+            _player.ChangeState(PlayerStates.Dash);
+        }
     }
 
     private void Move() {
@@ -48,9 +53,23 @@ public class PlayerStateMoving :PlayerState {
 
     private void Rotate() {
         if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-            DoNextRotation(Direction.LEFT);
+            Rotate(Direction.LEFT);
         }
         if(Input.GetKeyDown(KeyCode.RightArrow)) {
+            Rotate(Direction.RIGHT);
+        }
+        if(Input.GetKeyDown(KeyCode.UpArrow)) {
+            Rotate(Direction.UP);
+        }
+        if(Input.GetKeyDown(KeyCode.DownArrow)) {
+            Rotate(Direction.DOWN);
+        }
+
+        //Because i made this support and i wanted to use it somewhere
+        if(Input.GetKey(KeyCode.LeftShift)) {
+            DoNextRotation(Direction.LEFT);
+        }
+        if(Input.GetKey(KeyCode.RightShift)) {
             DoNextRotation(Direction.RIGHT);
         }
     }
@@ -96,19 +115,38 @@ public class PlayerStateMoving :PlayerState {
                 angle = 180;
                 break;
         }
-        currentDirection = direction;
+        _player.currentDirection = direction;
         Rotate(angle);
     }
 
     private void Rotate(float angle) {
-        _player.transform.DORotate(new Vector3(0, 0, angle), _settings.rotateSpeed);
+        rotating = true;
+        _player.transform.DORotate(new Vector3(0, 0, angle), _settings.rotateSpeed).OnComplete(delegate() {
+            rotating = false;
+        });
     }
 
     private void DoNextRotation(Direction tryToRotateIn) {
         if(tryToRotateIn == Direction.LEFT) {
-            Rotate(_player.transform.rotation.eulerAngles.z + 90);
-        } else {
-            Rotate(_player.transform.rotation.eulerAngles.z - 90);
+            if(_player.currentDirection == Direction.UP) {
+                Rotate(Direction.LEFT);
+            }else if(_player.currentDirection == Direction.LEFT) {
+                Rotate(Direction.DOWN);
+            } else if(_player.currentDirection == Direction.DOWN) {
+                Rotate(Direction.RIGHT);
+            } else if(_player.currentDirection == Direction.RIGHT) {
+                Rotate(Direction.UP);
+            }
+        } else if(tryToRotateIn == Direction.RIGHT) {
+            if(_player.currentDirection == Direction.UP) {
+                Rotate(Direction.RIGHT);
+            } else if(_player.currentDirection == Direction.RIGHT) {
+                Rotate(Direction.DOWN);
+            } else if(_player.currentDirection == Direction.DOWN) {
+                Rotate(Direction.LEFT);
+            } else if(_player.currentDirection == Direction.LEFT) {
+                Rotate(Direction.UP);
+            }
         }
     }
 

@@ -6,24 +6,26 @@ using UnityEngine;
 public enum PlayerStates {
     WaitingToStart,
     Moving,
-    Dashing
+    Dash,
 }
 
 public class PlayerStateFactory {
     private readonly PlayerStateWaitingToStart.Factory _waitingToStartFactory;
     private readonly PlayerStateMoving.Factory _movingFactory;
+    private readonly PlayerStateDash.Factory _dashFactory;
 
-    public PlayerStateFactory(PlayerStateMoving.Factory movingFactory, PlayerStateWaitingToStart.Factory waitingToStartFactory) {
+    public PlayerStateFactory(PlayerStateMoving.Factory movingFactory, PlayerStateWaitingToStart.Factory waitingToStartFactory, PlayerStateDash.Factory dashFactory) {
         _movingFactory = movingFactory;
         _waitingToStartFactory = waitingToStartFactory;
+        _dashFactory = dashFactory;
     }
 
     public PlayerState CreateState(PlayerStates state) {
         switch(state) {
             case PlayerStates.Moving:
                 return _movingFactory.Create();
-            case PlayerStates.Dashing:
-                break;
+            case PlayerStates.Dash:
+                return _dashFactory.Create();
             case PlayerStates.WaitingToStart:
                 return _waitingToStartFactory.Create();
         }

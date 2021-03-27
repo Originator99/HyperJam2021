@@ -8,6 +8,8 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
 
     public override void InstallBindings() {
         Container.BindInstance(playerSettings.stateMoving);
+        Container.BindInstance(playerSettings.stateDash);
+
         Container.BindInstance(levelSettings.levelInfo);
     }
 
@@ -17,6 +19,7 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
     [System.Serializable]
     public class PlayerSettings {
         public PlayerStateMoving.Settings stateMoving;
+        public PlayerStateDash.Settings stateDash;
     }
 
     [System.Serializable]

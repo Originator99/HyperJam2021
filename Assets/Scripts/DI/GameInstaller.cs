@@ -6,7 +6,7 @@ using Zenject;
 public class GameInstaller : MonoInstaller {
     public override void InstallBindings() {
         InstallPlayer();
-        Container.BindInterfacesAndSelfTo<LevelManager>().AsSingle();
+        InstallLevel();
         Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
     }
 
@@ -15,7 +15,12 @@ public class GameInstaller : MonoInstaller {
 
         Container.BindFactory<PlayerStateWaitingToStart, PlayerStateWaitingToStart.Factory>().WhenInjectedInto<PlayerStateFactory>();
         Container.BindFactory<PlayerStateMoving, PlayerStateMoving.Factory>().WhenInjectedInto<PlayerStateFactory>();
+        Container.BindFactory<PlayerStateDash, PlayerStateDash.Factory>().WhenInjectedInto<PlayerStateFactory>();
+    }
 
+    private void InstallLevel() {
+        Container.BindInterfacesAndSelfTo<LevelManager>().AsSingle();
+        Container.Bind<LevelRandomizer>().AsSingle();
     }
 
     private void InstallExcecutionOrder() {
