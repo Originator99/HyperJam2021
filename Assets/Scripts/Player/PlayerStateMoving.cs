@@ -10,6 +10,8 @@ public class PlayerStateMoving :PlayerState {
     private Player _player;
     private LevelManager.Settings _levelSettings;
 
+    public Direction currentDirection;
+
     public PlayerStateMoving(Settings settings, Player player, LevelManager.Settings levelSettings) {
         _settings = settings;
         _player = player;
@@ -21,14 +23,15 @@ public class PlayerStateMoving :PlayerState {
     }
 
     public override void Update() {
-        Move();
-    }
-
-    private void Move() {
         if(moving) {
             return;
         }
 
+        Move();
+        Rotate();
+    }
+
+    private void Move() {
         if(Input.GetKeyDown(KeyCode.A)) {
             Move(Direction.LEFT);
         }
@@ -40,6 +43,15 @@ public class PlayerStateMoving :PlayerState {
         }
         if(Input.GetKeyDown(KeyCode.S)) {
             Move(Direction.DOWN);
+        }
+    }
+
+    private void Rotate() {
+        if(Input.GetKeyDown(KeyCode.LeftArrow)) {
+            DoNextRotation(Direction.LEFT);
+        }
+        if(Input.GetKeyDown(KeyCode.RightArrow)) {
+            DoNextRotation(Direction.RIGHT);
         }
     }
 
@@ -84,6 +96,7 @@ public class PlayerStateMoving :PlayerState {
                 angle = 180;
                 break;
         }
+        currentDirection = direction;
         Rotate(angle);
     }
 
@@ -91,11 +104,12 @@ public class PlayerStateMoving :PlayerState {
         _player.transform.DORotate(new Vector3(0, 0, angle), _settings.rotateSpeed);
     }
 
-    enum Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
+    private void DoNextRotation(Direction tryToRotateIn) {
+        if(tryToRotateIn == Direction.LEFT) {
+            Rotate(_player.transform.rotation.eulerAngles.z + 90);
+        } else {
+            Rotate(_player.transform.rotation.eulerAngles.z - 90);
+        }
     }
 
     [System.Serializable]
@@ -106,4 +120,11 @@ public class PlayerStateMoving :PlayerState {
 
     public class Factory :PlaceholderFactory<PlayerStateMoving> {
     }
+}
+
+public enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
 }
