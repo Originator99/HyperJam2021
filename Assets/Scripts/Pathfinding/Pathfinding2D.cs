@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Pathfinding2D :MonoBehaviour {
+public class Pathfinding2D {
     Grid2D grid;
     Node2D seekerNode, targetNode;
 

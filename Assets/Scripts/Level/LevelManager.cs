@@ -8,6 +8,7 @@ public class LevelManager : ITickable, IFixedTickable {
     private readonly LevelRandomizer _levelLogic;
     private readonly Settings _settings;
     private readonly Player _player;
+    private readonly SignalBus _signalBus;
 
     private Grid2D grid;
 
@@ -15,36 +16,61 @@ public class LevelManager : ITickable, IFixedTickable {
 
     private Node2D startPoint, endPoint;
 
-    public LevelManager(Settings settings, LevelRandomizer levelLogic, Player player) {
+    public LevelManager(Settings settings, LevelRandomizer levelLogic, Player player, SignalBus signalBus) {
         _settings = settings;
         _levelLogic = levelLogic;
         _player = player;
+        _signalBus = signalBus;
+        _signalBus.Subscribe<PlayerDiedSignal>(OnPlayerDied);
 
         CreateParentForBricks();
-        Start();
     }
+
+    public void Tick() {
+        //Similar to update
+    }
+
+    public void FixedTick() {
+        //similar to fixedUpdate
+    }
+
     public void Start() {
+        ResetLevel();
+    }
+
+    public void ResetLevel() {
+        //clean this code later to reuse
+        if(levelBricks.Count > 0) {
+            foreach(Brick brick in levelBricks)
+                GameObject.Destroy(brick.gameObject);
+        }
         levelBricks.Clear();
 
         grid = new Grid2D(_settings.worldSize, _settings.gridSpace);
-        
+
         SetStartPoint();
         SetEndPoint();
 
         for(int x = 0; x < grid.gridSizeX; x++) {
             for(int y = 0; y < grid.gridSizeY; y++) {
-                
+                Node2D currentNode = grid.Grid[x, y];
                 Brick brick = GenerateEmptyBrickCell();
 
-                BrickData data = _levelLogic.GenerateRandomBrick(grid.Grid[x, y], GetNeighborNodes(grid.Grid[x, y], true));
-                if(data.type == BrickType.BOMB && endPoint.ID == grid.Grid[x, y].ID) {
+                int neighborsWithBombs = 0;
+                var neighbors = GetNeighborNodes(currentNode, true);
+                if(neighbors != null) {
+                    neighborsWithBombs = neighbors.FindAll(t => t.obstacle == true).Count;
+                }
+
+                BrickData data = _levelLogic.GenerateRandomBrick(currentNode.ID, currentNode.worldPosition, neighborsWithBombs);
+                if(data.type == BrickType.BOMB && endPoint.ID == currentNode.ID) {
                     data.type = BrickType.END;
                 }
 
                 if(data.type == BrickType.BOMB) {
-                    grid.Grid[x, y].SetObstacle(true);
+                    currentNode.SetObstacle(true);
                 } else {
-                    grid.Grid[x, y].SetObstacle(false);
+                    currentNode.SetObstacle(false);
                 }
 
                 brick.InitializeBrick(data);
@@ -58,16 +84,21 @@ public class LevelManager : ITickable, IFixedTickable {
         FindPath(startPoint, endPoint);
     }
 
-    public void Tick() {
-        //Similar to update
+    public Node2D GetBrickInDirection(Direction direction, Node2D currentNode) {
+        if(currentNode != null) {
+            return grid.GetNodeInDirection(direction, currentNode);
+        } else {
+            Debug.LogError("Current Node is null, cannot find the next node in direction " + direction.ToString());
+            return null;
+        }
     }
 
-    public void FixedTick() {
-        //similar to fixedUpdate
+    public List<Node2D> GetNeighborNodes(Node2D currentNode, bool checkDiagonal) {
+        return grid.GetNeighbors(currentNode, checkDiagonal);
     }
 
     private void SetStartPoint() {
-        startPoint = grid.Grid[0, 0];
+        startPoint = grid.Grid[Random.Range(0, grid.gridSizeX / 5), Random.Range(0, grid.gridSizeY / 5)];
         _player.ResetPlayerPosition(startPoint);
     }
 
@@ -93,19 +124,6 @@ public class LevelManager : ITickable, IFixedTickable {
         }
     }
 
-    public Node2D GetBrickInDirection(Direction direction, Node2D currentNode) {
-        if(currentNode != null) {
-            return grid.GetNodeInDirection(direction, currentNode);
-        } else {
-            Debug.LogError("Current Node is null, cannot find the next node in direction " + direction.ToString());
-            return null;
-        }
-    }
-
-    public List<Node2D> GetNeighborNodes(Node2D currentNode, bool checkDiagonal) {
-        return grid.GetNeighbors(currentNode, checkDiagonal);
-    }
-
     private Brick GenerateEmptyBrickCell() {
         GameObject obj = GameObject.Instantiate(_settings.emptyBrickPrefab, parentForBricks);
         Brick controller = obj.GetComponent<Brick>();
@@ -120,6 +138,11 @@ public class LevelManager : ITickable, IFixedTickable {
             name = "Bricks"
         };
         this.parentForBricks = parentForBricks.transform;
+    }
+
+    private void OnPlayerDied(PlayerDiedSignal playerDiedData) {
+        _player.ChangeState(PlayerStates.Dead);
+        ResetLevel();
     }
 
 

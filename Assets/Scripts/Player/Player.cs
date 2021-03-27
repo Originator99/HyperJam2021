@@ -19,7 +19,7 @@ public class Player :MonoBehaviour {
     }
 
     private void Start() {
-        ChangeState(PlayerStates.WaitingToStart);
+
     }
 
     private void Update() {
@@ -30,10 +30,10 @@ public class Player :MonoBehaviour {
         _state?.OnTriggerEnter2D(collision);
     }
 
-    public void ResetPlayerPosition(Node2D brickCelll) {
-        currentBrickCell = brickCelll;
-        transform.position = brickCelll.worldPosition;
-        ChangeState(PlayerStates.Moving);
+    public void ResetPlayerPosition(Node2D brickCell) {
+        currentBrickCell = brickCell;
+        transform.position = brickCell.worldPosition;
+        ChangeState(PlayerStates.WaitingToStart);
     }
 
     public void ChangeState(PlayerStates state) {

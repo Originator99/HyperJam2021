@@ -4,8 +4,13 @@ using UnityEngine;
 using Zenject;
 
 public class PlayerStateWaitingToStart :PlayerState {
-    public override void Start() {
+    private readonly Player _player;
+    public PlayerStateWaitingToStart(Player player) {
+        _player = player;
+    }
 
+    public override void Start() {
+        _player.gameObject.SetActive(true);
     }
 
     public override void Dispose() {

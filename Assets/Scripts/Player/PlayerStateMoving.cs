@@ -19,6 +19,7 @@ public class PlayerStateMoving :PlayerState {
     }
 
     public override void Start() {
+        _player.gameObject.SetActive(true);
     }
 
     public override void Update() {

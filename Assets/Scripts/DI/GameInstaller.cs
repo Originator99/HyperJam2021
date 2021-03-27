@@ -5,12 +5,14 @@ using Zenject;
 
 public class GameInstaller : MonoInstaller {
     public override void InstallBindings() {
+        SignalBusInstaller.Install(Container);
         InstallPlayer();
         InstallLevel();
         InstallCamera();
         InstallExcecutionOrder();
 
         Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
+        Container.DeclareSignal<PlayerDiedSignal>();
     }
 
     private void InstallPlayer() {
@@ -19,6 +21,7 @@ public class GameInstaller : MonoInstaller {
         Container.BindFactory<PlayerStateWaitingToStart, PlayerStateWaitingToStart.Factory>().WhenInjectedInto<PlayerStateFactory>();
         Container.BindFactory<PlayerStateMoving, PlayerStateMoving.Factory>().WhenInjectedInto<PlayerStateFactory>();
         Container.BindFactory<PlayerStateDash, PlayerStateDash.Factory>().WhenInjectedInto<PlayerStateFactory>();
+        Container.BindFactory<PlayerStateDead, PlayerStateDead.Factory>().WhenInjectedInto<PlayerStateFactory>();
     }
 
     private void InstallLevel() {

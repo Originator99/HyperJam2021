@@ -9,15 +9,17 @@ public class PlayerStateDash :PlayerState {
     private readonly Player _player;
     private readonly LevelManager.Settings _levelSettings;
     private readonly LevelManager _levelManager;
+    private readonly SignalBus _signalBus;
 
     private bool dashing;
     private Sequence tweenSequence;
 
-    public PlayerStateDash(Settings settings, Player player, LevelManager.Settings levelSettings, LevelManager levelManager) {
+    public PlayerStateDash(Settings settings, Player player, LevelManager.Settings levelSettings, LevelManager levelManager, SignalBus signalBus) {
         _settings = settings;
         _player = player;
         _levelSettings = levelSettings;
         _levelManager = levelManager;
+        _signalBus = signalBus;
 
         tweenSequence = DOTween.Sequence();
         dashing = false;
@@ -34,6 +36,10 @@ public class PlayerStateDash :PlayerState {
                 if(controller != null) {
                     if(controller.currentType == BrickType.NORMAL) {
                         controller.DestroyBrick();
+                    }
+                    if(controller.currentType == BrickType.BOMB) {
+                        tweenSequence.Kill();
+                        _signalBus.Fire<PlayerDiedSignal>(new PlayerDiedSignal { });
                     }
                 }
             }

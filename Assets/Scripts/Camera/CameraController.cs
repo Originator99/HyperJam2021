@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour {
 
 
     private void Start() {
-        //ChangeState(CameraState.State.Following);
+        ChangeState(CameraState.State.Following);
     }
     private void LateUpdate() {
         if(_cameraState != null) {
