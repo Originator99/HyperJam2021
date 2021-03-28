@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 [CreateAssetMenu(menuName = "Roulette/Game Settings")]
@@ -14,17 +12,11 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
         Container.BindInstance(levelSettings.levelInfo);
 
         Container.BindInstance(cameraSettings.cameraMovementSettings);
-
-        //UI Settings
-        Container.BindInstance(patterSettings); 
     }
 
     public PlayerSettings playerSettings;
     public LevelSettings levelSettings;
     public CameraSettings cameraSettings;
-
-    [Space(5)]
-    public Pattern.Settings patterSettings;
 
     [System.Serializable]
     public class PlayerSettings {

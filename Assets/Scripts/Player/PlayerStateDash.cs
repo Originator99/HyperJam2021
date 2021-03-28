@@ -36,10 +36,16 @@ public class PlayerStateDash :PlayerState {
                 if(controller != null) {
                     if(controller.currentType == BrickType.NORMAL) {
                         controller.DestroyBrick();
+                        _signalBus.Fire<BrickDestroyedSignal>(new BrickDestroyedSignal { data = controller.data });
+
                     }
                     if(controller.currentType == BrickType.BOMB) {
                         tweenSequence.Kill();
                         _signalBus.Fire<PlayerDiedSignal>(new PlayerDiedSignal { });
+                    }
+                    if(controller.currentType == BrickType.END) {
+                        _signalBus.Fire<PlayerReachedEndSignal>(new PlayerReachedEndSignal { hasWon = true });
+                        tweenSequence.Kill();
                     }
                 }
             }

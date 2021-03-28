@@ -22,6 +22,7 @@ public class LevelRandomizer {
         } else {
             data.type = BrickType.PATH; //want the 0 pos of map be empty for our player to move
         }
+
         if(_levelSettings.bricksData != null && _levelSettings.bricksData.Count > 0) {
             data.renderData = _levelSettings.bricksData[Random.Range(0, _levelSettings.bricksData.Count)];
         }

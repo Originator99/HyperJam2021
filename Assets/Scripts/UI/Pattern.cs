@@ -22,6 +22,13 @@ public class Pattern : MonoBehaviour {
         _levelManager = levelManager;
     }
 
+    public void Hide() {
+        gameObject.SetActive(false);
+    }
+    public void Show() {
+        gameObject.SetActive(true);
+    }
+
     private void Update() {
         playerIcon.rotation = _player.transform.rotation;
 

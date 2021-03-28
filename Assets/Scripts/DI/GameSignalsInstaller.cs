@@ -11,3 +11,11 @@ public class GameSignalsInstaller : MonoInstaller<GameSignalsInstaller> {
 public struct PlayerDiedSignal {
 
 }
+
+public struct PlayerReachedEndSignal {
+    public bool hasWon;
+}
+
+public struct BrickDestroyedSignal {
+    public BrickData data;
+}

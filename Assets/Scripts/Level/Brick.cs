@@ -14,7 +14,7 @@ public class Brick : MonoBehaviour {
 
     public BrickType currentType;
 
-    private BrickData data;
+    public BrickData data;
 
     private SpriteRenderer spriteRender;
     private new BoxCollider2D collider;
@@ -107,7 +107,7 @@ public class Brick : MonoBehaviour {
 
     private void SwitchToEndBrick() {
         SwitchToNormal();
-        spriteRender.color = Color.green;
+        spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 0.1f); // to remove later
     }
 }
 

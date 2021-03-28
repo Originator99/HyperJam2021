@@ -12,7 +12,10 @@ public class GameInstaller : MonoInstaller {
         InstallExcecutionOrder();
 
         Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
+
         Container.DeclareSignal<PlayerDiedSignal>();
+        Container.DeclareSignal<PlayerReachedEndSignal>();
+        Container.DeclareSignal<BrickDestroyedSignal>();
     }
 
     private void InstallPlayer() {
@@ -27,6 +30,7 @@ public class GameInstaller : MonoInstaller {
     private void InstallLevel() {
         Container.BindInterfacesAndSelfTo<LevelManager>().AsSingle();
         Container.Bind<LevelRandomizer>().AsSingle();
+        Container.Bind<ScoreHelper>().AsSingle();
     }
 
     private void InstallCamera() {

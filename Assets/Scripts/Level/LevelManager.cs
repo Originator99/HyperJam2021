@@ -62,8 +62,9 @@ public class LevelManager : ITickable, IFixedTickable {
                 }
 
                 BrickData data = _levelLogic.GenerateRandomBrick(currentNode.ID, currentNode.worldPosition, neighborsWithBombs);
-                if(data.type == BrickType.BOMB && endPoint.ID == currentNode.ID) {
-                    data.type = BrickType.END;
+                
+                if(endPoint.ID == currentNode.ID) {
+                    data.type = BrickType.END; //forcing end brick to be end brick
                 }
 
                 if(data.type == BrickType.BOMB) {
@@ -130,12 +131,12 @@ public class LevelManager : ITickable, IFixedTickable {
         finder.FindPath(start, end);
 
         if(grid.path != null) {
-            foreach(var pathNode in grid.path) {
-                if(pathNode.data is Brick) {
-                    Brick brick = pathNode.data as Brick;
-                    brick.DestroyBrick();
-                }
-            }
+            //foreach(var pathNode in grid.path) {
+            //    if(pathNode.data is Brick) {
+            //        Brick brick = pathNode.data as Brick;
+            //        brick.DestroyBrick();
+            //    }
+            //}
         } else {
             Debug.LogError("Path not found for end point " + end.ID);
         }
