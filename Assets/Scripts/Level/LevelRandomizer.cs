@@ -24,7 +24,10 @@ public class LevelRandomizer {
         }
 
         if(_levelSettings.bricksData != null && _levelSettings.bricksData.Count > 0) {
-            data.renderData = _levelSettings.bricksData[Random.Range(0, _levelSettings.bricksData.Count)];
+            data.renderData = new BrickGraphicData();
+            var temp = _levelSettings.bricksData[Random.Range(0, _levelSettings.bricksData.Count)];
+            data.renderData.brickSprite = temp.brickSprite;
+            data.renderData.destroyEffect= temp.destroyEffect;
         }
         return data;
     }

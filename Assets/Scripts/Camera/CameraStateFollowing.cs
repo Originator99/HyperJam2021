@@ -7,11 +7,16 @@ public class CameraStateFollowing :CameraState {
     private readonly Player _player;
     private readonly CameraController _camera;
     private readonly Settings _settings;
+    private readonly LevelHelper _levelHelper;
 
-    public CameraStateFollowing(Settings settings, CameraController camera, Player player) {
+    public CameraStateFollowing(Settings settings, CameraController camera, Player player, LevelHelper levelHelper) {
         _player = player;
         _camera = camera;
         _settings = settings;
+        _levelHelper = levelHelper;
+    }
+    public override void Start() {
+        Debug.Log("ex" + _levelHelper.ExtentWidth + " h " + _levelHelper.ExtentHeight);
     }
 
     public override void LateUpdate() {

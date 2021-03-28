@@ -122,6 +122,9 @@ public class PlayerStateMoving :PlayerState {
 
     private void Rotate(float angle) {
         rotating = true;
+        if(_player.transform.rotation.eulerAngles.z != angle) {
+            _player.PlaySFX(_settings.rotateSFX);
+        }
         _player.transform.DORotate(new Vector3(0, 0, angle), _settings.rotateSpeed).OnComplete(delegate() {
             rotating = false;
         });
@@ -155,6 +158,8 @@ public class PlayerStateMoving :PlayerState {
     public class Settings {
         public float moveSpeed;
         public float rotateSpeed;
+
+        public AudioClip rotateSFX;
     }
 
     public class Factory :PlaceholderFactory<PlayerStateMoving> {

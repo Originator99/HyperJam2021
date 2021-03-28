@@ -16,7 +16,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - PostProcessing
   - 
   - 
   - 
@@ -41,9 +41,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Background
     uniqueID: 1257547513
     locked: 0
@@ -55,4 +52,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 870778277
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0

@@ -63,7 +63,7 @@ public class Brick : MonoBehaviour {
 
     private void SwitchToBomb() {
         SwitchToNormal();
-        spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 0.5f); // to remove later
+        //spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 0.5f); // to remove later
     }
 
     private void SwitchToPath() {
@@ -107,7 +107,6 @@ public class Brick : MonoBehaviour {
 
     private void SwitchToEndBrick() {
         SwitchToNormal();
-        spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 0.1f); // to remove later
     }
 }
 

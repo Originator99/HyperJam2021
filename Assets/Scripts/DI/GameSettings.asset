@@ -16,24 +16,44 @@ MonoBehaviour:
     stateMoving:
       moveSpeed: 0.15
       rotateSpeed: 0.15
+      rotateSFX: {fileID: 8300000, guid: ad4f60c9406941849b679e5db4a1aaea, type: 3}
     stateDash:
       dashSpeed: 0.2
+      dashSFX: {fileID: 8300000, guid: 6fe4eccf63417d145ae7c960988ab336, type: 3}
+      destroyBrickSFX: {fileID: 8300000, guid: 6ce1e6592b7805c44a23c29a1fb6c0e6, type: 3}
+      deathSFX: {fileID: 8300000, guid: 8a7a67b81feb3a343b3417051c889550, type: 3}
     stateDead:
-      deadEffect: {fileID: 0}
+      deadEffect: {fileID: 6386639180721475996, guid: 25150addf919d2f419298e2d2a8e5a44,
+        type: 3}
+      rewindSound: {fileID: 8300000, guid: c4c64a74266538e449599713d02270e3, type: 3}
   levelSettings:
     levelInfo:
       difficultyID: 1
       gridSpace: 1.5
       worldSize: {x: 80, y: 80, z: 0}
       bombChance: 0.75
-      bricksData:
-      - brickSprite: {fileID: 21300000, guid: 320e2e710925e424c815064b217b8179, type: 3}
-        destroyEffect: {fileID: 0}
       emptyBrickPrefab: {fileID: 1678073492517804725, guid: 6f240879d486b8847a2f97bcb8bf41c0,
         type: 3}
+      endSprite: {fileID: 21300000, guid: c6a48a2bb54515d43b970d4bad4e3248, type: 3}
+      bricksData:
+      - brickSprite: {fileID: 21300000, guid: b3ee5d8be5b455445866e30931bfddf4, type: 3}
+        destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
+          type: 3}
+      - brickSprite: {fileID: 21300000, guid: cfe8da0c2efc1de4394e57e94bcc69d9, type: 3}
+        destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
+          type: 3}
+      - brickSprite: {fileID: 21300000, guid: 0e482a63503916a4cad9209803df114a, type: 3}
+        destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
+          type: 3}
+      - brickSprite: {fileID: 21300000, guid: 6f97d7d944a82964488fa924008ce934, type: 3}
+        destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
+          type: 3}
+      - brickSprite: {fileID: 21300000, guid: 7997429898a779941b9ac1ce4125d5de, type: 3}
+        destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
+          type: 3}
+      - brickSprite: {fileID: 21300000, guid: ae6c6d52ab3b05144a0efc5c31e24022, type: 3}
+        destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
+          type: 3}
   cameraSettings:
     cameraMovementSettings:
       speed: 5
-  patterSettings:
-    radius: 5
-    radarOffset: 4

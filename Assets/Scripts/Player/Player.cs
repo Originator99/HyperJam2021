@@ -4,6 +4,7 @@ using UnityEngine;
 using Zenject;
 
 public class Player :MonoBehaviour {
+    private AudioSource audioSource;
 
     private PlayerStateFactory _stateFactory;
     private PlayerState _state;
@@ -19,7 +20,7 @@ public class Player :MonoBehaviour {
     }
 
     private void Start() {
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update() {
@@ -43,5 +44,14 @@ public class Player :MonoBehaviour {
         }
         _state = _stateFactory.CreateState(state);
         _state.Start();
+    }
+    
+    public void PlaySFX(AudioClip clip) {
+        if(audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+        if(clip != null && audioSource != null) {
+            audioSource.clip = clip;
+            audioSource.Play();
+        }
     }
 }

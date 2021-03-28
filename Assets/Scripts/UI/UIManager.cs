@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour {
     public StartScreenUI startScreen;
     public EndScreenUI endScreen;
     public HUDCanvas hudCanvas;
+    public DialogBoxController dialogBoxController;
 
     public void ShowStartScren() {
         hudCanvas.HideHUD();
@@ -26,5 +27,8 @@ public class UIManager : MonoBehaviour {
         startScreen.HideStartScreen();
 
         endScreen.Show(hasWon);
+    }
+    public void ShowDialogueBox(DialogBoxData data) {
+        dialogBoxController.ShowDialogBox(data);
     }
 }

@@ -13,6 +13,8 @@ public class GameInstaller : MonoInstaller {
 
         Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
 
+        Container.Bind<LevelHelper>().AsSingle();
+
         Container.DeclareSignal<PlayerDiedSignal>();
         Container.DeclareSignal<PlayerReachedEndSignal>();
         Container.DeclareSignal<BrickDestroyedSignal>();

@@ -15,18 +15,28 @@ public class LevelManager : ITickable, IFixedTickable {
 
     private Node2D startPoint, endPoint;
 
+    private float levelRestartTimer;
+
     public LevelManager(Settings settings, LevelRandomizer levelLogic, Player player, SignalBus signalBus) {
         _settings = settings;
         _levelLogic = levelLogic;
         _player = player;
         _signalBus = signalBus;
         _signalBus.Subscribe<PlayerDiedSignal>(OnPlayerDied);
+        levelRestartTimer = -1;
 
         CreateParentForBricks();
     }
 
     public void Tick() {
         //Similar to update
+        if(levelRestartTimer > 0) {
+            levelRestartTimer -= Time.unscaledDeltaTime;
+            if(levelRestartTimer <= 0) {
+                ResetLevel();
+                levelRestartTimer = -1;
+            }
+        }
     }
 
     public void FixedTick() {
@@ -63,8 +73,9 @@ public class LevelManager : ITickable, IFixedTickable {
 
                 BrickData data = _levelLogic.GenerateRandomBrick(currentNode.ID, currentNode.worldPosition, neighborsWithBombs);
                 
-                if(endPoint.ID == currentNode.ID) {
+                if(endPoint.worldPosition == currentNode.worldPosition) {
                     data.type = BrickType.END; //forcing end brick to be end brick
+                    data.renderData.brickSprite = _settings.endSprite;
                 }
 
                 if(data.type == BrickType.BOMB) {
@@ -131,12 +142,13 @@ public class LevelManager : ITickable, IFixedTickable {
         finder.FindPath(start, end);
 
         if(grid.path != null) {
-            //foreach(var pathNode in grid.path) {
-            //    if(pathNode.data is Brick) {
-            //        Brick brick = pathNode.data as Brick;
-            //        brick.DestroyBrick();
-            //    }
-            //}
+            foreach(var pathNode in grid.path) {
+                if(pathNode.data is Brick) {
+                    Brick brick = pathNode.data as Brick;
+                    if(brick.currentType != BrickType.END)
+                        brick.DestroyBrick();
+                }
+            }
         } else {
             Debug.LogError("Path not found for end point " + end.ID);
         }
@@ -160,7 +172,7 @@ public class LevelManager : ITickable, IFixedTickable {
 
     private void OnPlayerDied(PlayerDiedSignal playerDiedData) {
         _player.ChangeState(PlayerStates.Dead);
-        ResetLevel();
+        levelRestartTimer = 2.5f;
     }
 
 
@@ -170,7 +182,8 @@ public class LevelManager : ITickable, IFixedTickable {
         public float gridSpace = 2.5f;
         public Vector3 worldSize;
         public float bombChance = 0.2f;
-        public List<BrickGraphicData> bricksData;
         public GameObject emptyBrickPrefab;
+        public Sprite endSprite;
+        public List<BrickGraphicData> bricksData;
     }
 }

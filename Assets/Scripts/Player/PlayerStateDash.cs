@@ -37,10 +37,11 @@ public class PlayerStateDash :PlayerState {
                     if(controller.currentType == BrickType.NORMAL) {
                         controller.DestroyBrick();
                         _signalBus.Fire<BrickDestroyedSignal>(new BrickDestroyedSignal { data = controller.data });
-
+                        _player.PlaySFX(_settings.destroyBrickSFX);
                     }
                     if(controller.currentType == BrickType.BOMB) {
                         tweenSequence.Kill();
+                        _player.PlaySFX(_settings.dashSFX);
                         _signalBus.Fire<PlayerDiedSignal>(new PlayerDiedSignal { });
                     }
                     if(controller.currentType == BrickType.END) {
@@ -67,6 +68,7 @@ public class PlayerStateDash :PlayerState {
         if(nextBrickCell != null) {
             dashing = true;
             _player.currentBrickCell = nextBrickCell;
+            _player.PlaySFX(_settings.dashSFX);
             tweenSequence.Append(_player.transform.DOMove((Vector2)nextBrickCell.worldPosition, _settings.dashSpeed).OnComplete(delegate () {
                 dashing = false;
                 _player.ChangeState(PlayerStates.Moving);
@@ -79,6 +81,9 @@ public class PlayerStateDash :PlayerState {
     [System.Serializable]
     public class Settings {
         public float dashSpeed;
+        public AudioClip dashSFX;
+        public AudioClip destroyBrickSFX;
+        public AudioClip deathSFX;
     }
 
     public class Factory :PlaceholderFactory<PlayerStateDash> {

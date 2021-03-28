@@ -14,6 +14,7 @@ public class PlayerStateDead :PlayerState {
         if(_settings.deadEffect != null) {
             GameObject.Instantiate(_settings.deadEffect, _player.transform.position, Quaternion.identity);
         }
+        _player.PlaySFX(_settings.rewindSound);
         _player.gameObject.SetActive(false);
     }
 
@@ -25,6 +26,8 @@ public class PlayerStateDead :PlayerState {
     [System.Serializable]
     public class Settings {
         public GameObject deadEffect;
+
+        public AudioClip rewindSound;
     }
 
     public class Factory :PlaceholderFactory<PlayerStateDead> {
