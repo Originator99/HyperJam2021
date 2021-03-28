@@ -142,13 +142,13 @@ public class LevelManager : ITickable, IFixedTickable {
         finder.FindPath(start, end);
 
         if(grid.path != null) {
-            foreach(var pathNode in grid.path) {
-                if(pathNode.data is Brick) {
-                    Brick brick = pathNode.data as Brick;
-                    if(brick.currentType != BrickType.END)
-                        brick.DestroyBrick();
-                }
-            }
+            //foreach(var pathNode in grid.path) {
+            //    if(pathNode.data is Brick) {
+            //        Brick brick = pathNode.data as Brick;
+            //        if(brick.currentType != BrickType.END)
+            //            brick.DestroyBrick();
+            //    }
+            //}
         } else {
             Debug.LogError("Path not found for end point " + end.ID);
         }
