@@ -1,6 +1,14 @@
+Controls :
+> Use Arrow keys to rotate your rat.
+> Use SPACE BAR to make your rat dash in a direction
+
+If you hit a booby trap, your position is reset and the maze reshuffles itself. Your destination becomes even harder to reach.
+
 Play it here - https://cyberwolf007.itch.io/maze-roulette
 
 This game was made for https://itch.io/jam/iztech-hyperjam. 
+
+Zenject was used for DI
 
 Screenshots :
 
