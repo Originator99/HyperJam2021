@@ -5,16 +5,16 @@ using UnityEngine;
 using Zenject;
 
 public class HUDCanvas : MonoBehaviour {
-    public Pattern radarPattern;
+    public GameObject radarPattern;
     public DisplayScore score;
 
     public void ShowHUD() {
-        radarPattern.Show();
+        radarPattern.SetActive(true);
         score.Show();
     }
 
     public void HideHUD() {
-        radarPattern.Hide();
+        radarPattern.SetActive(false);
         score.Hide();
     }
 

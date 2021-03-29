@@ -27,6 +27,8 @@ public class GameInstaller : MonoInstaller {
         Container.BindFactory<PlayerStateMoving, PlayerStateMoving.Factory>().WhenInjectedInto<PlayerStateFactory>();
         Container.BindFactory<PlayerStateDash, PlayerStateDash.Factory>().WhenInjectedInto<PlayerStateFactory>();
         Container.BindFactory<PlayerStateDead, PlayerStateDead.Factory>().WhenInjectedInto<PlayerStateFactory>();
+
+        Container.BindInterfacesAndSelfTo<Radar>().AsTransient();
     }
 
     private void InstallLevel() {

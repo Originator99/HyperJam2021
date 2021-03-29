@@ -30,7 +30,7 @@ MonoBehaviour:
     levelInfo:
       difficultyID: 1
       gridSpace: 1.5
-      worldSize: {x: 80, y: 80, z: 0}
+      worldSize: {x: 20, y: 20, z: 0}
       bombChance: 0.75
       emptyBrickPrefab: {fileID: 1678073492517804725, guid: 6f240879d486b8847a2f97bcb8bf41c0,
         type: 3}
@@ -57,3 +57,11 @@ MonoBehaviour:
   cameraSettings:
     cameraMovementSettings:
       speed: 5
+  radarSettings:
+    radarEnemyPrefab: {fileID: 5457183417739550743, guid: 4b526b4c563239049af6ec1dd2926f21,
+      type: 3}
+    layersToShowOnRadar:
+      serializedVersion: 2
+      m_Bits: 512
+    radius: 5
+    radarShowTimer: 3

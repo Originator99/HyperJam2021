@@ -11,6 +11,7 @@ public class GameManager :IInitializable, ITickable {
     private readonly UIManager _uiManager;
     private readonly ScoreHelper _scoreHelper;
 
+    [Inject(Id ="GameState")]
     private GameStates currentGameState = GameStates.WaitingToStart;
 
     private AudioSource _audioSource;

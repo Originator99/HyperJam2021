@@ -75,15 +75,32 @@ public class Pattern : MonoBehaviour {
                     }
                 }
             }
-            if(distance != 0) {
-                distance = Random.Range(bombFoundAt, bombFoundAt + _settings.radarOffset);
-                textHolder.text = distance.ToString();
+
+            int probability = Mathf.RoundToInt(GetProbabilityOfNextBrickBomb(bombFoundAt) + GetProbabilityOffset());
+            if(probability <= 0)
+                probability = 1;
+            else if(probability > 80)
+                probability = Random.Range(75, 99);
+
+            if(probability > 5f) {
+                textHolder.text = probability.ToString() + "%";
             } else {
                 textHolder.text = "";
             }
         }
     }
 
+    public float GetProbabilityOfNextBrickBomb(int brickPositionFromPlayer) {
+        if(brickPositionFromPlayer == 0) {
+            Debug.LogWarning("Brick with bomb found at 0th position, changing it to 1");
+            brickPositionFromPlayer = 1;
+        }
+        return (float)(100 / brickPositionFromPlayer);
+    }
+
+    public float GetProbabilityOffset() {
+        return Random.Range(-_settings.radarOffset, _settings.radarOffset);
+    }
 
     [System.Serializable]
     public class Settings {
