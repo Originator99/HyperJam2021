@@ -8,7 +8,6 @@ public class CameraStateFollowing :CameraState {
     private readonly CameraController _camera;
     private readonly Settings _settings;
     private readonly LevelHelper _levelHelper;
-    private readonly GameStates _currentGameState;
 
     private float leftBound, rightBound, bottomBound, topBound;
 
@@ -20,12 +19,11 @@ public class CameraStateFollowing :CameraState {
     }
     private Bounds bounds;
 
-    public CameraStateFollowing(Settings settings, CameraController camera, Player player, LevelHelper levelHelper, LevelManager.Settings levelSettings, [Inject(Id = "GameState")] GameStates gameState) {
+    public CameraStateFollowing(Settings settings, CameraController camera, Player player, LevelHelper levelHelper, LevelManager.Settings levelSettings) {
         _player = player;
         _camera = camera;
         _settings = settings;
         _levelHelper = levelHelper;
-        _currentGameState = gameState;
 
         bounds = new Bounds {
             minX = -(levelSettings.worldSize.x / 2),
@@ -45,7 +43,7 @@ public class CameraStateFollowing :CameraState {
     }
 
     public override void LateUpdate() {
-        if(_camera != null && _player != null && _currentGameState == GameStates.Playing) {
+        if(_camera != null && _player != null) {
             float camX = Mathf.Clamp(_player.transform.position.x + 0.5f, leftBound, rightBound);
             float camY = Mathf.Clamp(_player.transform.position.y + 0.5f, bottomBound, topBound);
 
