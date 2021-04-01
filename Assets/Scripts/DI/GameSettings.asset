@@ -30,7 +30,7 @@ MonoBehaviour:
     levelInfo:
       difficultyID: 1
       gridSpace: 1.5
-      worldSize: {x: 20, y: 20, z: 0}
+      worldSize: {x: 50, y: 50, z: 0}
       bombChance: 0.75
       emptyBrickPrefab: {fileID: 1678073492517804725, guid: 6f240879d486b8847a2f97bcb8bf41c0,
         type: 3}

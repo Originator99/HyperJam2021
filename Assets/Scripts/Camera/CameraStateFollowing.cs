@@ -34,10 +34,10 @@ public class CameraStateFollowing :CameraState {
     }
 
     public override void Start() {
-        leftBound = bounds.minX + _levelHelper.ExtentWidth;
-        rightBound = (bounds.maxX - _levelHelper.ExtentWidth) + 1f;
-        bottomBound = bounds.minY + _levelHelper.ExtentHeight;
-        topBound = (bounds.maxY - _levelHelper.ExtentHeight) + 1f;
+        leftBound = bounds.minX - _levelHelper.ExtentWidth;
+        rightBound = (bounds.maxX + _levelHelper.ExtentWidth) + 1f;
+        bottomBound = bounds.minY - _levelHelper.ExtentHeight;
+        topBound = (bounds.maxY + _levelHelper.ExtentHeight) + 1f;
 
         Debug.Log(topBound);
     }
@@ -50,8 +50,10 @@ public class CameraStateFollowing :CameraState {
             Vector3 newPos = new Vector3(camX, camY);
             newPos.z = -10;
 
-            if(_player.transform.position.x > leftBound || _player.transform.position.x < rightBound || _player.transform.position.y > bottomBound || _player.transform.position.y > topBound)
+            if(bounds.maxX>_levelHelper.ExtentHeight) {
+
                 _camera.transform.position = Vector3.Slerp(_camera.transform.position, newPos, _settings.speed * Time.deltaTime);
+            }
         }
 
     }
