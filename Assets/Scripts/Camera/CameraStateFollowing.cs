@@ -44,8 +44,8 @@ public class CameraStateFollowing :CameraState {
 
     public override void LateUpdate() {
         if(_camera != null && _player != null) {
-            float camX = Mathf.Clamp(_player.transform.position.x + 0.5f, leftBound, rightBound);
-            float camY = Mathf.Clamp(_player.transform.position.y + 0.5f, bottomBound, topBound);
+            float camX = Mathf.Clamp(_player.transform.position.x + 0.5f, bounds.minX + _levelHelper.ExtentWidth, (bounds.maxX - _levelHelper.ExtentWidth) + 1f);
+            float camY = Mathf.Clamp(_player.transform.position.y + 0.5f, bounds.minY + _levelHelper.ExtentHeight, (bounds.maxY - _levelHelper.ExtentHeight) + 1f);
 
             Vector3 newPos = new Vector3(camX, camY);
             newPos.z = -10;
