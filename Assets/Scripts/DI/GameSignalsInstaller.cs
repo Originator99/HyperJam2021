@@ -16,6 +16,11 @@ public struct PlayerReachedEndSignal {
     public bool hasWon;
 }
 
+public struct PlayerInputSignal {
+    public Direction moveDirection;
+    public bool doDash; 
+}
+
 public struct BrickDestroyedSignal {
     public BrickData data;
 }

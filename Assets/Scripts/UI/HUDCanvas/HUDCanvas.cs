@@ -9,13 +9,11 @@ public class HUDCanvas : MonoBehaviour {
     public DisplayScore score;
 
     public void ShowHUD() {
-        radarPattern.SetActive(true);
-        score.Show();
+        gameObject.SetActive(true);
     }
 
     public void HideHUD() {
-        radarPattern.SetActive(false);
-        score.Hide();
+        gameObject.SetActive(false);
     }
 
 }

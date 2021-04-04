@@ -15,8 +15,6 @@ public class GameInstaller : MonoInstaller {
 
         Container.Bind<LevelHelper>().AsSingle();
 
-        Container.DeclareSignal<PlayerDiedSignal>();
-        Container.DeclareSignal<PlayerReachedEndSignal>();
         Container.DeclareSignal<BrickDestroyedSignal>();
     }
 
@@ -27,6 +25,10 @@ public class GameInstaller : MonoInstaller {
         Container.BindFactory<PlayerStateMoving, PlayerStateMoving.Factory>().WhenInjectedInto<PlayerStateFactory>();
         Container.BindFactory<PlayerStateDash, PlayerStateDash.Factory>().WhenInjectedInto<PlayerStateFactory>();
         Container.BindFactory<PlayerStateDead, PlayerStateDead.Factory>().WhenInjectedInto<PlayerStateFactory>();
+        
+        Container.DeclareSignal<PlayerDiedSignal>();
+        Container.DeclareSignal<PlayerReachedEndSignal>();
+        Container.DeclareSignal<PlayerInputSignal>().OptionalSubscriber();
 
         Container.BindInterfacesAndSelfTo<Radar>().AsTransient();
     }

@@ -5,17 +5,19 @@ using DG.Tweening;
 using Zenject;
 
 public class PlayerStateMoving :PlayerState {
-    private bool moving, rotating;
+    private bool rotating;
     private Settings _settings;
     private Player _player;
     private LevelManager.Settings _levelSettings;
+    private readonly SignalBus _signalBus;
 
-    public PlayerStateMoving(Settings settings, Player player, LevelManager.Settings levelSettings) {
+    public PlayerStateMoving(Settings settings, Player player, SignalBus signalBus, LevelManager.Settings levelSettings) {
         _settings = settings;
         _player = player;
         _levelSettings = levelSettings;
+        _signalBus = signalBus;
 
-        moving = false;
+        _signalBus.Subscribe<PlayerInputSignal>(OnPlayerInput);
     }
 
     public override void Start() {
@@ -23,49 +25,23 @@ public class PlayerStateMoving :PlayerState {
     }
 
     public override void Update() {
-        if(!moving) {
-            //Move(); disabling movement for now
-        }
-
-        if(!rotating) {
-            Rotate();
-        }
-
-
-        if(Input.GetKeyDown(KeyCode.Space) && !moving && !rotating) {
-            _player.ChangeState(PlayerStates.Dash);
-        }
     }
 
-    private void Move() {
-        if(Input.GetKeyDown(KeyCode.A)) {
-            Move(Direction.LEFT);
+    public override void Dispose() {
+        _signalBus.Unsubscribe<PlayerInputSignal>(OnPlayerInput);
+    }
+
+    private void OnPlayerInput(PlayerInputSignal signalData) {
+        Debug.Log("signal fired");
+        if(signalData.doDash && !rotating) {
+            _player.ChangeState(PlayerStates.Dash);
         }
-        if(Input.GetKeyDown(KeyCode.D)) {
-            Move(Direction.RIGHT);
-        }
-        if(Input.GetKeyDown(KeyCode.W)) {
-            Move(Direction.UP);
-        }
-        if(Input.GetKeyDown(KeyCode.S)) {
-            Move(Direction.DOWN);
+        else if(!rotating) {
+            Rotate(signalData.moveDirection);
         }
     }
 
     private void Rotate() {
-        if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-            Rotate(Direction.LEFT);
-        }
-        if(Input.GetKeyDown(KeyCode.RightArrow)) {
-            Rotate(Direction.RIGHT);
-        }
-        if(Input.GetKeyDown(KeyCode.UpArrow)) {
-            Rotate(Direction.UP);
-        }
-        if(Input.GetKeyDown(KeyCode.DownArrow)) {
-            Rotate(Direction.DOWN);
-        }
-
         //Because i made this support and i wanted to use it somewhere
         if(Input.GetKey(KeyCode.LeftShift)) {
             DoNextRotation(Direction.LEFT);
@@ -73,31 +49,6 @@ public class PlayerStateMoving :PlayerState {
         if(Input.GetKey(KeyCode.RightShift)) {
             DoNextRotation(Direction.RIGHT);
         }
-    }
-
-    private void Move(Direction direction) {
-        Rotate(direction);
-        switch(direction) {
-            case Direction.LEFT:
-                Move(Vector2.left);
-                break;
-            case Direction.RIGHT:
-                Move(Vector2.right);
-                break;
-            case Direction.UP:
-                Move(Vector2.up);
-                break;
-            case Direction.DOWN:
-                Move(Vector2.down);
-                break;
-        }
-    }
-
-    private void Move(Vector2 position) {
-        moving = true;
-        _player.transform.DOMove((Vector2)_player.transform.position + (position * _levelSettings.gridSpace), _settings.moveSpeed).OnComplete(delegate () {
-            moving = false;
-        });
     }
 
     private void Rotate(Direction direction) {
@@ -125,7 +76,7 @@ public class PlayerStateMoving :PlayerState {
         if(_player.transform.rotation.eulerAngles.z != angle) {
             _player.PlaySFX(_settings.rotateSFX);
         }
-        _player.transform.DORotate(new Vector3(0, 0, angle), _settings.rotateSpeed).OnComplete(delegate() {
+        _player.transform.DORotate(new Vector3(0, 0, angle), _settings.rotateSpeed).OnComplete(delegate () {
             rotating = false;
         });
     }
@@ -134,7 +85,7 @@ public class PlayerStateMoving :PlayerState {
         if(tryToRotateIn == Direction.LEFT) {
             if(_player.currentDirection == Direction.UP) {
                 Rotate(Direction.LEFT);
-            }else if(_player.currentDirection == Direction.LEFT) {
+            } else if(_player.currentDirection == Direction.LEFT) {
                 Rotate(Direction.DOWN);
             } else if(_player.currentDirection == Direction.DOWN) {
                 Rotate(Direction.RIGHT);
@@ -151,7 +102,7 @@ public class PlayerStateMoving :PlayerState {
             } else if(_player.currentDirection == Direction.LEFT) {
                 Rotate(Direction.UP);
             }
-        }
+        } 
     }
 
     [System.Serializable]
@@ -167,6 +118,7 @@ public class PlayerStateMoving :PlayerState {
 }
 
 public enum Direction {
+    NONE,
     UP,
     DOWN,
     LEFT,
