@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Zenject;
+using System;
 
 public class PlayerStateMoving :PlayerState {
     private bool rotating;
     private Settings _settings;
     private Player _player;
-    private LevelManager.Settings _levelSettings;
     private readonly SignalBus _signalBus;
+    private readonly Camera _camera;
 
-    public PlayerStateMoving(Settings settings, Player player, SignalBus signalBus, LevelManager.Settings levelSettings) {
+    public PlayerStateMoving(Settings settings, Player player, SignalBus signalBus, [Inject(Id = "Main")] Camera camera) {
         _settings = settings;
         _player = player;
-        _levelSettings = levelSettings;
         _signalBus = signalBus;
+        _camera = camera;
 
         _signalBus.Subscribe<PlayerInputSignal>(OnPlayerInput);
     }
@@ -25,6 +26,26 @@ public class PlayerStateMoving :PlayerState {
     }
 
     public override void Update() {
+        if(Input.GetMouseButton(0)) {
+            Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - _player.transform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, 15 * Time.unscaledDeltaTime);
+        }
+        if(Input.GetMouseButtonUp(0)) {
+            RotateToClosest();
+        }
+    }
+
+    private void RotateToClosest() {
+        float z = _player.transform.rotation.z;
+        Direction direction = Direction.NONE;
+        if(z >= -45 && z < 45f) {
+            direction = Direction.LEFT;
+        } else if(z >= -45f && z < -135f) {
+            direction = Direction.DOWN;
+        }
+        Debug.Log(direction);
     }
 
     public override void Dispose() {
@@ -34,9 +55,9 @@ public class PlayerStateMoving :PlayerState {
     private void OnPlayerInput(PlayerInputSignal signalData) {
         Debug.Log("signal fired");
         if(signalData.doDash && !rotating) {
-            _player.ChangeState(PlayerStates.Dash);
+
         }
-        else if(!rotating) {
+        else if(!rotating && _player.currentDirection != signalData.moveDirection) {
             Rotate(signalData.moveDirection);
         }
     }
@@ -55,16 +76,16 @@ public class PlayerStateMoving :PlayerState {
         float angle = 0;
         switch(direction) {
             case Direction.LEFT:
-                angle = 90;
-                break;
-            case Direction.RIGHT:
-                angle = -90;
-                break;
-            case Direction.UP:
                 angle = 0;
                 break;
+            case Direction.RIGHT:
+                angle = -180;
+                break;
+            case Direction.UP:
+                angle = 90;
+                break;
             case Direction.DOWN:
-                angle = 180;
+                angle = -90;
                 break;
         }
         _player.currentDirection = direction;
@@ -115,12 +136,4 @@ public class PlayerStateMoving :PlayerState {
 
     public class Factory :PlaceholderFactory<PlayerStateMoving> {
     }
-}
-
-public enum Direction {
-    NONE,
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
 }

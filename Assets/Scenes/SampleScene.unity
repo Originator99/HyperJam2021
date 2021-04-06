@@ -1747,7 +1747,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -160.8, y: 157.6}
+  m_AnchoredPosition: {x: -160.7998, y: 157.6001}
   m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &277878189
@@ -5609,14 +5609,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fde580dbcaab07d47a633bf96e217725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftImg: {fileID: 1974040364}
-  rightImg: {fileID: 1173567400}
-  upImg: {fileID: 1757081768}
-  downImg: {fileID: 971454748}
-  leftTrigger: {fileID: 736317104}
-  rightTrigger: {fileID: 1715721858}
-  upTrigger: {fileID: 1352442686}
-  downTrigger: {fileID: 810831081}
   dashTrigger: {fileID: 277878191}
 --- !u!1 &1326518979
 GameObject:

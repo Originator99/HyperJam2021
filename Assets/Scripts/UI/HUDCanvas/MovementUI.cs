@@ -7,73 +7,24 @@ using UnityEngine.UI;
 using Zenject;
 
 public class MovementUI : MonoBehaviour {
-    public Image leftImg, rightImg, upImg, downImg;
-    public Button leftTrigger, rightTrigger, upTrigger, downTrigger;
     public Button dashTrigger;
 
     private SignalBus _signalBus;
+    private UserInput _userInput;
 
     private Sequence tweenSequence;
     private float defaultAlpha = 0.35f;
 
     [Inject]
-    public void Construct(SignalBus signalBus) {
+    public void Construct(SignalBus signalBus, UserInput userInput) {
         _signalBus = signalBus;
+        _userInput = userInput;
+
+        _userInput.OnSwipeDetected += HandleSwipe;
     }
 
-    private void Start() {
-        SetButtonClicks();
-    }
-
-    private void Update() {
-#if UNITY_EDITOR
-        CheckInputForEditor();
-#endif
-    }
-
-    private void CheckInputForEditor() {
-        if(Input.GetKeyDown(KeyCode.A)) {
-            leftTrigger.onClick.Invoke();
-        }
-        if(Input.GetKeyDown(KeyCode.D)) {
-            rightTrigger.onClick.Invoke();
-        }
-        if(Input.GetKeyDown(KeyCode.W)) {
-            upTrigger.onClick.Invoke();
-        }
-        if(Input.GetKeyDown(KeyCode.S)) {
-            downTrigger.onClick.Invoke();
-        }
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            dashTrigger.onClick.Invoke();
-        }
-    }
-
-    private void SetButtonClicks() {
-        leftTrigger.onClick.RemoveAllListeners();
-        leftTrigger.onClick.AddListener(delegate () {
-            DoButtonClickAnimation(leftImg, 0.25f, defaultAlpha);
-            Move(Direction.LEFT);
-        });
-        rightTrigger.onClick.RemoveAllListeners();
-        rightTrigger.onClick.AddListener(delegate () {
-            DoButtonClickAnimation(rightImg, 0.25f, defaultAlpha);
-            Move(Direction.RIGHT);
-        });
-        upTrigger.onClick.RemoveAllListeners();
-        upTrigger.onClick.AddListener(delegate () {
-            DoButtonClickAnimation(upImg, 0.25f, defaultAlpha);
-            Move(Direction.UP);
-        });
-        downTrigger.onClick.RemoveAllListeners();
-        downTrigger.onClick.AddListener(delegate () {
-            DoButtonClickAnimation(downImg, 0.25f, defaultAlpha);
-            Move(Direction.DOWN);
-        });
-        dashTrigger.onClick.RemoveAllListeners();
-        dashTrigger.onClick.AddListener(delegate() {
-            Dash();
-        });
+    private void HandleSwipe(Direction direction) {
+        //Move(direction);
     }
 
     private void Move(Direction direction) {
