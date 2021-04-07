@@ -38,14 +38,19 @@ public class PlayerStateMoving :PlayerState {
     }
 
     private void RotateToClosest() {
-        float z = _player.transform.rotation.z;
+        float z = _player.transform.rotation.eulerAngles.z;
         Direction direction = Direction.NONE;
-        if(z >= -45 && z < 45f) {
+        if(z >= 45 && z < 135f) {
+            direction = Direction.UP;
+        } else if(z >= 135f && z < 225f) {
             direction = Direction.LEFT;
-        } else if(z >= -45f && z < -135f) {
+        } else if(z >= 225 && z < 315f) {
             direction = Direction.DOWN;
+        } else if(z > 315f || z < 45) {
+            direction = Direction.RIGHT;
         }
-        Debug.Log(direction);
+        Debug.Log(z);
+        Rotate(direction);
     }
 
     public override void Dispose() {
@@ -76,10 +81,10 @@ public class PlayerStateMoving :PlayerState {
         float angle = 0;
         switch(direction) {
             case Direction.LEFT:
-                angle = 0;
+                angle = -180;
                 break;
             case Direction.RIGHT:
-                angle = -180;
+                angle = 0;
                 break;
             case Direction.UP:
                 angle = 90;
@@ -99,6 +104,7 @@ public class PlayerStateMoving :PlayerState {
         }
         _player.transform.DORotate(new Vector3(0, 0, angle), _settings.rotateSpeed).OnComplete(delegate () {
             rotating = false;
+            _player.ChangeState(PlayerStates.Dash);
         });
     }
 

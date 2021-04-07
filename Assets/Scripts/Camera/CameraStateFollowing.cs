@@ -47,12 +47,12 @@ public class CameraStateFollowing :CameraState {
             float camX = Mathf.Clamp(_player.transform.position.x + 0.5f, bounds.minX + _levelHelper.ExtentWidth, (bounds.maxX - _levelHelper.ExtentWidth) + 1f);
             float camY = Mathf.Clamp(_player.transform.position.y + 0.5f, bounds.minY + _levelHelper.ExtentHeight, (bounds.maxY - _levelHelper.ExtentHeight) + 1f);
 
-            Vector3 newPos = new Vector3(_player.transform.position.x + 0.5f, _player.transform.position.y + 0.5f);
+            //Vector3 newPos = new Vector3(_player.transform.position.x + 0.5f, _player.transform.position.y + 0.5f);
+            Vector3 newPos = new Vector3(camX, camY);
             newPos.z = -10;
-            _camera.transform.position = Vector3.Slerp(_camera.transform.position, newPos, _settings.speed * Time.deltaTime);
 
             if(bounds.maxX>_levelHelper.ExtentHeight) {
-
+                _camera.transform.position = Vector3.Slerp(_camera.transform.position, newPos, _settings.speed * Time.deltaTime);
             }
         }
 
