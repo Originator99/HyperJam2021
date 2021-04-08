@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSettings:
     stateMoving:
-      moveSpeed: 0.15
-      rotateSpeed: 0.15
+      rotateSpeed: 0.1
+      touchTimeBeforeDash: 0.25
       rotateSFX: {fileID: 8300000, guid: ad4f60c9406941849b679e5db4a1aaea, type: 3}
     stateDash:
       dashSpeed: 0.2
@@ -64,4 +64,4 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 512
     radius: 5
-    radarShowTimer: 3
+    bricksToDestroyForRadar: 5

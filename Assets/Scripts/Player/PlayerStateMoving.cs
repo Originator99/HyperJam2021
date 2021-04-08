@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Zenject;
-using System;
+using UnityEngine.EventSystems;
 
 public class PlayerStateMoving :PlayerState {
     private bool rotating;
     private Settings _settings;
     private Player _player;
     private readonly SignalBus _signalBus;
-    private readonly Camera _camera;
 
-    public PlayerStateMoving(Settings settings, Player player, SignalBus signalBus, [Inject(Id = "Main")] Camera camera) {
+    private float waitForDash; //going to use this variable to check touch time of a user. We dont want to dash as soon as touch
+
+    public PlayerStateMoving(Settings settings, Player player, SignalBus signalBus) {
         _settings = settings;
         _player = player;
         _signalBus = signalBus;
-        _camera = camera;
 
         _signalBus.Subscribe<PlayerInputSignal>(OnPlayerInput);
     }
@@ -26,14 +26,23 @@ public class PlayerStateMoving :PlayerState {
     }
 
     public override void Update() {
-        if(Input.GetMouseButton(0)) {
-            Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - _player.transform.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, 15 * Time.unscaledDeltaTime);
-        }
-        if(Input.GetMouseButtonUp(0)) {
-            RotateToClosest();
+        if(!EventSystem.current.IsPointerOverGameObject()) {
+            if(Input.GetMouseButtonDown(0)) {
+                waitForDash = _settings.touchTimeBeforeDash;
+            }
+            if(Input.GetMouseButton(0)) {
+                Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - _player.transform.position;
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, 15 * Time.unscaledDeltaTime);
+
+                if(waitForDash > 0) {
+                    waitForDash -= Time.unscaledDeltaTime;
+                }
+            }
+            if(Input.GetMouseButtonUp(0)) {
+                RotateToClosest();
+            }
         }
     }
 
@@ -49,7 +58,6 @@ public class PlayerStateMoving :PlayerState {
         } else if(z > 315f || z < 45) {
             direction = Direction.RIGHT;
         }
-        Debug.Log(z);
         Rotate(direction);
     }
 
@@ -58,7 +66,6 @@ public class PlayerStateMoving :PlayerState {
     }
 
     private void OnPlayerInput(PlayerInputSignal signalData) {
-        Debug.Log("signal fired");
         if(signalData.doDash && !rotating) {
 
         }
@@ -104,7 +111,10 @@ public class PlayerStateMoving :PlayerState {
         }
         _player.transform.DORotate(new Vector3(0, 0, angle), _settings.rotateSpeed).OnComplete(delegate () {
             rotating = false;
-            _player.ChangeState(PlayerStates.Dash);
+
+            if(waitForDash <= 0) {
+                _player.ChangeState(PlayerStates.Dash);
+            }
         });
     }
 
@@ -134,8 +144,8 @@ public class PlayerStateMoving :PlayerState {
 
     [System.Serializable]
     public class Settings {
-        public float moveSpeed;
         public float rotateSpeed;
+        public float touchTimeBeforeDash;
 
         public AudioClip rotateSFX;
     }

@@ -1,34 +1,55 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 public class Radar :ITickable {
+    private readonly SignalBus _signalBus;
     private readonly Settings _settings;
     private readonly Player _player;
 
     private List<Collider2D> colliders;
 
-    private float timer;
+    private int bricksDestroyed;
 
-    public Radar(Settings settings, Player player) {
+    public event Action OnRadarReady;
+
+    public Radar(SignalBus signalBus, Settings settings, Player player) {
         _settings = settings;
         _player = player;
+        _signalBus = signalBus;
+
+        _signalBus.Subscribe<BrickDestroyedSignal>(OnBrickDestroyed);
 
         colliders = new List<Collider2D>();
     }
 
-    public void Tick() {
-        if(timer <= 0) {
-            colliders.Clear();
-            timer = _settings.radarShowTimer;
-        }
-        else if(timer > 0) {
-            timer -= Time.deltaTime;
-        }
+    public bool CanActivateRadar() {
+        return bricksDestroyed >= _settings.bricksToDestroyForRadar;
+    }
 
+    public void ActivateRadar() {
+        if(bricksDestroyed >= _settings.bricksToDestroyForRadar) {
+            colliders.Clear();
+            bricksDestroyed = 0;
+            CheckBombsAroundPlayer();
+        }
+    }
+
+    public void Tick() {
+
+    }
+
+    private void OnBrickDestroyed(BrickDestroyedSignal signalData) {
+        bricksDestroyed++;
+        if(CanActivateRadar())
+            OnRadarReady?.Invoke();
+    }
+
+    private void CheckBombsAroundPlayer() {
         Collider2D[] itemsInRange = Physics2D.OverlapCircleAll(_player.transform.position, _settings.radius, _settings.layersToShowOnRadar);
-        if(itemsInRange  != null) {
+        if(itemsInRange != null) {
             foreach(Collider2D collider in itemsInRange) {
                 if(!colliders.Contains(collider)) {
                     Brick brick = collider.GetComponent<Brick>();
@@ -46,6 +67,6 @@ public class Radar :ITickable {
         public GameObject radarEnemyPrefab;
         public LayerMask layersToShowOnRadar;
         public float radius;
-        public float radarShowTimer;
+        public int bricksToDestroyForRadar;
     }
 }
