@@ -54,6 +54,17 @@ public class LevelBuilder : MonoBehaviour {
         }
     }
 
+    public void Save() {
+        LocalSave save = new LocalSave();
+        save.SaveData(levelLogic);
+    }
+
+    public void Fetch() {
+        LocalSave save = new LocalSave();
+        LevelLogic temp = save.FetchData();
+        temp.DebugLevel();
+    }
+
     private Brick GenerateEmptyBrick() {
         GameObject obj = GameObject.Instantiate(emptyPrefab, brickGridParent);
         Brick controller = obj.GetComponent<Brick>();

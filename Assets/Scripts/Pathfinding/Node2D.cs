@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Node2D : IDisposable {
     public string ID { 
         get {
@@ -12,6 +13,7 @@ public class Node2D : IDisposable {
 
     public int gCost, hCost;
     public bool obstacle;
+    [SerializeField]
     public Vector3 worldPosition;
 
     public int GridX, GridY;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class LevelLogic {
     private readonly Settings _levelSettings;
     private readonly Grid2D _grid;
@@ -11,6 +12,10 @@ public class LevelLogic {
     public LevelLogic(Grid2D levelGrid, Settings levelSettings) {
         _grid = levelGrid;
         _levelSettings = levelSettings;
+    }
+
+    public void DebugLevel() {
+        Debug.Log(_grid.Grid.Length);
     }
 
     #region Level Randomization

@@ -2457,6 +2457,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentDirection: 0
+  currentBrickCell:
+    gCost: 0
+    hCost: 0
+    obstacle: 0
+    worldPosition: {x: 0, y: 0, z: 0}
+    GridX: 0
+    GridY: 0
 --- !u!114 &415080907
 MonoBehaviour:
   m_ObjectHideFlags: 0
