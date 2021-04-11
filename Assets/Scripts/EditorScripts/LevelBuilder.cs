@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Made for Editor, not yet optimized to run in game.
+/// Handles automatic level creation which can be later edited by admin
+/// </summary>
 public class LevelBuilder : MonoBehaviour {
     public LevelLogic.Settings levelSettings;
 
@@ -13,8 +17,12 @@ public class LevelBuilder : MonoBehaviour {
     public float gridSpace = 1.5f;
 
     private LevelLogic levelLogic;
+    
+    private Level levelController;
 
     public void GenerateDefaultLevelGrid() {
+        CreateLevelScript();
+
         Grid2D grid = new Grid2D(worldSize, gridSpace);
 
         for(int x = 0; x < grid.gridSizeX; x++) {
@@ -24,11 +32,15 @@ public class LevelBuilder : MonoBehaviour {
                 brick.transform.position = currentNode.worldPosition;
 
                 currentNode.SetData(brick);
+
+                AddBrickToLevelController(brick);
             }
         }
+        Debug.Log("Bricks added to level controller");
 
         levelLogic = new LevelLogic(grid, levelSettings);
         levelLogic.GenerateRandomPath();
+        AddPathToLevelController();
     }
 
     public void RandomizeLevel() {
@@ -39,30 +51,37 @@ public class LevelBuilder : MonoBehaviour {
         }
     }
 
+    public void ShuffleLevel() {
+        if(levelController != null) {
+            levelController.ShuffleLevel();
+        }
+        else{
+            Debug.LogError("Level controller is null");
+        }
+    }
+
     public void DestroyLevel() {
-        if(brickGridParent != null) {
-            foreach(Transform child in brickGridParent) {
-                DestroyImmediate(child.gameObject);
+        if(levelController != null) {
+            if(levelController.levelBricks != null) {
+                foreach(Brick brick in levelController.levelBricks) {
+                    DestroyImmediate(brick.gameObject);
+                }
+                levelController.levelBricks.Clear();
+                
+                if(levelController.safePath != null) {
+                    levelController.safePath.Clear();
+                }
+            } else {
+                Debug.LogError("Level bricks are null");
             }
         } else {
-            Debug.LogError("Brick parent is null, cannot destroy level");
+            Debug.LogError("levelController is null, cannot destroy level");
         }
         if(levelLogic != null) {
             levelLogic = null;
         } else {
             Debug.LogError("Level Logic is null, have you generated a level?");
         }
-    }
-
-    public void Save() {
-        LocalSave save = new LocalSave();
-        save.SaveData(levelLogic);
-    }
-
-    public void Fetch() {
-        LocalSave save = new LocalSave();
-        LevelLogic temp = save.FetchData();
-        temp.DebugLevel();
     }
 
     private Brick GenerateEmptyBrick() {
@@ -74,4 +93,40 @@ public class LevelBuilder : MonoBehaviour {
         return controller;
     }
 
+    private void CreateLevelScript() {
+        levelController = levelRoot.GetComponent<Level>();
+
+        if(levelController == null) {
+            levelController = levelRoot.AddComponent<Level>();
+        }
+
+        if(levelController.levelBricks == null) {
+            levelController.levelBricks = new List<Brick>();
+        }
+        if(levelController.safePath == null) {
+            levelController.safePath = new List<Brick>();
+        }
+    }
+
+    private void AddBrickToLevelController(Brick brick) {
+        if(brick != null && levelController != null) {
+            if(levelController.levelBricks != null) {
+                levelController.levelBricks.Add(brick);
+            }
+        }
+    }
+
+    private void AddPathToLevelController() {
+        if(levelController != null && levelLogic != null) {
+            if(levelController.safePath == null) {
+                levelController.safePath = new List<Brick>();
+            }
+            if(levelLogic._grid.path != null) {
+                foreach(var item in levelLogic._grid.path) {
+                    levelController.safePath.Add(item.data as Brick);
+                }
+            }
+            Debug.Log("Path added to level controller");
+        }
+    }
 }

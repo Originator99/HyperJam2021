@@ -4,12 +4,13 @@ using UnityEngine;
 
 [System.Serializable]
 public class LevelLogic {
-    private readonly Settings _levelSettings;
-    private readonly Grid2D _grid;
+    public readonly Settings _levelSettings;
+    public readonly Grid2D _grid;
 
     private Node2D startPoint, endPoint;
 
     public LevelLogic(Grid2D levelGrid, Settings levelSettings) {
+        //not binded in zenject yet
         _grid = levelGrid;
         _levelSettings = levelSettings;
     }

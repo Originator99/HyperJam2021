@@ -13,7 +13,6 @@ public class Node2D : IDisposable {
 
     public int gCost, hCost;
     public bool obstacle;
-    [SerializeField]
     public Vector3 worldPosition;
 
     public int GridX, GridY;

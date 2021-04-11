@@ -1173,6 +1173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 234617628}
+  - component: {fileID: 234617629}
   m_Layer: 0
   m_Name: Level0
   m_TagString: Untagged
@@ -1195,6 +1196,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &234617629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234617627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ed0f3b02e8fb424c9fc9424fddb8865, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelBricks: []
+  safePath: []
 --- !u!1 &243343424
 GameObject:
   m_ObjectHideFlags: 0
@@ -3913,7 +3928,7 @@ MonoBehaviour:
   emptyPrefab: {fileID: 1678073492517804725, guid: 6f240879d486b8847a2f97bcb8bf41c0,
     type: 3}
   brickGridParent: {fileID: 146491444}
-  worldSize: {x: 15, y: 15, z: 0}
+  worldSize: {x: 10, y: 10, z: 0}
   gridSpace: 1.5
 --- !u!1 &925867624
 GameObject:

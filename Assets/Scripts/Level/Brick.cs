@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Brick : MonoBehaviour {
-
     public string IDOnGrid {
         get {
             if(data != null)
@@ -33,6 +32,11 @@ public class Brick : MonoBehaviour {
         } else {
             gameObject.SetActive(false);
         }
+    }
+
+    public void ChangePosition(Vector3 newPostion) {
+        data.worldPosition = newPostion;
+        transform.position = data.worldPosition;
     }
 
     public void DestroyBrick() {
