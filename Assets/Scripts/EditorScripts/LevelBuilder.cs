@@ -68,8 +68,8 @@ public class LevelBuilder : MonoBehaviour {
                 }
                 levelController.levelBricks.Clear();
                 
-                if(levelController.safePath != null) {
-                    levelController.safePath.Clear();
+                if(levelController.safePathIDs != null) {
+                    levelController.safePathIDs.Clear();
                 }
             } else {
                 Debug.LogError("Level bricks are null");
@@ -103,8 +103,8 @@ public class LevelBuilder : MonoBehaviour {
         if(levelController.levelBricks == null) {
             levelController.levelBricks = new List<Brick>();
         }
-        if(levelController.safePath == null) {
-            levelController.safePath = new List<Brick>();
+        if(levelController.safePathIDs == null) {
+            levelController.safePathIDs = new List<string>();
         }
     }
 
@@ -118,12 +118,12 @@ public class LevelBuilder : MonoBehaviour {
 
     private void AddPathToLevelController() {
         if(levelController != null && levelLogic != null) {
-            if(levelController.safePath == null) {
-                levelController.safePath = new List<Brick>();
+            if(levelController.safePathIDs == null) {
+                levelController.safePathIDs = new List<string>();
             }
             if(levelLogic._grid.path != null) {
                 foreach(var item in levelLogic._grid.path) {
-                    levelController.safePath.Add(item.data as Brick);
+                    levelController.safePathIDs.Add(item.ID);
                 }
             }
             Debug.Log("Path added to level controller");

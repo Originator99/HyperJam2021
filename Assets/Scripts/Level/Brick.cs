@@ -46,7 +46,7 @@ public class Brick : MonoBehaviour {
         ChangeBrickState(BrickType.PATH);
     }
 
-    private void ChangeBrickState(BrickType type) {
+    public void ChangeBrickState(BrickType type) {
         currentType = type;
 
         switch(type) {
@@ -67,7 +67,7 @@ public class Brick : MonoBehaviour {
 
     private void SwitchToBomb() {
         SwitchToNormal();
-        spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 0.5f); // to remove later
+        //spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 0.5f); // to remove later
     }
 
     private void SwitchToPath() {
@@ -119,6 +119,7 @@ public enum BrickType {
     NORMAL,
     BOMB,
     PATH,
+    SAFE_PATH,
     END
 }
 

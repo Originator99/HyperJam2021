@@ -1209,7 +1209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelBricks: []
-  safePath: []
+  safePathIDs: []
 --- !u!1 &243343424
 GameObject:
   m_ObjectHideFlags: 0
