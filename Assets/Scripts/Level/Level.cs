@@ -26,7 +26,7 @@ public class Level : MonoBehaviour {
         if(levelBricks != null) {
             //making a copy to shuffle items
             List<Brick> levelCopy = new List<Brick>(levelBricks);
-            levelCopy.RemoveAll(x => safePathIDs.Any(y => y == x.IDOnGrid));
+            //levelCopy.RemoveAll(x => safePathIDs.Any(y => y == x.IDOnGrid));
             List<Brick> shuffle = new List<Brick>();
             while(levelCopy.Count != 0) {
                 int index = Random.Range(0, levelCopy.Count);
@@ -34,17 +34,15 @@ public class Level : MonoBehaviour {
                 levelCopy.RemoveAt(index);
             } //shuffling the bricks
 
+            shuffle.RemoveAll(x => safePathIDs.Any(y => y == x.IDOnGrid));
+
             //reassigning the shuffled bricks to thier positions
-            int count = 0;
-            for(int i = 0; i < levelBricks.Count; i++) {
-                Brick brick = levelBricks[i];
-                if(shuffle.Count > count) {
-                    if(!safePathIDs.Contains(brick.IDOnGrid)) {
-                        brick.ChangePosition(shuffle[count].data.worldPosition);
-                        count++;
-                    }
-                } else {
-                    Debug.LogWarning("Could not shuffle completely. Items in after shuffling were less than original");
+            foreach(Brick brick in levelBricks) {
+                if(!safePathIDs.Contains(brick.IDOnGrid)) {
+                    int sIndex = levelBricks.FindIndex(x => x.IDOnGrid == shuffle[0].IDOnGrid);
+                    Vector2 tempPos = levelBricks[sIndex].data.worldPosition;
+                    levelBricks[sIndex].ChangePosition(brick.data.worldPosition);
+                    brick.ChangePosition(tempPos);
                 }
             }
         }

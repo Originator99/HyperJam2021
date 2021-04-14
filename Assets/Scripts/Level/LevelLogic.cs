@@ -96,6 +96,10 @@ public class LevelLogic {
         finder.FindPath(start, end);
 
         if(_grid.path != null) {
+
+            //findPath doesnt consider the first node as part of the path so we override
+            _grid.path.Insert(0, start);
+
             Debug.Log("Path found for start : " + start.ID + " and End : " + end.ID);
         } else {
             Debug.LogError("Path not found for end point " + end.ID);

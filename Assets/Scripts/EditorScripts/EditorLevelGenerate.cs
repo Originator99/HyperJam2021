@@ -26,5 +26,12 @@ public class EditorLevelGenerate :Editor {
         if(GUILayout.Button("Destroy Level")) {
             script.DestroyLevel();
         }
+
+        if(GUILayout.Button("Show Safe Path")) {
+            script.ToggleSafePath(true);
+        }
+        if(GUILayout.Button("Hide Safe Path")) {
+            script.ToggleSafePath(false);
+        }
     }
 }

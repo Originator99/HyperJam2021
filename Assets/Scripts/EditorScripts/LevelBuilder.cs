@@ -84,6 +84,12 @@ public class LevelBuilder : MonoBehaviour {
         }
     }
 
+    public void ToggleSafePath(bool state) {
+        if(levelController != null) {
+            levelController.TogglePath(state);
+        }
+    }
+
     private Brick GenerateEmptyBrick() {
         GameObject obj = GameObject.Instantiate(emptyPrefab, brickGridParent);
         Brick controller = obj.GetComponent<Brick>();

@@ -62,6 +62,9 @@ public class Brick : MonoBehaviour {
             case BrickType.END:
                 SwitchToEndBrick();
                 break;
+            case BrickType.SAFE_PATH:
+                SwitchToSafePath();
+                break;
         }
     }
 
@@ -111,6 +114,10 @@ public class Brick : MonoBehaviour {
 
     private void SwitchToEndBrick() {
         SwitchToNormal();
+    }
+
+    private void SwitchToSafePath() {
+        spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 0.5f);
     }
 }
 
