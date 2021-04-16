@@ -5,7 +5,6 @@ using UnityEngine;
 using Zenject;
 
 public class GameManager :IInitializable, ITickable {
-    private readonly Player _player;
     private readonly LevelManager _levelManager;
     private readonly SignalBus _signalBus;
     private readonly UIManager _uiManager;
@@ -15,13 +14,12 @@ public class GameManager :IInitializable, ITickable {
 
     private AudioSource _audioSource;
 
-    public GameManager(Player player, LevelManager levelManager, SignalBus signalBus,UIManager uiManager, ScoreHelper scoreHelper, [Inject(Id = "GlobalAudio")] AudioSource audioSource) {
-        _player = player;
+    public GameManager(LevelManager levelManager, SignalBus signalBus, UIManager uiManager, ScoreHelper scoreHelper, [Inject(Id = "GlobalAudio")] AudioSource audioSource) {
         _levelManager = levelManager;
         _uiManager = uiManager;
         _scoreHelper = scoreHelper;
         _audioSource = audioSource;
-        
+
         _signalBus = signalBus;
         _signalBus.Subscribe<PlayerReachedEndSignal>(OnPlayerReachedEnd);
         _signalBus.Subscribe<BrickDestroyedSignal>(OnBrickDestroyed);
@@ -38,8 +36,15 @@ public class GameManager :IInitializable, ITickable {
     }
 
     public void BuildLevel() {
-        _levelManager.Start();
-        StartGame();
+        GameObject levelPrefab = FetchLevelPrefab("level0");
+        if(levelPrefab != null) {
+            GameObject level = GameObject.Instantiate(levelPrefab);
+            _levelManager.RenderLevel(level.GetComponent<Level>());
+
+            StartGame();
+        } else {
+            Debug.LogError("Cannot build level, level prefab not found in resources folder");
+        }
     }
 
     public void Tick() {
@@ -50,13 +55,9 @@ public class GameManager :IInitializable, ITickable {
 
     private void StartGame() {
         currentGameState = GameStates.Playing;
-
-        _player.ChangeState(PlayerStates.Moving);
         _scoreHelper.ResetScore();
 
         _uiManager.ShowHUD();
-
-        CheckAndShowTutorial();
     }
 
     private void OnGameOver(bool hasWon) {
@@ -68,18 +69,8 @@ public class GameManager :IInitializable, ITickable {
         _scoreHelper.UpdateMoves(1);
     }
 
-    private void CheckAndShowTutorial() {
-        if(PlayerPrefs.GetInt("tutorial", 0) == 0) {
-            _player.ChangeState(PlayerStates.WaitingToStart);
-            _uiManager.ShowDialogueBox(TutorialData.GetStartMessage1(null));
-            _uiManager.ShowDialogueBox(TutorialData.GetStartMessage2(null));
-            _uiManager.ShowDialogueBox(TutorialData.GetStartMessage3(null));
-            _uiManager.ShowDialogueBox(TutorialData.GetStartMessage4(delegate() {
-                PlayerPrefs.SetInt("tutorial", 1);
-                _player.ChangeState(PlayerStates.Moving);
-            }));
-
-        }
+    private GameObject FetchLevelPrefab(string levelID) {
+        return Resources.Load("LevelPrefabs/" + levelID) as GameObject;
     }
 }
 

@@ -10,7 +10,7 @@ public class Player :MonoBehaviour {
     private PlayerState _state;
 
     public Direction currentDirection;
-    public Node2D currentBrickCell;
+    public Brick currentBrickCell;
 
     [Inject]
     public void Construct(PlayerStateFactory stateFactory) {
@@ -31,9 +31,12 @@ public class Player :MonoBehaviour {
         _state?.OnTriggerEnter2D(collision);
     }
 
-    public void ResetPlayerPosition(Node2D brickCell) {
+    public void ResetPlayerPosition(Brick brickCell) {
+        if(!gameObject.activeSelf) {
+            gameObject.SetActive(true);
+        }
         currentBrickCell = brickCell;
-        transform.position = brickCell.worldPosition;
+        transform.position = brickCell.WorldPosition;
         ChangeState(PlayerStates.WaitingToStart);
     }
 

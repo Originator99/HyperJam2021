@@ -7,6 +7,8 @@ public class Level : MonoBehaviour {
     public List<Brick> levelBricks;
     public List<string> safePathIDs;
 
+    public LayerMask brickLayerMask;
+
     public void TogglePath(bool state) {
         if(levelBricks != null && safePathIDs != null) {
             for(int i = 0; i < safePathIDs.Count; i++) {
@@ -22,6 +24,9 @@ public class Level : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Shuffles the current level items
+    /// </summary>
     public void ShuffleLevel() {
         if(levelBricks != null) {
             //making a copy to shuffle items
@@ -44,7 +49,39 @@ public class Level : MonoBehaviour {
                     levelBricks[sIndex].ChangePosition(brick.data.worldPosition);
                     brick.ChangePosition(tempPos);
                 }
+                brick.InitializeBrick(brick.data);
             }
         }
+        //resetting start brick
+        Brick b = GetStartBrick();
+        if(b != null) {
+            b.InitializeBrick(b.data);
+        }
+    }
+
+    public Brick GetStartBrick() {
+        if(levelBricks != null && safePathIDs != null) {
+            if(safePathIDs.Count > 0) {
+                int index = levelBricks.FindIndex(x => x.IDOnGrid == safePathIDs[0]);
+                if(index >= 0) {
+                    return levelBricks[index];
+                }
+            }
+        }
+        return null;
+    }
+
+    public Brick GetBrickInDirection(Direction direction, Vector2 currentPos, Brick currentBrick) {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(currentPos, UserInput.ConvertDirection(direction), 2f, brickLayerMask); //layerMask of Brick is 9
+        foreach(var hit in hits) {
+            if(hit.collider != null) {
+                Brick brick = hit.collider.GetComponent<Brick>();
+                if(brick != null && brick.IDOnGrid != currentBrick.IDOnGrid) {
+                    return brick;
+                }
+            }
+        }
+        Debug.LogError("Could not find brick in the direction : " + direction.ToString());
+        return null;
     }
 }

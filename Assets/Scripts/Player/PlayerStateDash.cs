@@ -7,17 +7,15 @@ using DG.Tweening;
 public class PlayerStateDash :PlayerState {
     private readonly Settings _settings;
     private readonly Player _player;
-    private readonly LevelManager.Settings _levelSettings;
     private readonly LevelManager _levelManager;
     private readonly SignalBus _signalBus;
 
     private bool dashing;
     private Sequence tweenSequence;
 
-    public PlayerStateDash(Settings settings, Player player, LevelManager.Settings levelSettings, LevelManager levelManager, SignalBus signalBus) {
+    public PlayerStateDash(Settings settings, Player player, LevelManager levelManager, SignalBus signalBus) {
         _settings = settings;
         _player = player;
-        _levelSettings = levelSettings;
         _levelManager = levelManager;
         _signalBus = signalBus;
 
@@ -64,12 +62,12 @@ public class PlayerStateDash :PlayerState {
     }
 
     private void Dash(Direction direction) {
-        Node2D nextBrickCell = _levelManager.GetBrickInDirection(direction, _player.currentBrickCell);
+        Brick nextBrickCell = _levelManager.GetBrickInDirection(direction);
         if(nextBrickCell != null) {
             dashing = true;
             _player.currentBrickCell = nextBrickCell;
             _player.PlaySFX(_settings.dashSFX);
-            tweenSequence.Append(_player.transform.DOMove((Vector2)nextBrickCell.worldPosition, _settings.dashSpeed).OnComplete(delegate () {
+            tweenSequence.Append(_player.transform.DOMove(nextBrickCell.WorldPosition, _settings.dashSpeed).OnComplete(delegate () {
                 dashing = false;
                 _player.ChangeState(PlayerStates.Moving);
             }));

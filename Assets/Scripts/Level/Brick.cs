@@ -11,12 +11,24 @@ public class Brick : MonoBehaviour {
         }
     }
 
+    public Vector2 WorldPosition {
+        get {
+            if(data != null)
+                return data.worldPosition;
+            return Vector2.zero;
+        }
+    }
+
     public BrickType currentType;
 
     public BrickData data;
 
     private SpriteRenderer spriteRender;
     private new BoxCollider2D collider;
+
+    private void Start() {
+        InitializeBrick(data);
+    }
 
     public void InitializeBrick(BrickData data) {
         if(data != null) {
@@ -70,7 +82,7 @@ public class Brick : MonoBehaviour {
 
     private void SwitchToBomb() {
         SwitchToNormal();
-        //spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 0.5f); // to remove later
+        spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 0.5f); // to remove later
     }
 
     private void SwitchToPath() {
@@ -82,7 +94,7 @@ public class Brick : MonoBehaviour {
         }
 
         if(collider != null) {
-            collider.enabled = false;
+            collider.isTrigger = true;
         } else {
             Debug.LogWarning("Collider is null for brick : " + transform.name);
         }
