@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Brick : MonoBehaviour {
     public string IDOnGrid {
@@ -41,6 +42,8 @@ public class Brick : MonoBehaviour {
             ChangeBrickState(data.type);
 
             gameObject.SetActive(true);
+
+            Invoke(nameof(AnimateBrick), Random.Range(0f, 1f));
         } else {
             gameObject.SetActive(false);
         }
@@ -130,6 +133,13 @@ public class Brick : MonoBehaviour {
 
     private void SwitchToSafePath() {
         spriteRender.color = new Color(spriteRender.color.r, spriteRender.color.g, spriteRender.color.b, 0.5f);
+    }
+
+    private void AnimateBrick() {
+        Vector2 ogScale = transform.localScale;
+        transform.DOScale(new Vector2(ogScale.x + 0.25f, ogScale.y + 0.25f), 0.5f).OnComplete(delegate () {
+            transform.DOScale(ogScale, 0.15f);
+        });
     }
 }
 

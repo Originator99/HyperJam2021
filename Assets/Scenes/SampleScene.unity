@@ -676,7 +676,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 106.72, y: -25}
+  m_AnchoredPosition: {x: 106.7207, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &153866202
@@ -1050,7 +1050,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 229.3, y: -25}
+  m_AnchoredPosition: {x: 229.30078, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &199843357
@@ -1124,7 +1124,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 65.86, y: -25}
+  m_AnchoredPosition: {x: 65.859375, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &208338695
@@ -1210,6 +1210,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelBricks: []
   safePathIDs: []
+  brickLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &243343424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,7 +1615,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 311.02, y: -25}
+  m_AnchoredPosition: {x: 311.01953, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &263508758
@@ -2174,7 +2177,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 474.45993, y: -25}
+  m_AnchoredPosition: {x: 474.45898, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &394866137
@@ -2472,13 +2475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentDirection: 0
-  currentBrickCell:
-    gCost: 0
-    hCost: 0
-    obstacle: 0
-    worldPosition: {x: 0, y: 0, z: 0}
-    GridX: 0
-    GridY: 0
+  currentBrickCell: {fileID: 0}
 --- !u!114 &415080907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2675,7 +2672,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 351.87997, y: -25}
+  m_AnchoredPosition: {x: 351.88086, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &445184361
@@ -3210,7 +3207,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 188.44, y: -25}
+  m_AnchoredPosition: {x: 188.43945, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &580155606
@@ -3284,7 +3281,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 597.0399, y: -25}
+  m_AnchoredPosition: {x: 597.03906, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &597434765
@@ -3923,12 +3920,12 @@ MonoBehaviour:
     - brickSprite: {fileID: 21300000, guid: ae6c6d52ab3b05144a0efc5c31e24022, type: 3}
       destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
         type: 3}
-    bombChance: 0.1
+    bombChance: 0.2
   levelRoot: {fileID: 234617627}
   emptyPrefab: {fileID: 1678073492517804725, guid: 6f240879d486b8847a2f97bcb8bf41c0,
     type: 3}
   brickGridParent: {fileID: 146491444}
-  worldSize: {x: 10, y: 10, z: 0}
+  worldSize: {x: 20, y: 20, z: 0}
   gridSpace: 1.5
 --- !u!1 &925867624
 GameObject:
@@ -4292,7 +4289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 433.59995, y: -25}
+  m_AnchoredPosition: {x: 433.5996, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1108622658
@@ -5147,7 +5144,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 128.2}
+  m_AnchoredPosition: {x: 0, y: 128.2002}
   m_SizeDelta: {x: 400, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1495787333

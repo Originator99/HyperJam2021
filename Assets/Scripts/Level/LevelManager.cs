@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -34,9 +35,11 @@ public class LevelManager :ITickable {
         }
     }
 
-    private void OnPlayerDied(PlayerDiedSignal signalData) {
+    private async void OnPlayerDied(PlayerDiedSignal signalData) {
         _player.ChangeState(PlayerStates.Dead);
+        await Task.Delay(1000);
         currentLevel.ShuffleLevel();
+        await Task.Delay(1000);
         _player.ResetPlayerPosition(currentLevel.GetStartBrick());
     }
 }
