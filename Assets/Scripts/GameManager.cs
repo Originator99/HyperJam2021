@@ -36,7 +36,7 @@ public class GameManager :IInitializable, ITickable {
     }
 
     public void BuildLevel() {
-        GameObject levelPrefab = FetchLevelPrefab("level1");
+        GameObject levelPrefab = FetchLevelPrefab("level2");
         if(levelPrefab != null) {
             GameObject level = GameObject.Instantiate(levelPrefab);
             _levelManager.RenderLevel(level.GetComponent<Level>());

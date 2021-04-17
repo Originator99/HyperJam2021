@@ -10,6 +10,9 @@ public class Player :MonoBehaviour {
     private PlayerState _state;
 
     public Direction currentDirection;
+
+    public Queue<Direction> dashSequence;
+
     public Brick currentBrickCell;
 
     [Inject]
