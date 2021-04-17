@@ -90,6 +90,13 @@ public class LevelBuilder : MonoBehaviour {
         }
     }
 
+    public void SaveLevelSettings() {
+        levelController.levelSettings = new Level.Settings {
+            worldSize = worldSize,
+            gridSpace = gridSpace
+        };
+    }
+
     private Brick GenerateEmptyBrick() {
         GameObject obj = GameObject.Instantiate(emptyPrefab, brickGridParent);
         Brick controller = obj.GetComponent<Brick>();

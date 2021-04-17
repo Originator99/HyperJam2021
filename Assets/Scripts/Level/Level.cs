@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class Level : MonoBehaviour {
+    public Settings levelSettings;
     public List<Brick> levelBricks;
     public List<string> safePathIDs;
 
@@ -83,5 +84,11 @@ public class Level : MonoBehaviour {
         }
         Debug.LogError("Could not find brick in the direction : " + direction.ToString());
         return null;
+    }
+
+    [System.Serializable]
+    public class Settings {
+        public Vector3 worldSize;
+        public float gridSpace;
     }
 }

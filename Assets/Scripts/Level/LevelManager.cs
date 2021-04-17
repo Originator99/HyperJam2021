@@ -21,6 +21,7 @@ public class LevelManager :ITickable {
     public void RenderLevel(Level level) {
         currentLevel = level;
         _player.ResetPlayerPosition(currentLevel.GetStartBrick());
+        _signalBus.Fire(new LevelStartedSignal { levelSettings = currentLevel.levelSettings });
     }
 
     public void Tick() {

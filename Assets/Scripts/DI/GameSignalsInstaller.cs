@@ -24,3 +24,7 @@ public struct PlayerInputSignal {
 public struct BrickDestroyedSignal {
     public BrickData data;
 }
+
+public struct LevelStartedSignal {
+    public Level.Settings levelSettings;
+}

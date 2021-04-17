@@ -1,32 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using Zenject;
+using System;
 
 public class CameraStateFollowing :CameraState {
-    private readonly Player _player;
-    private readonly CameraController _camera;
-    private readonly Settings _settings;
+    private readonly SignalBus _signalBus;
+    private readonly Transform _bounds;
 
-    public CameraStateFollowing(Settings settings, CameraController camera, Player player) {
-        _player = player;
-        _camera = camera;
-        _settings = settings;
+    public CameraStateFollowing(SignalBus signalBus, [Inject(Id ="CameraBounds")] Transform bounds) {
+        _signalBus = signalBus;
+        _bounds = bounds;
+
+        _signalBus.Subscribe<LevelStartedSignal>(OnLevelStarted);
     }
 
     public override void LateUpdate() {
-        if(_camera != null && _player != null) {
-            Vector3 newPos = new Vector3(_player.transform.position.x + 0.5f, _player.transform.position.y + 0.5f);
-            newPos.z = -10;
-            _camera.transform.position = Vector3.Slerp(_camera.transform.position, newPos, _settings.speed * Time.deltaTime);
+
+    }
+
+    public override void Start() {
+    }
+
+    private void OnLevelStarted(LevelStartedSignal signalData) {
+        if(signalData.levelSettings != null) {
+            SetCameraBounds(signalData.levelSettings.worldSize, signalData.levelSettings.gridSpace);
         }
-
     }
 
-    [System.Serializable]
-    public class Settings {
-        public float speed;
+    private void SetCameraBounds(Vector3 worldSize, float gridSpace) {
+        if(_bounds != null) {
+            _bounds.localScale = new Vector3(worldSize.x + 2f, worldSize.y + 2f);
+        }
     }
+
     public class Factory :PlaceholderFactory<CameraStateFollowing> {
 
     }

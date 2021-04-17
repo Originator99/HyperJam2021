@@ -9,13 +9,9 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
         Container.BindInstance(playerSettings.stateDash);
         Container.BindInstance(playerSettings.stateDead);
         Container.BindInstance(radarSettings);
-
-        Container.BindInstance(cameraSettings.cameraMovementSettings);
-
     }
 
     public PlayerSettings playerSettings;
-    public CameraSettings cameraSettings;
     public Radar.Settings radarSettings;
 
     [System.Serializable]
@@ -23,10 +19,5 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
         public PlayerStateMoving.Settings stateMoving;
         public PlayerStateDash.Settings stateDash;
         public PlayerStateDead.Settings stateDead;
-    }
-
-    [System.Serializable]
-    public class CameraSettings {
-        public CameraStateFollowing.Settings cameraMovementSettings;
     }
 }

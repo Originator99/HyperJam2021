@@ -13,7 +13,7 @@ public class GameInstaller : MonoInstaller {
 
         Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
 
-        Container.Bind<LevelHelper>().AsSingle();
+        //Container.Bind<LevelHelper>().AsSingle();
 
         Container.DeclareSignal<BrickDestroyedSignal>();
     }
@@ -35,8 +35,9 @@ public class GameInstaller : MonoInstaller {
 
     private void InstallLevel() {
         Container.BindInterfacesAndSelfTo<LevelManager>().AsSingle();
-        Container.Bind<LevelRandomizer>().AsSingle();
         Container.Bind<ScoreHelper>().AsSingle();
+
+        Container.DeclareSignal<LevelStartedSignal>().OptionalSubscriber();
     }
 
     private void InstallCamera() {
