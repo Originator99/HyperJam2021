@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSettings:
-    worldSize: {x: 80, y: 80, z: 0}
+    worldSize: {x: 30, y: 30, z: 0}
     gridSpace: 1.5
   levelBricks: []
   safePathIDs: []
@@ -4001,7 +4001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSettings:
-    levelNumber: 5
+    levelNumber: 6
     endPointGFX:
       brickSprite: {fileID: 21300000, guid: c6a48a2bb54515d43b970d4bad4e3248, type: 3}
       destroyEffect: {fileID: 0}
@@ -4029,7 +4029,7 @@ MonoBehaviour:
   emptyPrefab: {fileID: 1678073492517804725, guid: 6f240879d486b8847a2f97bcb8bf41c0,
     type: 3}
   brickGridParent: {fileID: 146491444}
-  worldSize: {x: 80, y: 80, z: 0}
+  worldSize: {x: 30, y: 30, z: 0}
   gridSpace: 1.5
 --- !u!1 &925867624
 GameObject:

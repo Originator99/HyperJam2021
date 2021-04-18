@@ -26,22 +26,39 @@ public class PlayerStateMoving :PlayerState {
     }
 
     public override void Update() {
+        //if(!EventSystem.current.IsPointerOverGameObject()) {
+        //    if(Input.GetMouseButtonDown(0)) {
+        //        waitForDash = _settings.touchTimeBeforeDash;
+        //    }
+        //    if(Input.GetMouseButton(0)) {
+        //        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - _player.transform.position;
+        //        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        //        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        //        _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, 15 * Time.unscaledDeltaTime);
+
+        //        if(waitForDash > 0) {
+        //            waitForDash -= Time.unscaledDeltaTime;
+        //        }
+        //    }
+        //    if(Input.GetMouseButtonUp(0)) {
+        //        RotateToClosest();
+        //    }
+        //}
+    }
+
+    public override void FixedUpdate() {
         if(!EventSystem.current.IsPointerOverGameObject()) {
             if(Input.GetMouseButtonDown(0)) {
-                waitForDash = _settings.touchTimeBeforeDash;
+                _player.ResetDash();
             }
             if(Input.GetMouseButton(0)) {
-                Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - _player.transform.position;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, 15 * Time.unscaledDeltaTime);
-
-                if(waitForDash > 0) {
-                    waitForDash -= Time.unscaledDeltaTime;
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f, 1 << LayerMask.NameToLayer("Brick"));
+                if(hit.collider != null) {
+                    _player.AddToDashSequence(hit.collider.GetComponent<Brick>());
                 }
             }
             if(Input.GetMouseButtonUp(0)) {
-                RotateToClosest();
+                _player.ChangeState(PlayerStates.Dash);
             }
         }
     }
@@ -71,16 +88,6 @@ public class PlayerStateMoving :PlayerState {
         }
         else if(!rotating && _player.currentDirection != signalData.moveDirection) {
             Rotate(signalData.moveDirection);
-        }
-    }
-
-    private void Rotate() {
-        //Because i made this support and i wanted to use it somewhere
-        if(Input.GetKey(KeyCode.LeftShift)) {
-            DoNextRotation(Direction.LEFT);
-        }
-        if(Input.GetKey(KeyCode.RightShift)) {
-            DoNextRotation(Direction.RIGHT);
         }
     }
 

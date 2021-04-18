@@ -11,7 +11,7 @@ public class Player :MonoBehaviour {
 
     public Direction currentDirection;
 
-    public Queue<Direction> dashSequence;
+    public Dictionary<string, Brick> dashSequence;
 
     public Brick currentBrickCell;
 
@@ -24,10 +24,15 @@ public class Player :MonoBehaviour {
 
     private void Start() {
         audioSource = GetComponent<AudioSource>();
+        dashSequence = new Dictionary<string, Brick>();
     }
 
     private void Update() {
         _state?.Update();
+    }
+
+    private void FixedUpdate() {
+        _state?.FixedUpdate();
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
@@ -40,6 +45,11 @@ public class Player :MonoBehaviour {
         }
         currentBrickCell = brickCell;
         transform.position = brickCell.WorldPosition;
+        if(dashSequence == null) {
+            dashSequence = new Dictionary<string, Brick>();
+        } else {
+            dashSequence.Clear();
+        }
         ChangeState(PlayerStates.WaitingToStart);
     }
 
@@ -51,7 +61,22 @@ public class Player :MonoBehaviour {
         _state = _stateFactory.CreateState(state);
         _state.Start();
     }
-    
+
+    public void ResetDash() {
+        if(dashSequence == null) {
+            dashSequence = new Dictionary<string, Brick>();
+        } else {
+            dashSequence.Clear();
+        }
+    }
+
+    public void AddToDashSequence(Brick brick) {
+        if(!dashSequence.ContainsKey(brick.IDOnGrid) && brick != null) {
+            dashSequence.Add(brick.IDOnGrid, brick);
+            Debug.Log("Added to seq brick ID : " + brick.IDOnGrid);
+        }
+    }
+
     public void PlaySFX(AudioClip clip) {
         if(audioSource == null)
             audioSource = GetComponent<AudioSource>();
