@@ -44,23 +44,33 @@ public class PlayerStateMoving :PlayerState {
         //        RotateToClosest();
         //    }
         //}
-    }
-
-    public override void FixedUpdate() {
         if(!EventSystem.current.IsPointerOverGameObject()) {
             if(Input.GetMouseButtonDown(0)) {
+                RaycastHit2D[] hits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f);
+                foreach(RaycastHit2D hit in hits) {
+                    if(hit.collider != null && hit.collider.CompareTag("Player")) {
+                        canDash = true;
+                        Debug.Log("Player Found, Staring to dash");
+                    }
+                }
                 _player.ResetDash();
             }
-            if(Input.GetMouseButton(0)) {
+            if(Input.GetMouseButton(0) && canDash) {
                 RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f, 1 << LayerMask.NameToLayer("Brick"));
                 if(hit.collider != null) {
                     _player.AddToDashSequence(hit.collider.GetComponent<Brick>());
                 }
             }
             if(Input.GetMouseButtonUp(0)) {
+                canDash = false;
                 _player.ChangeState(PlayerStates.Dash);
             }
         }
+    }
+
+    bool canDash;
+    public override void FixedUpdate() {
+        
     }
 
     private void RotateToClosest() {

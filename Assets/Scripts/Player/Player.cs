@@ -58,6 +58,7 @@ public class Player :MonoBehaviour {
             _state.Dispose();
             _state = null;
         }
+        Debug.Log("Changing to player state : " + state.ToString());
         _state = _stateFactory.CreateState(state);
         _state.Start();
     }
@@ -74,6 +75,8 @@ public class Player :MonoBehaviour {
         if(!dashSequence.ContainsKey(brick.IDOnGrid) && brick != null) {
             dashSequence.Add(brick.IDOnGrid, brick);
             Debug.Log("Added to seq brick ID : " + brick.IDOnGrid);
+        } else {
+            Debug.Log("Brick already added with ID : " + brick.IDOnGrid);
         }
     }
 

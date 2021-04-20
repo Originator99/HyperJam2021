@@ -83,6 +83,7 @@ public class PlayerStateDash :PlayerState {
                 dashing = false;
             }));
         } else {
+            Debug.LogError("Next brick cell is null, moving back to previous state");
             _player.ChangeState(PlayerStates.Moving);
         }
     }
