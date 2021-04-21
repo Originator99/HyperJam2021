@@ -103,9 +103,11 @@ public class Player :MonoBehaviour {
                     Debug.Log("Brick removed with ID : " + key);
                 }
 
+                //last brick is needed to find the next adjacent bricks to avoid adjacent movements
                 if(dashSequence.Count > 0) {
                     lastBrick = dashSequence[dashSequence.Keys.Last()];
                 } else {
+                    //if all the items were removed then we want the current cell player is in to be returned
                     lastBrick = currentBrickCell;
                 }
             }
