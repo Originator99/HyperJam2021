@@ -12,6 +12,7 @@ public class PlayerStateDash :PlayerState {
 
     private bool dashing;
     private Sequence tweenSequence;
+    private Queue<Brick> dashSequence;
 
     public PlayerStateDash(Settings settings, Player player, LevelManager levelManager, SignalBus signalBus) {
         _settings = settings;
@@ -24,6 +25,7 @@ public class PlayerStateDash :PlayerState {
     }
 
     public override void Start() {
+        dashSequence = new Queue<Brick>();
         StartDash();
     }
 
@@ -52,26 +54,36 @@ public class PlayerStateDash :PlayerState {
     }
 
     public override void Update() {
-
-    }
-
-    private void StartDash() {
         if(!dashing) {
-            Dash(_player.currentDirection);
+            if(dashSequence.Count > 0) {
+                Dash(dashSequence.Dequeue());
+            } else {
+                _player.ChangeState(PlayerStates.Moving);
+            }
         }
     }
 
-    private void Dash(Direction direction) {
-        Brick nextBrickCell = _levelManager.GetBrickInDirection(direction);
+    private void StartDash() {
+        if(_player.dashSequence != null) {
+            foreach(var brick in _player.dashSequence) {
+                dashSequence.Enqueue(brick.Value);
+            }
+        } else {
+            Debug.LogError("Dash Seq is null, switching back to move state");
+            _player.ChangeState(PlayerStates.Moving);
+        }
+    }
+
+    private void Dash(Brick nextBrickCell) {
         if(nextBrickCell != null) {
             dashing = true;
             _player.currentBrickCell = nextBrickCell;
             _player.PlaySFX(_settings.dashSFX);
             tweenSequence.Append(_player.transform.DOMove(nextBrickCell.WorldPosition, _settings.dashSpeed).OnComplete(delegate () {
                 dashing = false;
-                _player.ChangeState(PlayerStates.Moving);
             }));
         } else {
+            Debug.LogError("Next brick cell is null, moving back to previous state");
             _player.ChangeState(PlayerStates.Moving);
         }
     }

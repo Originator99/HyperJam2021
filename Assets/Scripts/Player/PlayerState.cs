@@ -10,6 +10,10 @@ public abstract class PlayerState :IDisposable {
         // optionally overridden
     }
 
+    public virtual void FixedUpdate() {
+        //optional overridden
+    }
+
     public virtual void Dispose() {
         // optionally overridden
     }

@@ -18,7 +18,7 @@ MonoBehaviour:
       touchTimeBeforeDash: 0.15
       rotateSFX: {fileID: 8300000, guid: ad4f60c9406941849b679e5db4a1aaea, type: 3}
     stateDash:
-      dashSpeed: 0.2
+      dashSpeed: 0.1
       dashSFX: {fileID: 8300000, guid: 6fe4eccf63417d145ae7c960988ab336, type: 3}
       destroyBrickSFX: {fileID: 8300000, guid: 6ce1e6592b7805c44a23c29a1fb6c0e6, type: 3}
       deathSFX: {fileID: 8300000, guid: 8a7a67b81feb3a343b3417051c889550, type: 3}
@@ -26,9 +26,6 @@ MonoBehaviour:
       deadEffect: {fileID: 6386639180721475996, guid: 25150addf919d2f419298e2d2a8e5a44,
         type: 3}
       rewindSound: {fileID: 8300000, guid: c4c64a74266538e449599713d02270e3, type: 3}
-  cameraSettings:
-    cameraMovementSettings:
-      speed: 5
   radarSettings:
     radarEnemyPrefab: {fileID: 5457183417739550743, guid: 4b526b4c563239049af6ec1dd2926f21,
       type: 3}

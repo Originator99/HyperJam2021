@@ -9,16 +9,23 @@ public class PlayerStateMoving :PlayerState {
     private bool rotating;
     private Settings _settings;
     private Player _player;
+    private LevelManager _levelManager;
     private readonly SignalBus _signalBus;
 
     private float waitForDash; //going to use this variable to check touch time of a user. We dont want to dash as soon as touch
+    private List<Brick> currentAdjacentBricks;
+    private Brick currentBrickInTouch;
+    private int brickLayerMask;
 
-    public PlayerStateMoving(Settings settings, Player player, SignalBus signalBus) {
+    public PlayerStateMoving(Settings settings, Player player, LevelManager levelManager, SignalBus signalBus) {
         _settings = settings;
         _player = player;
         _signalBus = signalBus;
+        _levelManager = levelManager;
 
         _signalBus.Subscribe<PlayerInputSignal>(OnPlayerInput);
+
+        brickLayerMask = 1 << LayerMask.NameToLayer("Brick");
     }
 
     public override void Start() {
@@ -26,24 +33,62 @@ public class PlayerStateMoving :PlayerState {
     }
 
     public override void Update() {
+        //if(!EventSystem.current.IsPointerOverGameObject()) {
+        //    if(Input.GetMouseButtonDown(0)) {
+        //        waitForDash = _settings.touchTimeBeforeDash;
+        //    }
+        //    if(Input.GetMouseButton(0)) {
+        //        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - _player.transform.position;
+        //        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        //        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        //        _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, 15 * Time.unscaledDeltaTime);
+
+        //        if(waitForDash > 0) {
+        //            waitForDash -= Time.unscaledDeltaTime;
+        //        }
+        //    }
+        //    if(Input.GetMouseButtonUp(0)) {
+        //        RotateToClosest();
+        //    }
+        //}
         if(!EventSystem.current.IsPointerOverGameObject()) {
             if(Input.GetMouseButtonDown(0)) {
-                waitForDash = _settings.touchTimeBeforeDash;
+                RaycastHit2D[] hits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f);
+                foreach(RaycastHit2D hit in hits) {
+                    if(hit.collider != null && hit.collider.CompareTag("Player")) {
+                        canDash = true;
+                        GenerateAdjacentBricks(currentBrickInTouch = _player.currentBrickCell);
+                        Debug.Log("Player Found, Staring to dash");
+                    }
+                }
+                _player.ResetDash();
             }
-            if(Input.GetMouseButton(0)) {
+            if(Input.GetMouseButton(0) && canDash) {
                 Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - _player.transform.position;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, 15 * Time.unscaledDeltaTime);
 
-                if(waitForDash > 0) {
-                    waitForDash -= Time.unscaledDeltaTime;
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f, brickLayerMask);
+                if(hit.collider != null) {
+                    Brick brick = hit.collider.GetComponent<Brick>();
+                    if(brick != null && CheckIfAdjacentBrick(brick.IDOnGrid, out Brick adj)) {
+                        _player.ModifyDashSequence(adj, out currentBrickInTouch);
+                        GenerateAdjacentBricks(currentBrickInTouch);
+                    }
                 }
             }
             if(Input.GetMouseButtonUp(0)) {
-                RotateToClosest();
+                currentBrickInTouch = null;
+                canDash = false;
+                _player.ChangeState(PlayerStates.Dash);
             }
         }
+    }
+
+    bool canDash;
+    public override void FixedUpdate() {
+        
     }
 
     private void RotateToClosest() {
@@ -71,16 +116,6 @@ public class PlayerStateMoving :PlayerState {
         }
         else if(!rotating && _player.currentDirection != signalData.moveDirection) {
             Rotate(signalData.moveDirection);
-        }
-    }
-
-    private void Rotate() {
-        //Because i made this support and i wanted to use it somewhere
-        if(Input.GetKey(KeyCode.LeftShift)) {
-            DoNextRotation(Direction.LEFT);
-        }
-        if(Input.GetKey(KeyCode.RightShift)) {
-            DoNextRotation(Direction.RIGHT);
         }
     }
 
@@ -140,6 +175,44 @@ public class PlayerStateMoving :PlayerState {
                 Rotate(Direction.UP);
             }
         } 
+    }
+
+    private void GenerateAdjacentBricks(Brick currentBrick) {
+        if(currentAdjacentBricks == null)
+            currentAdjacentBricks = new List<Brick>();
+        else
+            currentAdjacentBricks.Clear();
+
+        if(currentBrick != null) {
+            Brick brickLeft = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.LEFT, currentBrick.WorldPosition);
+            if(brickLeft != null) {
+                currentAdjacentBricks.Add(brickLeft);
+            }
+            Brick brickRight = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.RIGHT, currentBrick.WorldPosition);
+            if(brickRight != null) {
+                currentAdjacentBricks.Add(brickRight);
+            }
+            Brick brickUp = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.UP, currentBrick.WorldPosition);
+            if(brickUp != null) {
+                currentAdjacentBricks.Add(brickUp);
+            }
+            Brick brickDown = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.DOWN, currentBrick.WorldPosition);
+            if(brickDown != null) {
+                currentAdjacentBricks.Add(brickDown);
+            }
+        }
+    }
+
+    private bool CheckIfAdjacentBrick(string brickID, out Brick brick) {
+        brick = null;
+        if(currentAdjacentBricks != null) {
+            int index = currentAdjacentBricks.FindIndex(x => x.IDOnGrid == brickID);
+            if(index >= 0) {
+                brick = currentAdjacentBricks[index];
+                return true;
+            }
+        }
+        return false;
     }
 
     [System.Serializable]
