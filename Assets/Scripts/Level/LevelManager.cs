@@ -27,9 +27,9 @@ public class LevelManager :ITickable {
     public void Tick() {
     }
 
-    public Brick GetBrickInDirection(Direction direction) {
+    public Brick GetBrickInDirectionFrom(Brick currentBrick, Direction direction, Vector2 fromPosition) {
         if(currentLevel != null) {
-            return currentLevel.GetBrickInDirection(direction, _player.transform.position, _player.currentBrickCell);
+            return currentLevel.GetBrickInDirectionFrom(currentBrick, direction, fromPosition);
         } else {
             Debug.LogError("Current level is null, cannot find brick in direction: " + direction.ToString());
             return null;

@@ -24,8 +24,12 @@ public class Brick : MonoBehaviour {
 
     public BrickData data;
 
+    [SerializeField]
     private SpriteRenderer spriteRender;
+    [SerializeField]
     private new BoxCollider2D collider;
+    [SerializeField]
+    private SpriteRenderer selectedState;
 
     private void Start() {
         InitializeBrick(data);
@@ -36,10 +40,9 @@ public class Brick : MonoBehaviour {
             this.data = data;
 
             transform.position = data.worldPosition;
-            spriteRender = GetComponent<SpriteRenderer>();
-            collider = GetComponent<BoxCollider2D>();
 
             ChangeBrickState(data.type);
+            ChangeSelectedState(false);
 
             gameObject.SetActive(true);
 
@@ -80,6 +83,17 @@ public class Brick : MonoBehaviour {
             case BrickType.SAFE_PATH:
                 SwitchToSafePath();
                 break;
+        }
+    }
+
+    public void ChangeSelectedState(bool state) {
+        if(selectedState != null) {
+            if(!selectedState.gameObject.activeSelf) {
+                selectedState.gameObject.SetActive(true);
+            }
+            selectedState.enabled = state;
+        } else {
+            Debug.LogWarning("Selected state GO not found, reference added?");
         }
     }
 

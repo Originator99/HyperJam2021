@@ -72,12 +72,12 @@ public class Level : MonoBehaviour {
         return null;
     }
 
-    public Brick GetBrickInDirection(Direction direction, Vector2 currentPos, Brick currentBrick) {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(currentPos, UserInput.ConvertDirection(direction), 2f, brickLayerMask); //layerMask of Brick is 9
-        foreach(var hit in hits) {
+    public Brick GetBrickInDirectionFrom(Brick currentBrick, Direction direction, Vector2 position) {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(position, UserInput.ConvertDirection(direction), 5f, brickLayerMask); //layerMask of Brick is 9
+        foreach(RaycastHit2D hit in hits) {
             if(hit.collider != null) {
                 Brick brick = hit.collider.GetComponent<Brick>();
-                if(brick != null && brick.IDOnGrid != currentBrick.IDOnGrid) {
+                if(brick != null && currentBrick.IDOnGrid != brick.IDOnGrid) {
                     return brick;
                 }
             }

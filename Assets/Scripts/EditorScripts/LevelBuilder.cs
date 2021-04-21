@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -29,11 +30,13 @@ public class LevelBuilder : MonoBehaviour {
             for(int y = 0; y < grid.gridSizeY; y++) {
                 Node2D currentNode = grid.Grid[x, y];
                 Brick brick = GenerateEmptyBrick();
-                brick.transform.position = currentNode.worldPosition;
+                if(brick != null) {
+                    brick.transform.position = currentNode.worldPosition;
 
-                currentNode.SetData(brick);
+                    currentNode.SetData(brick);
 
-                AddBrickToLevelController(brick);
+                    AddBrickToLevelController(brick);
+                }
             }
         }
         Debug.Log("Bricks added to level controller");
@@ -98,10 +101,10 @@ public class LevelBuilder : MonoBehaviour {
     }
 
     private Brick GenerateEmptyBrick() {
-        GameObject obj = GameObject.Instantiate(emptyPrefab, brickGridParent);
+        GameObject obj = PrefabUtility.InstantiatePrefab(emptyPrefab, brickGridParent) as GameObject;
         Brick controller = obj.GetComponent<Brick>();
         if(controller == null) {
-            controller = obj.AddComponent<Brick>();
+            Debug.LogError("Brick Script is not attached, make sure its attached to your prefab");
         }
         return controller;
     }

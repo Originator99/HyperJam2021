@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -67,16 +68,40 @@ public class Player :MonoBehaviour {
         if(dashSequence == null) {
             dashSequence = new Dictionary<string, Brick>();
         } else {
+            foreach(var brick in dashSequence) {
+                brick.Value.ChangeSelectedState(false);
+            }
             dashSequence.Clear();
         }
     }
 
-    public void AddToDashSequence(Brick brick) {
-        if(!dashSequence.ContainsKey(brick.IDOnGrid) && brick != null) {
-            dashSequence.Add(brick.IDOnGrid, brick);
-            Debug.Log("Added to seq brick ID : " + brick.IDOnGrid);
-        } else {
-            Debug.Log("Brick already added with ID : " + brick.IDOnGrid);
+    public void ModifyDashSequence(Brick brick) {
+        if(dashSequence != null) {
+            //checking if sequence already has the brick in sequence or not. If not then we will add it to sequence
+            if(!dashSequence.ContainsKey(brick.IDOnGrid) && brick != null) {
+                brick.ChangeSelectedState(true);
+                dashSequence.Add(brick.IDOnGrid, brick);
+                Debug.Log("Added to seq brick ID : " + brick.IDOnGrid);
+            } else {
+                //if brick is already present then we want to remove it from the sequence if user selected the brick again
+                List<string> toRemove = new List<string>();
+                //finding all the bricks from the end of the sequence to the point user has touched
+                foreach(KeyValuePair<string,Brick> pair in dashSequence.Reverse()) {
+                    if(pair.Key != brick.IDOnGrid) {
+                        toRemove.Add(pair.Key);
+                    }
+                    if(pair.Key == brick.IDOnGrid) {
+                        toRemove.Add(pair.Key);
+                        break;
+                    }
+                }
+                //removing it from the sequence
+                foreach(string key in toRemove) {
+                    dashSequence[key].ChangeSelectedState(false);
+                    dashSequence.Remove(key);
+                    Debug.Log("Brick removed with ID : " + key);
+                }
+            }
         }
     }
 
