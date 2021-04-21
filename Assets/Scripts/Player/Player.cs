@@ -75,7 +75,8 @@ public class Player :MonoBehaviour {
         }
     }
 
-    public void ModifyDashSequence(Brick brick) {
+    public void ModifyDashSequence(Brick brick, out Brick lastBrick) {
+        lastBrick = brick;
         if(dashSequence != null) {
             //checking if sequence already has the brick in sequence or not. If not then we will add it to sequence
             if(!dashSequence.ContainsKey(brick.IDOnGrid) && brick != null) {
@@ -100,6 +101,12 @@ public class Player :MonoBehaviour {
                     dashSequence[key].ChangeSelectedState(false);
                     dashSequence.Remove(key);
                     Debug.Log("Brick removed with ID : " + key);
+                }
+
+                if(dashSequence.Count > 0) {
+                    lastBrick = dashSequence[dashSequence.Keys.Last()];
+                } else {
+                    lastBrick = currentBrickCell;
                 }
             }
         }

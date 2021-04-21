@@ -73,7 +73,7 @@ public class PlayerStateMoving :PlayerState {
                 if(hit.collider != null) {
                     Brick brick = hit.collider.GetComponent<Brick>();
                     if(brick != null && CheckIfAdjacentBrick(brick.IDOnGrid, out Brick adj)) {
-                        _player.ModifyDashSequence(currentBrickInTouch = adj);
+                        _player.ModifyDashSequence(adj, out currentBrickInTouch);
                         GenerateAdjacentBricks(currentBrickInTouch);
                     }
                 }
