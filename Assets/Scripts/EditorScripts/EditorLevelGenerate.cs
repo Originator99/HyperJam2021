@@ -9,7 +9,7 @@ public class EditorLevelGenerate :Editor {
         DrawDefaultInspector();
 
         LevelBuilder script = (LevelBuilder)target;
-        if(GUILayout.Button("Build Default Level With Path")) {
+        if(GUILayout.Button("Build Randomized Level without Path")) {
             script.GenerateDefaultLevelGrid();
         }
         if(GUILayout.Button("Save Level")) {
