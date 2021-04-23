@@ -12,7 +12,7 @@ public class PlayerStateDash :PlayerState {
 
     private bool dashing;
     private Sequence tweenSequence;
-    private Queue<Brick> dashSequence;
+    private Queue<BaseBrick> dashSequence;
 
     public PlayerStateDash(Settings settings, Player player, LevelManager levelManager, SignalBus signalBus) {
         _settings = settings;
@@ -25,30 +25,30 @@ public class PlayerStateDash :PlayerState {
     }
 
     public override void Start() {
-        dashSequence = new Queue<Brick>();
+        dashSequence = new Queue<BaseBrick>();
         StartDash();
     }
 
     public override void OnTriggerEnter2D(Collider2D collider) {
         if(collider != null && collider.gameObject != null) {
             if(collider.CompareTag("Brick") && dashing) {
-                Brick controller = collider.GetComponent<Brick>();
-                if(controller != null) {
-                    if(controller.currentType == BrickType.NORMAL) {
-                        controller.DestroyBrick();
-                        _signalBus.Fire<BrickDestroyedSignal>(new BrickDestroyedSignal { data = controller.data });
-                        _player.PlaySFX(_settings.destroyBrickSFX);
-                    }
-                    if(controller.currentType == BrickType.BOMB) {
-                        tweenSequence.Kill();
-                        _player.PlaySFX(_settings.dashSFX);
-                        _signalBus.Fire<PlayerDiedSignal>(new PlayerDiedSignal { });
-                    }
-                    if(controller.currentType == BrickType.END) {
-                        _signalBus.Fire<PlayerReachedEndSignal>(new PlayerReachedEndSignal { hasWon = true });
-                        tweenSequence.Kill();
-                    }
-                }
+                //BaseBrick controller = collider.GetComponent<BaseBrick>();
+                //if(controller != null) {
+                //    if(controller.currentType == BrickType.NORMAL) {
+                //        //controller.DestroyBrick();
+                //        //_signalBus.Fire<BrickDestroyedSignal>(new BrickDestroyedSignal { data = controller.data });
+                //        _player.PlaySFX(_settings.destroyBrickSFX);
+                //    }
+                //    if(controller.currentType == BrickType.BOMB) {
+                //        tweenSequence.Kill();
+                //        _player.PlaySFX(_settings.dashSFX);
+                //        //_signalBus.Fire<PlayerDiedSignal>(new PlayerDiedSignal { });
+                //    }
+                //    if(controller.currentType == BrickType.END) {
+                //        _signalBus.Fire<PlayerReachedEndSignal>(new PlayerReachedEndSignal { hasWon = true });
+                //        tweenSequence.Kill();
+                //    }
+                //}
             }
         }
     }
@@ -59,6 +59,7 @@ public class PlayerStateDash :PlayerState {
                 Dash(dashSequence.Dequeue());
             } else {
                 _player.ChangeState(PlayerStates.Moving);
+                _player.ResetDash();
             }
         }
     }
@@ -74,12 +75,12 @@ public class PlayerStateDash :PlayerState {
         }
     }
 
-    private void Dash(Brick nextBrickCell) {
+    private void Dash(BaseBrick nextBrickCell) {
         if(nextBrickCell != null) {
             dashing = true;
             _player.currentBrickCell = nextBrickCell;
             _player.PlaySFX(_settings.dashSFX);
-            tweenSequence.Append(_player.transform.DOMove(nextBrickCell.WorldPosition, _settings.dashSpeed).OnComplete(delegate () {
+            tweenSequence.Append(_player.transform.DOMove(nextBrickCell.transform.position, _settings.dashSpeed).OnComplete(delegate () {
                 dashing = false;
             }));
         } else {

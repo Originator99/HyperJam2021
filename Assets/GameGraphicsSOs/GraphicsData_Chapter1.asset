@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: GraphicsData_Chapter1
+  m_EditorClassIdentifier: Assembly-CSharp::GameGraphics
+  normalBricks:
+  - {fileID: 8244562535572653283, guid: ec2222306ced4cc478d57a3e423a0073, type: 3}
+  - {fileID: 4278268138062790367, guid: a575f0ef1a264fd4da2ea93b40c149d5, type: 3}
+  - {fileID: 4700914340013564628, guid: 8504f0546a08d9a4a97a1c5fc502d7b5, type: 3}
+  - {fileID: 7649456219739042315, guid: e122b9ff97227194cad36365d694aee7, type: 3}
+  - {fileID: 8228629212612359763, guid: 1de5bfcacefb0ca449e736fa0b00e8d9, type: 3}
+  - {fileID: 6711554707081566251, guid: d656c9de09348714eb5d026f0d308494, type: 3}
+  bombBricks:
+  - {fileID: 8244562535572653283, guid: ec2222306ced4cc478d57a3e423a0073, type: 3}
+  - {fileID: 4278268138062790367, guid: a575f0ef1a264fd4da2ea93b40c149d5, type: 3}
+  - {fileID: 4700914340013564628, guid: 8504f0546a08d9a4a97a1c5fc502d7b5, type: 3}
+  - {fileID: 7649456219739042315, guid: e122b9ff97227194cad36365d694aee7, type: 3}
+  - {fileID: 8228629212612359763, guid: 1de5bfcacefb0ca449e736fa0b00e8d9, type: 3}
+  - {fileID: 6711554707081566251, guid: d656c9de09348714eb5d026f0d308494, type: 3}
+  portalBrick: {fileID: 8939432024008464046, guid: 1c1d53ef172805349a1739a0e4077b2d,
+    type: 3}

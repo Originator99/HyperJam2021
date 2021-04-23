@@ -27,7 +27,7 @@ public class LevelManager :ITickable {
     public void Tick() {
     }
 
-    public Brick GetBrickInDirectionFrom(Brick currentBrick, Direction direction, Vector2 fromPosition) {
+    public BaseBrick GetBrickInDirectionFrom(BaseBrick currentBrick, Direction direction, Vector2 fromPosition) {
         if(currentLevel != null) {
             return currentLevel.GetBrickInDirectionFrom(currentBrick, direction, fromPosition);
         } else {

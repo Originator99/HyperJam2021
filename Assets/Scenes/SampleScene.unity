@@ -1313,8 +1313,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSettings:
+    levelID: 6
     worldSize: {x: 30, y: 30, z: 0}
     gridSpace: 1.5
+    bombChance: 0
   levelBricks: []
   safePathIDs: []
   brickLayerMask:
@@ -4000,37 +4002,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ee74443e8e4af4aa3c56378b75a5de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelSettings:
-    levelNumber: 6
-    endPointGFX:
-      brickSprite: {fileID: 21300000, guid: c6a48a2bb54515d43b970d4bad4e3248, type: 3}
-      destroyEffect: {fileID: 0}
-    bricksGfxData:
-    - brickSprite: {fileID: 21300000, guid: b3ee5d8be5b455445866e30931bfddf4, type: 3}
-      destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
-        type: 3}
-    - brickSprite: {fileID: 21300000, guid: cfe8da0c2efc1de4394e57e94bcc69d9, type: 3}
-      destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
-        type: 3}
-    - brickSprite: {fileID: 21300000, guid: 0e482a63503916a4cad9209803df114a, type: 3}
-      destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
-        type: 3}
-    - brickSprite: {fileID: 21300000, guid: 6f97d7d944a82964488fa924008ce934, type: 3}
-      destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
-        type: 3}
-    - brickSprite: {fileID: 21300000, guid: 7997429898a779941b9ac1ce4125d5de, type: 3}
-      destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
-        type: 3}
-    - brickSprite: {fileID: 21300000, guid: ae6c6d52ab3b05144a0efc5c31e24022, type: 3}
-      destroyEffect: {fileID: 2311182037105277005, guid: 87d0a5f06dd5114429b4f288f937a4f9,
-        type: 3}
-    bombChance: 0
-  levelRoot: {fileID: 234617627}
-  emptyPrefab: {fileID: 1678073492517804725, guid: 6f240879d486b8847a2f97bcb8bf41c0,
-    type: 3}
-  brickGridParent: {fileID: 146491444}
-  worldSize: {x: 30, y: 30, z: 0}
+  levelID: 1
+  bombChance: 0.2
+  worldSize: {x: 15, y: 15, z: 0}
   gridSpace: 1.5
+  gameGraphics: {fileID: 11400000, guid: 4686d8049140e6748887da1aac552ee5, type: 2}
+  levelRoot: {fileID: 234617627}
+  brickGridParent: {fileID: 146491444}
+  switchBrick: {fileID: 0}
 --- !u!1 &925867624
 GameObject:
   m_ObjectHideFlags: 0

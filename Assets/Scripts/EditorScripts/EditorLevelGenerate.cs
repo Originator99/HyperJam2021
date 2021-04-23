@@ -12,13 +12,10 @@ public class EditorLevelGenerate :Editor {
         if(GUILayout.Button("Build Default Level With Path")) {
             script.GenerateDefaultLevelGrid();
         }
-        if(GUILayout.Button("Randomize Current Level")) {
-            script.RandomizeLevel();
-        }
         if(GUILayout.Button("Save Level")) {
             script.SaveLevelSettings();
             if(script.levelRoot != null) {
-                PrefabUtility.SaveAsPrefabAsset(script.levelRoot, "Assets/Resources/LevelPrefabs/level" + script.levelSettings.levelNumber + ".prefab");
+                PrefabUtility.SaveAsPrefabAsset(script.levelRoot, "Assets/Resources/LevelPrefabs/level" + script.levelID + ".prefab");
             }
         }
         if(GUILayout.Button("Shuffle Level")) {
@@ -33,6 +30,9 @@ public class EditorLevelGenerate :Editor {
         }
         if(GUILayout.Button("Hide Safe Path")) {
             script.ToggleSafePath(false);
+        }
+        if(GUILayout.Button("Change to portal")) {
+            script.SwitchBrickToType(BrickType.END);
         }
     }
 }

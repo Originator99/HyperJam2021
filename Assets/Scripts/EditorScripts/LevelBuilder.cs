@@ -7,51 +7,50 @@ using UnityEngine;
 /// Made for Editor, not yet optimized to run in game.
 /// Handles automatic level creation which can be later edited by admin
 /// </summary>
+
 public class LevelBuilder : MonoBehaviour {
-    public LevelLogic.Settings levelSettings;
-
-    public GameObject levelRoot;
-
-    public GameObject emptyPrefab;
-    public Transform brickGridParent;
+    [Header("Level Settings")]
+    public int levelID;
+    public float bombChance;
     public Vector3 worldSize;
     public float gridSpace = 1.5f;
+
+    [Space(5)]
+    public GameGraphics gameGraphics;
+
+    [Space(5)]
+    public GameObject levelRoot;
+
+    public Transform brickGridParent;
+
+    [Space(10)]
+    public BaseBrick switchBrick;
 
     private LevelLogic levelLogic;
     
     private Level levelController;
 
     public void GenerateDefaultLevelGrid() {
+
         CreateLevelScript();
 
         Grid2D grid = new Grid2D(worldSize, gridSpace);
+        levelLogic = new LevelLogic(grid, gameGraphics);
 
         for(int x = 0; x < grid.gridSizeX; x++) {
             for(int y = 0; y < grid.gridSizeY; y++) {
                 Node2D currentNode = grid.Grid[x, y];
-                Brick brick = GenerateEmptyBrick();
+                BaseBrick brick = GenerateRandomBaseBrick(currentNode.ID);
                 if(brick != null) {
-                    brick.transform.position = currentNode.worldPosition;
-
-                    currentNode.SetData(brick);
+                    brick.transform.SetParent(brickGridParent);
+                    brick.SwitchPositions(currentNode.worldPosition);
 
                     AddBrickToLevelController(brick);
                 }
             }
         }
         Debug.Log("Bricks added to level controller");
-
-        levelLogic = new LevelLogic(grid, levelSettings);
-        levelLogic.GenerateRandomPath();
         AddPathToLevelController();
-    }
-
-    public void RandomizeLevel() {
-        if(levelLogic != null) {
-            levelLogic.Randomize();
-        } else {
-            Debug.LogError("Level logic is not initialized");
-        }
     }
 
     public void ShuffleLevel() {
@@ -66,7 +65,7 @@ public class LevelBuilder : MonoBehaviour {
     public void DestroyLevel() {
         if(levelController != null) {
             if(levelController.levelBricks != null) {
-                foreach(Brick brick in levelController.levelBricks) {
+                foreach(BaseBrick brick in levelController.levelBricks) {
                     DestroyImmediate(brick.gameObject);
                 }
                 levelController.levelBricks.Clear();
@@ -95,18 +94,64 @@ public class LevelBuilder : MonoBehaviour {
 
     public void SaveLevelSettings() {
         levelController.levelSettings = new Level.Settings {
+            levelID = levelID,
             worldSize = worldSize,
-            gridSpace = gridSpace
+            gridSpace = gridSpace,
+            bombChance = bombChance
         };
     }
 
-    private Brick GenerateEmptyBrick() {
-        GameObject obj = PrefabUtility.InstantiatePrefab(emptyPrefab, brickGridParent) as GameObject;
-        Brick controller = obj.GetComponent<Brick>();
-        if(controller == null) {
-            Debug.LogError("Brick Script is not attached, make sure its attached to your prefab");
+    public void SwitchBrickToType(BrickType type) {
+        SwitchBrickToType(switchBrick, BrickType.END);
+    }
+
+    private void SwitchBrickToType(BaseBrick brick, BrickType type) {
+        switch(type) {
+            case BrickType.END:
+                GameObject obj = levelLogic.GetBrickBasedOnType(type);
+
+                BrickData newData = new BrickData {
+                    gridNodeID = brick.GetComponent<BaseBrick>().ID,
+                    type = type
+                };
+                BaseBrick newB = obj.GetComponent<BaseBrick>();
+                newB.Initialize(newData);
+                newB.SwitchPositions(brick.transform.position);
+                obj.transform.SetParent(brickGridParent);
+
+                ReplaceInLevel(brick, newB);
+                break;
         }
-        return controller;
+    }
+
+    private void ReplaceInLevel(BaseBrick oldB, BaseBrick newB){
+        if(levelController != null && levelController.levelBricks != null) {
+            int index = levelController.levelBricks.FindIndex(x => x.ID == oldB.ID);
+            if(index >= 0) {
+                GameObject aboutToBeDeleted = levelController.levelBricks[index].gameObject;
+                levelController.levelBricks[index] = newB;
+                DestroyImmediate(aboutToBeDeleted);
+            }
+        }
+    }
+
+    private BaseBrick GenerateRandomBaseBrick(string id) {
+        BrickType type = levelLogic.GetRandomBrickType(bombChance);
+        GameObject obj = levelLogic.GetBrickBasedOnType(type);
+        if(obj != null) {
+            BrickData data = new BrickData {
+                gridNodeID = id,
+                type = type,
+            };
+            BaseBrick baseBrick = obj.GetComponent<BaseBrick>();
+            if(baseBrick != null) {
+                baseBrick.Initialize(data);
+                return baseBrick;
+            } else {
+                Debug.LogError("Base Class not found in the brick prefab, is it being inherited from base brick?");
+            }
+        }
+        return null;
     }
 
     private void CreateLevelScript() {
@@ -117,14 +162,14 @@ public class LevelBuilder : MonoBehaviour {
         }
 
         if(levelController.levelBricks == null) {
-            levelController.levelBricks = new List<Brick>();
+            levelController.levelBricks = new List<BaseBrick>();
         }
         if(levelController.safePathIDs == null) {
             levelController.safePathIDs = new List<string>();
         }
     }
 
-    private void AddBrickToLevelController(Brick brick) {
+    private void AddBrickToLevelController(BaseBrick brick) {
         if(brick != null && levelController != null) {
             if(levelController.levelBricks != null) {
                 levelController.levelBricks.Add(brick);

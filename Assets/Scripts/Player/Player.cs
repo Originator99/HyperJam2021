@@ -12,9 +12,9 @@ public class Player :MonoBehaviour {
 
     public Direction currentDirection;
 
-    public Dictionary<string, Brick> dashSequence;
+    public Dictionary<string, BaseBrick> dashSequence;
 
-    public Brick currentBrickCell;
+    public BaseBrick currentBrickCell;
 
     [Inject]
     public void Construct(PlayerStateFactory stateFactory) {
@@ -25,7 +25,7 @@ public class Player :MonoBehaviour {
 
     private void Start() {
         audioSource = GetComponent<AudioSource>();
-        dashSequence = new Dictionary<string, Brick>();
+        dashSequence = new Dictionary<string, BaseBrick>();
     }
 
     private void Update() {
@@ -40,14 +40,14 @@ public class Player :MonoBehaviour {
         _state?.OnTriggerEnter2D(collision);
     }
 
-    public void ResetPlayerPosition(Brick brickCell) {
+    public void ResetPlayerPosition(BaseBrick brickCell) {
         if(!gameObject.activeSelf) {
             gameObject.SetActive(true);
         }
         currentBrickCell = brickCell;
-        transform.position = brickCell.WorldPosition;
+        transform.position = brickCell.transform.position;
         if(dashSequence == null) {
-            dashSequence = new Dictionary<string, Brick>();
+            dashSequence = new Dictionary<string, BaseBrick>();
         } else {
             dashSequence.Clear();
         }
@@ -66,39 +66,39 @@ public class Player :MonoBehaviour {
 
     public void ResetDash() {
         if(dashSequence == null) {
-            dashSequence = new Dictionary<string, Brick>();
+            dashSequence = new Dictionary<string, BaseBrick>();
         } else {
             foreach(var brick in dashSequence) {
-                brick.Value.ChangeSelectedState(false);
+                brick.Value.ToggleSelectState(false);
             }
             dashSequence.Clear();
         }
     }
 
-    public void ModifyDashSequence(Brick brick, out Brick lastBrick) {
+    public void ModifyDashSequence(BaseBrick brick, out BaseBrick lastBrick) {
         lastBrick = brick;
         if(dashSequence != null) {
             //checking if sequence already has the brick in sequence or not. If not then we will add it to sequence
-            if(!dashSequence.ContainsKey(brick.IDOnGrid) && brick != null) {
-                brick.ChangeSelectedState(true);
-                dashSequence.Add(brick.IDOnGrid, brick);
-                Debug.Log("Added to seq brick ID : " + brick.IDOnGrid);
+            if(!dashSequence.ContainsKey(brick.ID) && brick != null) {
+                brick.ToggleSelectState(true);
+                dashSequence.Add(brick.ID, brick);
+                Debug.Log("Added to seq brick ID : " + brick.ID);
             } else {
                 //if brick is already present then we want to remove it from the sequence if user selected the brick again
                 List<string> toRemove = new List<string>();
                 //finding all the bricks from the end of the sequence to the point user has touched
-                foreach(KeyValuePair<string,Brick> pair in dashSequence.Reverse()) {
-                    if(pair.Key != brick.IDOnGrid) {
+                foreach(KeyValuePair<string, BaseBrick> pair in dashSequence.Reverse()) {
+                    if(pair.Key != brick.ID) {
                         toRemove.Add(pair.Key);
                     }
-                    if(pair.Key == brick.IDOnGrid) {
+                    if(pair.Key == brick.ID) {
                         toRemove.Add(pair.Key);
                         break;
                     }
                 }
                 //removing it from the sequence
                 foreach(string key in toRemove) {
-                    dashSequence[key].ChangeSelectedState(false);
+                    dashSequence[key].ToggleSelectState(false);
                     dashSequence.Remove(key);
                     Debug.Log("Brick removed with ID : " + key);
                 }

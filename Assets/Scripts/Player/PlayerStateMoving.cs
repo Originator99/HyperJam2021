@@ -13,8 +13,8 @@ public class PlayerStateMoving :PlayerState {
     private readonly SignalBus _signalBus;
 
     private float waitForDash; //going to use this variable to check touch time of a user. We dont want to dash as soon as touch
-    private List<Brick> currentAdjacentBricks;
-    private Brick currentBrickInTouch;
+    private List<BaseBrick> currentAdjacentBricks;
+    private BaseBrick currentBrickInTouch;
     private int brickLayerMask;
 
     public PlayerStateMoving(Settings settings, Player player, LevelManager levelManager, SignalBus signalBus) {
@@ -71,8 +71,8 @@ public class PlayerStateMoving :PlayerState {
 
                 RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f, brickLayerMask);
                 if(hit.collider != null) {
-                    Brick brick = hit.collider.GetComponent<Brick>();
-                    if(brick != null && CheckIfAdjacentBrick(brick.IDOnGrid, out Brick adj)) {
+                    BaseBrick brick = hit.collider.GetComponent<BaseBrick>();
+                    if(brick != null && CheckIfAdjacentBrick(brick.ID, out BaseBrick adj)) {
                         _player.ModifyDashSequence(adj, out currentBrickInTouch);
                         GenerateAdjacentBricks(currentBrickInTouch);
                     }
@@ -177,36 +177,36 @@ public class PlayerStateMoving :PlayerState {
         } 
     }
 
-    private void GenerateAdjacentBricks(Brick currentBrick) {
+    private void GenerateAdjacentBricks(BaseBrick currentBrick) {
         if(currentAdjacentBricks == null)
-            currentAdjacentBricks = new List<Brick>();
+            currentAdjacentBricks = new List<BaseBrick>();
         else
             currentAdjacentBricks.Clear();
 
         if(currentBrick != null) {
-            Brick brickLeft = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.LEFT, currentBrick.WorldPosition);
+            BaseBrick brickLeft = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.LEFT, currentBrick.transform.position);
             if(brickLeft != null) {
                 currentAdjacentBricks.Add(brickLeft);
             }
-            Brick brickRight = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.RIGHT, currentBrick.WorldPosition);
+            BaseBrick brickRight = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.RIGHT, currentBrick.transform.position);
             if(brickRight != null) {
                 currentAdjacentBricks.Add(brickRight);
             }
-            Brick brickUp = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.UP, currentBrick.WorldPosition);
+            BaseBrick brickUp = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.UP, currentBrick.transform.position);
             if(brickUp != null) {
                 currentAdjacentBricks.Add(brickUp);
             }
-            Brick brickDown = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.DOWN, currentBrick.WorldPosition);
+            BaseBrick brickDown = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.DOWN, currentBrick.transform.position);
             if(brickDown != null) {
                 currentAdjacentBricks.Add(brickDown);
             }
         }
     }
 
-    private bool CheckIfAdjacentBrick(string brickID, out Brick brick) {
+    private bool CheckIfAdjacentBrick(string brickID, out BaseBrick brick) {
         brick = null;
         if(currentAdjacentBricks != null) {
-            int index = currentAdjacentBricks.FindIndex(x => x.IDOnGrid == brickID);
+            int index = currentAdjacentBricks.FindIndex(x => x.ID == brickID);
             if(index >= 0) {
                 brick = currentAdjacentBricks[index];
                 return true;
