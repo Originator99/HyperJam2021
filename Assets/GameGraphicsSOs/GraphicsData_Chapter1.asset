@@ -28,5 +28,6 @@ MonoBehaviour:
   - {fileID: 2993260621840753346, guid: 7c53d5f3dc42e7c459903c60c0810878, type: 3}
   unbreakableBricks:
   - {fileID: 6911490649709414845, guid: 32970e843f4a26d418efff909cfacdb9, type: 3}
+  boomBot: {fileID: 6982186569317997090, guid: 8163290ce47bfa74e888c7025fe2ed12, type: 3}
   portalBrick: {fileID: 8939432024008464046, guid: 1c1d53ef172805349a1739a0e4077b2d,
     type: 3}

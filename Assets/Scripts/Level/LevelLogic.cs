@@ -28,6 +28,8 @@ public class LevelLogic {
                 return GeneratePortalBrick();
             case BrickType.UNBREAKABLE:
                 return GenerateUnbreakableBrick();
+            case BrickType.BOOM_BOT:
+                return GenerateBoomBot();
             default:
                 Debug.LogWarning("Could not find brick gameobject for type : " + type.ToString() + "\n Returning normal type");
                 return GenerateNormalBrick();
@@ -74,6 +76,13 @@ public class LevelLogic {
             return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.unbreakableBricks[Random.Range(0, _graphics.unbreakableBricks.Length)]) as GameObject;
         }
         Debug.LogError("Cannot generate unbreakable brick, the graphics data is null or empty");
+        return null;
+    }
+    private GameObject GenerateBoomBot() {
+        if(_graphics != null && _graphics.boomBot != null) {
+            return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.boomBot) as GameObject;
+        }
+        Debug.LogError("Cannot generate boom bot brick, the graphics data is null or Brick prefab is null");
         return null;
     }
     #endregion

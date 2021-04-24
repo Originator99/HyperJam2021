@@ -7,6 +7,7 @@ public enum BrickType {
     BOMB,
     PATH,
     UNBREAKABLE,
+    BOOM_BOT,
     END
 }
 
@@ -21,5 +22,6 @@ public class GameGraphics : ScriptableObject {
     public GameObject[] normalBricks;
     public GameObject[] bombBricks;
     public GameObject[] unbreakableBricks;
+    public GameObject boomBot;
     public GameObject portalBrick;
 }

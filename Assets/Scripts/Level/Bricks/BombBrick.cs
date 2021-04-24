@@ -4,14 +4,9 @@ using UnityEngine;
 using Zenject;
 
 public class BombBrick : BaseBrick {
-        private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.CompareTag("Player")) {
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.CompareTag("Player") && currentType == BrickType.BOMB) {
             _signalBus.Fire<PlayerDiedSignal>(new PlayerDiedSignal { });
         }
-    }
-
-    public override void DestroyBrick() {
-        Debug.LogWarning("Tried destroying bomb brick, we dont want that yet");
-        //we dont want to destroy bomb brick
     }
 }
