@@ -1,18 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-
-public class BrickA : MonoBehaviour {
-
-}
-
 
 public enum BrickType {
     NORMAL,
     BOMB,
     PATH,
-    SAFE_PATH,
     END
 }
 

@@ -44,6 +44,7 @@ public class Player :MonoBehaviour {
         if(!gameObject.activeSelf) {
             gameObject.SetActive(true);
         }
+        brickCell.SwitchToPath();
         currentBrickCell = brickCell;
         transform.position = brickCell.transform.position;
         if(dashSequence == null) {

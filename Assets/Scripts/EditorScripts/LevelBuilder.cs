@@ -25,6 +25,8 @@ public class LevelBuilder : MonoBehaviour {
 
     [Space(10)]
     public BaseBrick switchBrick;
+    [Space(10)]
+    public List<BaseBrick> safePath;
 
     private LevelLogic levelLogic;
     
@@ -102,25 +104,49 @@ public class LevelBuilder : MonoBehaviour {
     }
 
     public void SwitchBrickToType(BrickType type) {
-        SwitchBrickToType(switchBrick, BrickType.END);
+        if(switchBrick != null) {
+            SwitchBrickToType(switchBrick, type);
+        } else {
+            Debug.LogError("Brick that is to be switched is null");
+        }
+    }
+
+    public void GenerateSafePath() {
+        if(levelController != null) {
+            if(safePath != null && safePath.Count > 0) {
+                foreach(var brick in safePath) {
+                    if(!levelController.safePathIDs.Contains(brick.ID)) {
+                        if(brick.currentType == BrickType.BOMB) {
+                            Debug.Log("Bomb found in way of safe path, switching to normal");
+                            SwitchBrickToType(brick, BrickType.NORMAL);
+                        }
+                        levelController.safePathIDs.Add(brick.ID);
+                    } else {
+                        Debug.LogWarning("Safe path ID " + brick.ID + " is already added");
+                    }
+                }
+            } else {
+                Debug.LogError("Safe path is empty");
+            }
+            safePath.Clear();
+        }
     }
 
     private void SwitchBrickToType(BaseBrick brick, BrickType type) {
-        switch(type) {
-            case BrickType.END:
-                GameObject obj = levelLogic.GetBrickBasedOnType(type);
+        GameObject obj = levelLogic.GetBrickBasedOnType(type);
 
-                BrickData newData = new BrickData {
-                    gridNodeID = brick.GetComponent<BaseBrick>().ID,
-                    type = type
-                };
-                BaseBrick newB = obj.GetComponent<BaseBrick>();
-                newB.Initialize(newData);
-                newB.SwitchPositions(brick.transform.position);
-                obj.transform.SetParent(brickGridParent);
+        BrickData newData = new BrickData {
+            gridNodeID = brick.GetComponent<BaseBrick>().ID,
+            type = type
+        };
+        BaseBrick newB = obj.GetComponent<BaseBrick>();
+        newB.Initialize(newData);
+        newB.SwitchPositions(brick.transform.position);
+        obj.transform.SetParent(brickGridParent);
+        ReplaceInLevel(brick, newB);
 
-                ReplaceInLevel(brick, newB);
-                break;
+        if(type == BrickType.PATH) {
+            brick.SwitchToPath();
         }
     }
 
@@ -130,7 +156,10 @@ public class LevelBuilder : MonoBehaviour {
             if(index >= 0) {
                 GameObject aboutToBeDeleted = levelController.levelBricks[index].gameObject;
                 levelController.levelBricks[index] = newB;
+                Debug.Log("Changed original : " + oldB.currentType.ToString() + " to : " + newB.currentType.ToString());
                 DestroyImmediate(aboutToBeDeleted);
+            } else {
+                Debug.LogError("Could not find brick in level");
             }
         }
     }

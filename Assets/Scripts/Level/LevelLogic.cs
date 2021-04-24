@@ -27,7 +27,7 @@ public class LevelLogic {
             case BrickType.END:
                 return GeneratePortalBrick();
             default:
-                Debug.LogError("Could not find brick gameobject for type : " + type.ToString());
+                Debug.LogWarning("Could not find brick gameobject for type : " + type.ToString() + "\n Returning normal type");
                 return GenerateNormalBrick();
         }
         

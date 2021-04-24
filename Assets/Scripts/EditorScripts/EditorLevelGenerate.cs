@@ -7,6 +7,7 @@ using UnityEngine;
 public class EditorLevelGenerate :Editor {
     public override void OnInspectorGUI() {
         DrawDefaultInspector();
+        GUILayout.Space(15);
 
         LevelBuilder script = (LevelBuilder)target;
         if(GUILayout.Button("Build Randomized Level without Path")) {
@@ -31,8 +32,34 @@ public class EditorLevelGenerate :Editor {
         if(GUILayout.Button("Hide Safe Path")) {
             script.ToggleSafePath(false);
         }
-        if(GUILayout.Button("Change to portal")) {
+
+        DrawBrickChange(script);
+        SafePath(script);
+    }
+
+    private void DrawBrickChange(LevelBuilder script) {
+        GUILayout.Space(15);
+        GUILayout.Label("Switch Brick to");
+        if(GUILayout.Button("Normal")) {
+            script.SwitchBrickToType(BrickType.NORMAL);
+        }
+        if(GUILayout.Button("Bomb")) {
+            script.SwitchBrickToType(BrickType.BOMB);
+        }
+        if(GUILayout.Button("Portal")) {
             script.SwitchBrickToType(BrickType.END);
+        }
+        if(GUILayout.Button("Path")) {
+            script.SwitchBrickToType(BrickType.PATH);
+        }
+    }
+
+    private void SafePath(LevelBuilder script) {
+        GUILayout.Space(15);
+        GUILayout.Label("Safe Path");
+        GUILayout.Label("Make sure to fill the safe path list above");
+        if(GUILayout.Button("Save Path")) {
+            script.GenerateSafePath();
         }
     }
 }

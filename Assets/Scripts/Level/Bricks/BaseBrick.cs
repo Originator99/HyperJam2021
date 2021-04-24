@@ -16,6 +16,7 @@ public class BaseBrick : MonoBehaviour {
     protected SpriteRenderer gfx, selectedState;
     [SerializeField]
     protected GameObject destroyEffect;
+    [SerializeField]
     protected BrickData brickData;
 
     protected SignalBus _signalBus;
@@ -29,7 +30,12 @@ public class BaseBrick : MonoBehaviour {
         if(data != null) {
             brickData = data;
             ToggleSelectState(false);
-            SwitchToOriginalState();
+
+            if(data.type == BrickType.PATH) {
+                SwitchToPath();
+            } else {
+                SwitchToOriginalState();
+            }
             gameObject.SetActive(true);
         } else {
             gameObject.SetActive(false);
