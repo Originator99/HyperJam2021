@@ -26,5 +26,7 @@ MonoBehaviour:
   - {fileID: 374987178129290605, guid: ab0fa013a10e7be4d87c068d970d0ead, type: 3}
   - {fileID: 1784692898835830799, guid: 8948a53d588e4fd4493d915cdbfc0ae2, type: 3}
   - {fileID: 2993260621840753346, guid: 7c53d5f3dc42e7c459903c60c0810878, type: 3}
+  unbreakableBricks:
+  - {fileID: 6911490649709414845, guid: 32970e843f4a26d418efff909cfacdb9, type: 3}
   portalBrick: {fileID: 8939432024008464046, guid: 1c1d53ef172805349a1739a0e4077b2d,
     type: 3}

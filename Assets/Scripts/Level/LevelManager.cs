@@ -11,7 +11,7 @@ public class LevelManager :ITickable {
 
     private Level currentLevel;
 
-    public LevelManager(SignalBus signalBus, Player player) {
+    public LevelManager(SignalBus signalBus, Player player, DiContainer container) {
         _player = player;
         _signalBus = signalBus;
 
@@ -22,6 +22,10 @@ public class LevelManager :ITickable {
         currentLevel = level;
         _player.ResetPlayerPosition(currentLevel.GetStartBrick());
         _signalBus.Fire(new LevelStartedSignal { levelSettings = currentLevel.levelSettings });
+
+        foreach(BaseBrick brick in level.levelBricks) {
+            brick.Construct(_signalBus);
+        }
     }
 
     public void Tick() {

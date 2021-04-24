@@ -26,6 +26,8 @@ public class LevelLogic {
                 return GenerateBombBrick();
             case BrickType.END:
                 return GeneratePortalBrick();
+            case BrickType.UNBREAKABLE:
+                return GenerateUnbreakableBrick();
             default:
                 Debug.LogWarning("Could not find brick gameobject for type : " + type.ToString() + "\n Returning normal type");
                 return GenerateNormalBrick();
@@ -48,23 +50,30 @@ public class LevelLogic {
     #region GeneratingBrickTypes
     private GameObject GenerateNormalBrick() {
         if(_graphics != null && _graphics.normalBricks !=null && _graphics.normalBricks.Length >0) {
-            return GameObject.Instantiate(_graphics.normalBricks[Random.Range(0, _graphics.normalBricks.Length)]);
+            return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.normalBricks[Random.Range(0, _graphics.normalBricks.Length)]) as GameObject;
         }
         Debug.LogError("Cannot generate normal brick, the graphics data is null or array of normal bricks is empty");
         return null;
     }
     private GameObject GenerateBombBrick() {
         if(_graphics != null && _graphics.bombBricks != null && _graphics.bombBricks.Length > 0) {
-            return GameObject.Instantiate(_graphics.bombBricks[Random.Range(0, _graphics.bombBricks.Length)]);
+            return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.bombBricks[Random.Range(0, _graphics.bombBricks.Length)]) as GameObject;
         }
-        Debug.LogError("Cannot generate normal brick, the graphics data is null or array of bomb bricks is empty");
+        Debug.LogError("Cannot generate bomb brick, the graphics data is null or array of bomb bricks is empty");
         return null;
     }
     private GameObject GeneratePortalBrick() {
         if(_graphics != null && _graphics.portalBrick != null) {
-            return GameObject.Instantiate(_graphics.portalBrick);
+            return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.portalBrick) as GameObject;
         }
         Debug.LogError("Cannot generate normal brick, the graphics data is null or portal Brick prefab is null");
+        return null;
+    }
+    private GameObject GenerateUnbreakableBrick() {
+        if(_graphics != null && _graphics.unbreakableBricks != null && _graphics.unbreakableBricks.Length > 0) {
+            return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.unbreakableBricks[Random.Range(0, _graphics.unbreakableBricks.Length)]) as GameObject;
+        }
+        Debug.LogError("Cannot generate unbreakable brick, the graphics data is null or empty");
         return null;
     }
     #endregion

@@ -49,6 +49,9 @@ public class EditorLevelGenerate :Editor {
         if(GUILayout.Button("Portal")) {
             script.SwitchBrickToType(BrickType.END);
         }
+        if(GUILayout.Button("Unbreakable")) {
+            script.SwitchBrickToType(BrickType.UNBREAKABLE);
+        }
         if(GUILayout.Button("Path")) {
             script.SwitchBrickToType(BrickType.PATH);
         }

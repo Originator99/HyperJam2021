@@ -20,8 +20,6 @@ public class BaseBrick : MonoBehaviour {
     protected BrickData brickData;
 
     protected SignalBus _signalBus;
-
-    [Inject]
     public void Construct(SignalBus signalBus) {
         _signalBus = signalBus;
     }

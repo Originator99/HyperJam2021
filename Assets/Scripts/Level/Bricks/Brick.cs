@@ -6,6 +6,7 @@ public enum BrickType {
     NORMAL,
     BOMB,
     PATH,
+    UNBREAKABLE,
     END
 }
 
@@ -19,5 +20,6 @@ public class BrickData {
 public class GameGraphics : ScriptableObject {
     public GameObject[] normalBricks;
     public GameObject[] bombBricks;
+    public GameObject[] unbreakableBricks;
     public GameObject portalBrick;
 }

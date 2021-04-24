@@ -185,19 +185,19 @@ public class PlayerStateMoving :PlayerState {
 
         if(currentBrick != null) {
             BaseBrick brickLeft = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.LEFT, currentBrick.transform.position);
-            if(brickLeft != null) {
+            if(brickLeft != null && brickLeft.currentType != BrickType.UNBREAKABLE) {
                 currentAdjacentBricks.Add(brickLeft);
             }
             BaseBrick brickRight = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.RIGHT, currentBrick.transform.position);
-            if(brickRight != null) {
+            if(brickRight != null && brickRight.currentType != BrickType.UNBREAKABLE) {
                 currentAdjacentBricks.Add(brickRight);
             }
             BaseBrick brickUp = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.UP, currentBrick.transform.position);
-            if(brickUp != null) {
+            if(brickUp != null && brickUp.currentType != BrickType.UNBREAKABLE) {
                 currentAdjacentBricks.Add(brickUp);
             }
             BaseBrick brickDown = _levelManager.GetBrickInDirectionFrom(currentBrick, Direction.DOWN, currentBrick.transform.position);
-            if(brickDown != null) {
+            if(brickDown != null && brickDown.currentType != BrickType.UNBREAKABLE) {
                 currentAdjacentBricks.Add(brickDown);
             }
         }
