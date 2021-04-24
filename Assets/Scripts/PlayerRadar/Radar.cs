@@ -52,7 +52,7 @@ public class Radar :ITickable {
         if(itemsInRange != null) {
             foreach(Collider2D collider in itemsInRange) {
                 if(!colliders.Contains(collider)) {
-                    Brick brick = collider.GetComponent<Brick>();
+                    BaseBrick brick = collider.GetComponent<BaseBrick>();
                     if(brick != null && brick.currentType == BrickType.BOMB) {
                         GameObject.Instantiate(_settings.radarEnemyPrefab, collider.transform.position, Quaternion.identity);
                         colliders.Add(collider);

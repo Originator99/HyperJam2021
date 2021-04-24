@@ -7,18 +7,16 @@ using UnityEngine;
 public class EditorLevelGenerate :Editor {
     public override void OnInspectorGUI() {
         DrawDefaultInspector();
+        GUILayout.Space(15);
 
         LevelBuilder script = (LevelBuilder)target;
-        if(GUILayout.Button("Build Default Level With Path")) {
+        if(GUILayout.Button("Build Randomized Level without Path")) {
             script.GenerateDefaultLevelGrid();
-        }
-        if(GUILayout.Button("Randomize Current Level")) {
-            script.RandomizeLevel();
         }
         if(GUILayout.Button("Save Level")) {
             script.SaveLevelSettings();
             if(script.levelRoot != null) {
-                PrefabUtility.SaveAsPrefabAsset(script.levelRoot, "Assets/Resources/LevelPrefabs/level" + script.levelSettings.levelNumber + ".prefab");
+                PrefabUtility.SaveAsPrefabAsset(script.levelRoot, "Assets/Resources/LevelPrefabs/level" + script.levelID + ".prefab");
             }
         }
         if(GUILayout.Button("Shuffle Level")) {
@@ -33,6 +31,38 @@ public class EditorLevelGenerate :Editor {
         }
         if(GUILayout.Button("Hide Safe Path")) {
             script.ToggleSafePath(false);
+        }
+
+        DrawBrickChange(script);
+        SafePath(script);
+    }
+
+    private void DrawBrickChange(LevelBuilder script) {
+        GUILayout.Space(15);
+        GUILayout.Label("Switch Brick to");
+        if(GUILayout.Button("Normal")) {
+            script.SwitchBrickToType(BrickType.NORMAL);
+        }
+        if(GUILayout.Button("Bomb")) {
+            script.SwitchBrickToType(BrickType.BOMB);
+        }
+        if(GUILayout.Button("Portal")) {
+            script.SwitchBrickToType(BrickType.END);
+        }
+        if(GUILayout.Button("Unbreakable")) {
+            script.SwitchBrickToType(BrickType.UNBREAKABLE);
+        }
+        if(GUILayout.Button("Path")) {
+            script.SwitchBrickToType(BrickType.PATH);
+        }
+    }
+
+    private void SafePath(LevelBuilder script) {
+        GUILayout.Space(15);
+        GUILayout.Label("Safe Path");
+        GUILayout.Label("Make sure to fill the safe path list above");
+        if(GUILayout.Button("Save Path")) {
+            script.GenerateSafePath();
         }
     }
 }

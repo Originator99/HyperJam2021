@@ -4,82 +4,83 @@ using UnityEngine;
 
 [System.Serializable]
 public class LevelLogic {
-    public readonly Settings _levelSettings;
+    public readonly GameGraphics _graphics;
     public readonly Grid2D _grid;
 
     private Node2D startPoint, endPoint;
 
-    public LevelLogic(Grid2D levelGrid, Settings levelSettings) {
+    public LevelLogic(Grid2D levelGrid, GameGraphics gameGraphics) {
         //not binded in zenject yet
+        _graphics = gameGraphics;
         _grid = levelGrid;
-        _levelSettings = levelSettings;
-    }
 
-    public void DebugLevel() {
-        Debug.Log(_grid.Grid.Length);
     }
 
     #region Level Randomization
-    public void Randomize() {
-        if(_levelSettings != null && _grid != null && _grid.Grid != null) {
-            for(int x = 0; x < _grid.gridSizeX; x++) {
-                for(int y = 0; y < _grid.gridSizeY; y++) {
-                    Node2D currentNode = _grid.Grid[x, y];
-                    Brick brick = currentNode.data as Brick;
 
-                    BrickData data = new BrickData {
-                        gridNodeID = currentNode.ID,
-                        renderData = GetRandomBrickSprite(currentNode.ID),
-                        type = GetRandomBrickType(currentNode.ID),
-                        worldPosition = currentNode.worldPosition
-                    };
-
-                    brick.InitializeBrick(data);
-                }
-            }
-        } else {
-            Debug.LogError("Level Logic not initialized");
+    public GameObject GetBrickBasedOnType(BrickType type) {
+        switch(type) {
+            case BrickType.NORMAL:
+                return GenerateNormalBrick();
+            case BrickType.BOMB:
+                return GenerateBombBrick();
+            case BrickType.END:
+                return GeneratePortalBrick();
+            case BrickType.UNBREAKABLE:
+                return GenerateUnbreakableBrick();
+            default:
+                Debug.LogWarning("Could not find brick gameobject for type : " + type.ToString() + "\n Returning normal type");
+                return GenerateNormalBrick();
         }
+        
     }
 
-    private BrickGraphicData GetRandomBrickSprite(string currentNodeID) {
-        if(currentNodeID == endPoint?.ID) {
-            return _levelSettings.endPointGFX;
-        }
+    public BrickType GetRandomBrickType(float bombChance) {
+        BrickType type = BrickType.NORMAL;
 
-        if(_levelSettings.bricksGfxData != null && _levelSettings.bricksGfxData.Count > 0) {
-            return _levelSettings.bricksGfxData[Random.Range(0, _levelSettings.bricksGfxData.Count)];
-        } else {
-            Debug.LogError("GFX data is null, cannot render brick");
+        int random = Random.Range(1, 100);
+        if((float)random / 100 <= bombChance) {
+            type = BrickType.BOMB;
         }
-
-        return null;
-    }
-
-    private BrickType GetRandomBrickType(string currentNodeID) {
-        if(currentNodeID == startPoint?.ID) {
-            return BrickType.PATH;
-        }
-
-        if(currentNodeID == endPoint?.ID) {
-            return BrickType.END;
-        }
-
-        if(_levelSettings != null) {
-            int random = Random.Range(1, 100);
-            if((float)random / 100 <= _levelSettings.bombChance && !IsAPartOfThePath(currentNodeID)) {
-                return BrickType.BOMB;
-            }
-        } else {
-            Debug.LogError("Level settings are null, cannot Randomize Brick Type");
-        }
-        return BrickType.NORMAL;
+        return type;
     }
 
     #endregion
 
+    #region GeneratingBrickTypes
+    private GameObject GenerateNormalBrick() {
+        if(_graphics != null && _graphics.normalBricks !=null && _graphics.normalBricks.Length >0) {
+            return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.normalBricks[Random.Range(0, _graphics.normalBricks.Length)]) as GameObject;
+        }
+        Debug.LogError("Cannot generate normal brick, the graphics data is null or array of normal bricks is empty");
+        return null;
+    }
+    private GameObject GenerateBombBrick() {
+        if(_graphics != null && _graphics.bombBricks != null && _graphics.bombBricks.Length > 0) {
+            return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.bombBricks[Random.Range(0, _graphics.bombBricks.Length)]) as GameObject;
+        }
+        Debug.LogError("Cannot generate bomb brick, the graphics data is null or array of bomb bricks is empty");
+        return null;
+    }
+    private GameObject GeneratePortalBrick() {
+        if(_graphics != null && _graphics.portalBrick != null) {
+            return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.portalBrick) as GameObject;
+        }
+        Debug.LogError("Cannot generate normal brick, the graphics data is null or portal Brick prefab is null");
+        return null;
+    }
+    private GameObject GenerateUnbreakableBrick() {
+        if(_graphics != null && _graphics.unbreakableBricks != null && _graphics.unbreakableBricks.Length > 0) {
+            return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.unbreakableBricks[Random.Range(0, _graphics.unbreakableBricks.Length)]) as GameObject;
+        }
+        Debug.LogError("Cannot generate unbreakable brick, the graphics data is null or empty");
+        return null;
+    }
+    #endregion
 
-    #region Path Generation
+    //not using this for now
+    #region Path Generation via Grid
+    /*
     public void GenerateRandomPath() {
         if(_grid != null) {
             startPoint = _grid.Grid[Random.Range(0, _grid.gridSizeX / 5), Random.Range(0, _grid.gridSizeY / 5)];
@@ -112,15 +113,6 @@ public class LevelLogic {
         }
         return false;
     }
+    */
     #endregion
-
-
-    [System.Serializable]
-    public class Settings {
-        public int levelNumber;
-        public BrickGraphicData endPointGFX;
-        public List<BrickGraphicData> bricksGfxData;
-        public float bombChance;
-    }
-
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Level : MonoBehaviour {
     public Settings levelSettings;
-    public List<Brick> levelBricks;
+    public List<BaseBrick> levelBricks;
     public List<string> safePathIDs;
 
     public LayerMask brickLayerMask;
@@ -13,12 +13,12 @@ public class Level : MonoBehaviour {
     public void TogglePath(bool state) {
         if(levelBricks != null && safePathIDs != null) {
             for(int i = 0; i < safePathIDs.Count; i++) {
-                int index = levelBricks.FindIndex(x => x.IDOnGrid == safePathIDs[i]);
+                int index = levelBricks.FindIndex(x => x.ID == safePathIDs[i]);
                 if(index >= 0) {
                     if(state) {
-                        levelBricks[index].ChangeBrickState(BrickType.SAFE_PATH);
+                        levelBricks[index].SwitchToPath();
                     } else {
-                        levelBricks[index].ChangeBrickState(BrickType.NORMAL);
+                        levelBricks[index].SwitchToOriginalState();
                     }
                 }
             }
@@ -31,39 +31,39 @@ public class Level : MonoBehaviour {
     public void ShuffleLevel() {
         if(levelBricks != null) {
             //making a copy to shuffle items
-            List<Brick> levelCopy = new List<Brick>(levelBricks);
+            List<BaseBrick> levelCopy = new List<BaseBrick>(levelBricks);
             //levelCopy.RemoveAll(x => safePathIDs.Any(y => y == x.IDOnGrid));
-            List<Brick> shuffle = new List<Brick>();
+            List<BaseBrick> shuffle = new List<BaseBrick>();
             while(levelCopy.Count != 0) {
                 int index = Random.Range(0, levelCopy.Count);
                 shuffle.Add(levelCopy[index]);
                 levelCopy.RemoveAt(index);
             } //shuffling the bricks
 
-            shuffle.RemoveAll(x => safePathIDs.Any(y => y == x.IDOnGrid));
+            shuffle.RemoveAll(x => safePathIDs.Any(y => y == x.ID));
 
             //reassigning the shuffled bricks to thier positions
-            foreach(Brick brick in levelBricks) {
-                if(!safePathIDs.Contains(brick.IDOnGrid)) {
-                    int sIndex = levelBricks.FindIndex(x => x.IDOnGrid == shuffle[0].IDOnGrid);
-                    Vector2 tempPos = levelBricks[sIndex].data.worldPosition;
-                    levelBricks[sIndex].ChangePosition(brick.data.worldPosition);
-                    brick.ChangePosition(tempPos);
+            foreach(BaseBrick brick in levelBricks) {
+                if(!safePathIDs.Contains(brick.ID)) {
+                    int sIndex = levelBricks.FindIndex(x => x.ID == shuffle[0].ID);
+                    Vector2 tempPos = levelBricks[sIndex].transform.position;
+                    levelBricks[sIndex].SwitchPositions(brick.transform.position);
+                    brick.SwitchPositions(tempPos);
                 }
-                brick.InitializeBrick(brick.data);
+                brick.ResetBrick();
             }
         }
         //resetting start brick
-        Brick b = GetStartBrick();
+        BaseBrick b = GetStartBrick();
         if(b != null) {
-            b.InitializeBrick(b.data);
+            b.ResetBrick();
         }
     }
 
-    public Brick GetStartBrick() {
+    public BaseBrick GetStartBrick() {
         if(levelBricks != null && safePathIDs != null) {
             if(safePathIDs.Count > 0) {
-                int index = levelBricks.FindIndex(x => x.IDOnGrid == safePathIDs[0]);
+                int index = levelBricks.FindIndex(x => x.ID == safePathIDs[0]);
                 if(index >= 0) {
                     return levelBricks[index];
                 }
@@ -72,12 +72,12 @@ public class Level : MonoBehaviour {
         return null;
     }
 
-    public Brick GetBrickInDirectionFrom(Brick currentBrick, Direction direction, Vector2 position) {
+    public BaseBrick GetBrickInDirectionFrom(BaseBrick currentBrick, Direction direction, Vector2 position) {
         RaycastHit2D[] hits = Physics2D.RaycastAll(position, UserInput.ConvertDirection(direction), 5f, brickLayerMask); //layerMask of Brick is 9
         foreach(RaycastHit2D hit in hits) {
             if(hit.collider != null) {
-                Brick brick = hit.collider.GetComponent<Brick>();
-                if(brick != null && currentBrick.IDOnGrid != brick.IDOnGrid) {
+                BaseBrick brick = hit.collider.GetComponent<BaseBrick>();
+                if(brick != null && currentBrick.ID != brick.ID) {
                     return brick;
                 }
             }
@@ -88,7 +88,9 @@ public class Level : MonoBehaviour {
 
     [System.Serializable]
     public class Settings {
+        public int levelID;
         public Vector3 worldSize;
         public float gridSpace;
+        public float bombChance;
     }
 }
