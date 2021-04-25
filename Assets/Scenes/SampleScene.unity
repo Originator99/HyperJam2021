@@ -4004,7 +4004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelID: 0
   bombChance: 0
-  worldSize: {x: 25, y: 25, z: 0}
+  worldSize: {x: 35, y: 30, z: 0}
   gridSpace: 1.5
   gameGraphics: {fileID: 11400000, guid: 4686d8049140e6748887da1aac552ee5, type: 2}
   levelRoot: {fileID: 234617627}
