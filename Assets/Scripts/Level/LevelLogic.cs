@@ -30,6 +30,8 @@ public class LevelLogic {
                 return GenerateUnbreakableBrick();
             case BrickType.BOOM_BOT:
                 return GenerateBoomBot();
+            case BrickType.RANDOM_BLOW:
+                return GenerateRadomBlowBrick();
             default:
                 Debug.LogWarning("Could not find brick gameobject for type : " + type.ToString() + "\n Returning normal type");
                 return GenerateNormalBrick();
@@ -83,6 +85,13 @@ public class LevelLogic {
             return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.boomBot) as GameObject;
         }
         Debug.LogError("Cannot generate boom bot brick, the graphics data is null or Brick prefab is null");
+        return null;
+    }
+    private GameObject GenerateRadomBlowBrick() {
+        if(_graphics != null && _graphics.randomBoomBrick != null) {
+            return UnityEditor.PrefabUtility.InstantiatePrefab(_graphics.randomBoomBrick) as GameObject;
+        }
+        Debug.LogError("Cannot generate radom blow brick, the graphics data is null or Brick prefab is null");
         return null;
     }
     #endregion

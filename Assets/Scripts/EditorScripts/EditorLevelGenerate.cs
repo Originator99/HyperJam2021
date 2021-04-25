@@ -55,6 +55,9 @@ public class EditorLevelGenerate :Editor {
         if(GUILayout.Button("Boom Bot")) {
             script.SwitchBrickToType(BrickType.BOOM_BOT);
         }
+        if(GUILayout.Button("Random Boom Bot")) {
+            script.SwitchBrickToType(BrickType.RANDOM_BLOW);
+        }
         if(GUILayout.Button("Path")) {
             script.SwitchBrickToType(BrickType.PATH);
         }

@@ -6,17 +6,18 @@ public class BlowNeighbourBricks : BaseBrick {
     public float Range = 3f;
     public LayerMask brickLayerMask;
     private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.CompareTag("Player")) {
+        if(collision.CompareTag("Player") && currentType != BrickType.PATH) {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, Range, brickLayerMask);
             if(colliders != null && colliders.Length >0) {
                 for(int i = 0; i < colliders.Length; i++) {
                     BaseBrick brick = colliders[i].GetComponent<BaseBrick>();
-                    if(brick != null && brick.currentType != BrickType.END) {
+                    if(brick != null && brick.currentType != BrickType.END && brick.currentType != BrickType.PATH) {
                         brick.DestroyBrick();
                     }
                 }
             }
             DestroyBrick();
+            _signalBus.Fire<BrickDestroyedSignal>(new BrickDestroyedSignal { data = brickData });
         }
     }
 }

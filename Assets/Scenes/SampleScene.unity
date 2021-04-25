@@ -1316,7 +1316,7 @@ MonoBehaviour:
     levelID: 0
     worldSize: {x: 20, y: 20, z: 0}
     gridSpace: 1.5
-    bombChance: 0.2
+    bombChance: 0
   levelBricks: []
   safePathIDs: []
   brickLayerMask:
@@ -4003,7 +4003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelID: 0
-  bombChance: 0.2
+  bombChance: 0
   worldSize: {x: 20, y: 20, z: 0}
   gridSpace: 1.5
   gameGraphics: {fileID: 11400000, guid: 4686d8049140e6748887da1aac552ee5, type: 2}
@@ -4095,7 +4095,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1088025579
 MonoBehaviour:
   m_ObjectHideFlags: 0
