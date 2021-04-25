@@ -53,6 +53,8 @@ public class BaseBrick : MonoBehaviour {
         } else {
             Debug.LogWarning("Sprite renderer is null for brick : " + transform.name);
         }
+
+        OnSwitchedToOriginal();
     }
 
     public void SwitchToPath() {
@@ -62,6 +64,8 @@ public class BaseBrick : MonoBehaviour {
         } else {
             Debug.LogWarning("Sprite renderer is null for brick : " + transform.name);
         }
+
+        OnSwitchedToPath();
     }
 
     public void ToggleSelectState(bool state) {
@@ -84,5 +88,12 @@ public class BaseBrick : MonoBehaviour {
             Instantiate(destroyEffect, transform.position, Quaternion.identity);
         }
         SwitchToPath();
+    }
+
+    public virtual void OnSwitchedToPath() {
+    
+    }
+    public virtual void OnSwitchedToOriginal() {
+        
     }
 }

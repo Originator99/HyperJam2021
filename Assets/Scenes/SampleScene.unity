@@ -2951,7 +2951,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6caee229a1998c345bdc3f69b085e59f, type: 3}
   m_Name: 
@@ -4004,7 +4004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelID: 0
   bombChance: 0
-  worldSize: {x: 20, y: 20, z: 0}
+  worldSize: {x: 25, y: 25, z: 0}
   gridSpace: 1.5
   gameGraphics: {fileID: 11400000, guid: 4686d8049140e6748887da1aac552ee5, type: 2}
   levelRoot: {fileID: 234617627}

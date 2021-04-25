@@ -54,6 +54,9 @@ public class GameInstaller : MonoInstaller {
     }
 
     private void InstallPowerUps() {
-        Container.Bind<PowerupManager>().AsSingle();
+
+        Container.BindInterfacesAndSelfTo<Immortality_PU>().AsSingle();
+        Container.DeclareSignal<PowerUpActivated>().OptionalSubscriber();
+        Container.DeclareSignal<PowerUpDeactivated>().OptionalSubscriber();
     }
 }

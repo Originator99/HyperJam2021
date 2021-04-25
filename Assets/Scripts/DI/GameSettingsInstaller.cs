@@ -9,9 +9,12 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
         Container.BindInstance(playerSettings.stateDash);
         Container.BindInstance(playerSettings.stateDead);
         Container.BindInstance(radarSettings);
+
+        Container.BindInstance(powerUpSettings.immortalitySettings);
     }
 
     public PlayerSettings playerSettings;
+    public PowerUpSettings powerUpSettings;
     public Radar.Settings radarSettings;
 
     [System.Serializable]
@@ -19,5 +22,10 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
         public PlayerStateMoving.Settings stateMoving;
         public PlayerStateDash.Settings stateDash;
         public PlayerStateDead.Settings stateDead;
+    }
+
+    [System.Serializable]
+    public class PowerUpSettings {
+        public Immortality_PU.Settings immortalitySettings;
     }
 }

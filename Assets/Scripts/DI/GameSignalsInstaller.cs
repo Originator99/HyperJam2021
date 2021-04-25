@@ -28,3 +28,11 @@ public struct BrickDestroyedSignal {
 public struct LevelStartedSignal {
     public Level.Settings levelSettings;
 }
+
+public struct PowerUpActivated {
+    public PowerUpType type;
+}
+
+public struct PowerUpDeactivated {
+    public PowerUpType type;
+}

@@ -36,6 +36,11 @@ public class PowerupManager {
 
 
     public class Settings {
-
+        public int bricksToDestroyForImmortality;
     }
+}
+
+public enum PowerUpType {
+    IMMORTALITY,
+    MISSLE,
 }
