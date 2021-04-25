@@ -7,6 +7,7 @@ public class GameInstaller : MonoInstaller {
     public override void InstallBindings() {
         SignalBusInstaller.Install(Container);
         InstallPlayer();
+        InstallPowerUps();
         InstallLevel();
         InstallCamera();
         InstallExcecutionOrder();
@@ -50,5 +51,9 @@ public class GameInstaller : MonoInstaller {
         //We want LevelManager to create our level first then allow users to move their players
         Container.BindExecutionOrder<LevelManager>(-10);
         Container.BindExecutionOrder<GameManager>(-20);
+    }
+
+    private void InstallPowerUps() {
+        Container.Bind<PowerupManager>().AsSingle();
     }
 }
