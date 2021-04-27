@@ -26,6 +26,14 @@ MonoBehaviour:
       deadEffect: {fileID: 6386639180721475996, guid: 25150addf919d2f419298e2d2a8e5a44,
         type: 3}
       rewindSound: {fileID: 8300000, guid: c4c64a74266538e449599713d02270e3, type: 3}
+  powerUpSettings:
+    immortalitySettings:
+      bricksToDetroy: 5
+      immortality_time: 5
+      cooldownCheck: 0.5
+  comboSettings:
+    minCombo: 2
+    comboTimeout: 2
   radarSettings:
     radarEnemyPrefab: {fileID: 5457183417739550743, guid: 4b526b4c563239049af6ec1dd2926f21,
       type: 3}

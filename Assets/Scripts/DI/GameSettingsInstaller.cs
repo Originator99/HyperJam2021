@@ -11,10 +11,12 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
         Container.BindInstance(radarSettings);
 
         Container.BindInstance(powerUpSettings.immortalitySettings);
+        Container.BindInstance(comboSettings);
     }
 
     public PlayerSettings playerSettings;
     public PowerUpSettings powerUpSettings;
+    public ComboUI.Settings comboSettings;
     public Radar.Settings radarSettings;
 
     [System.Serializable]

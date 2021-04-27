@@ -1343,7 +1343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &243343425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4349,6 +4349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1101888271}
+  - component: {fileID: 1101888272}
   m_Layer: 5
   m_Name: ComboBox
   m_TagString: Untagged
@@ -4377,6 +4378,20 @@ RectTransform:
   m_AnchoredPosition: {x: -210.3, y: -128.70001}
   m_SizeDelta: {x: 300, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1101888272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101888270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83180c1bcf158ee41b9c9f1eed069b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comboAmount: {fileID: 1310866115}
+  comboText: {fileID: 1920238131}
 --- !u!1 &1108622656
 GameObject:
   m_ObjectHideFlags: 0
