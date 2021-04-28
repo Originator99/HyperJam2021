@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
 using Zenject;
 
 public class ComboUI : MonoBehaviour {
@@ -13,6 +14,7 @@ public class ComboUI : MonoBehaviour {
 
     private float comboTimer;
     private int currentCombo;
+    private Vector3 originalPosition;
 
     [Inject]
     public void Construct(SignalBus signalBus, Settings settings) {
@@ -23,6 +25,8 @@ public class ComboUI : MonoBehaviour {
     }
 
     private void Start() {
+        originalPosition = transform.position;
+
         HideCombo();
     }
 
@@ -49,6 +53,10 @@ public class ComboUI : MonoBehaviour {
         comboAmount.enabled = true;
         comboAmount.text = "<size=35>x</size>" + currentCombo;
         comboText.enabled = true;
+
+        comboAmount.transform.DOShakePosition(2.5f, new Vector3(10, 0, 0)).OnComplete(delegate() {
+            transform.position = originalPosition;
+        });
     }
 
     private void ResetCombo() {
