@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -10,16 +11,20 @@ public class LevelManager :ITickable {
     private readonly Player _player;
 
     private Level currentLevel;
+    private Chapter currentChapter;
 
     public LevelManager(SignalBus signalBus, Player player, DiContainer container) {
         _player = player;
         _signalBus = signalBus;
 
         _signalBus.Subscribe<PlayerDiedSignal>(OnPlayerDied);
+        _signalBus.Subscribe<PlayerReachedEndSignal>(OnLevelEnd);
     }
 
-    public void RenderLevel(Level level) {
+    public void RenderLevel(Level level, Chapter chapter) {
         currentLevel = level;
+        currentChapter = chapter;
+
         _player.ResetPlayerPosition(currentLevel.GetStartBrick());
         _signalBus.Fire(new LevelStartedSignal { levelSettings = currentLevel.levelSettings });
 
@@ -47,4 +52,11 @@ public class LevelManager :ITickable {
         await Task.Delay(1000);
         _player.ResetPlayerPosition(currentLevel.GetStartBrick());
     }
+
+    private void OnLevelEnd(PlayerReachedEndSignal signalData) {
+        if(signalData.hasWon) {
+            
+        }
+    }
+
 }

@@ -56,7 +56,7 @@ public class ChapterBox : MonoBehaviour {
     public void SetStartButton(Chapter data) {
         startButton.onClick.RemoveAllListeners();
         startButton.onClick.AddListener(delegate() {
-            _gameManager.BuildLevel(data.prefab_name);
+            _gameManager.BuildLevel(data);
         });
     }
 }

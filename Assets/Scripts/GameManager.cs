@@ -35,19 +35,19 @@ public class GameManager :IInitializable, ITickable {
         _uiManager.ShowStartScren();
     }
 
-    public void BuildLevel(string prefab_name) {
-        if(!string.IsNullOrEmpty(prefab_name)) {
-            GameObject levelPrefab = FetchLevelPrefab(prefab_name);
-            LoadLevel(levelPrefab);
+    public void BuildLevel(Chapter chapter) {
+        if(chapter != null && !string.IsNullOrEmpty(chapter.prefab_name)) {
+            GameObject levelPrefab = FetchLevelPrefab(chapter.prefab_name);
+            LoadLevel(levelPrefab, chapter);
         } else {
             Debug.LogError("Prefab name is empty");
         }
     }
 
-    public void LoadLevel(GameObject levelPrefab) {
+    public void LoadLevel(GameObject levelPrefab, Chapter chapter) {
         if(levelPrefab != null) {
             GameObject level = GameObject.Instantiate(levelPrefab);
-            _levelManager.RenderLevel(level.GetComponent<Level>());
+            _levelManager.RenderLevel(level.GetComponent<Level>(), chapter);
 
             StartGame();
         } else {

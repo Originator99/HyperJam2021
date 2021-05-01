@@ -13,4 +13,10 @@ public class OfflineDataManager :IInitializable {
     public void Initialize() {
 
     }
+
+    public void MarkChapterLevelAsComplete(Chapter data) {
+        if(_chapterSettings != null && _chapterSettings.chapters != null) {
+            
+        }
+    }
 }
