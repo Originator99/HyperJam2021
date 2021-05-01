@@ -12,6 +12,6 @@ public class ChapterSO : ScriptableObject {
 [System.Serializable]
 public class Chapter {
     public int chapter_number;
-    public GameObject level_prefab;
-    public bool isComplete;
+    public bool is_complete;
+    public string prefab_name;
 }

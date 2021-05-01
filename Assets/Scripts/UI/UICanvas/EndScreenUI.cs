@@ -22,7 +22,7 @@ public class EndScreenUI : MonoBehaviour {
         playAgain.onClick.RemoveAllListeners();
         playAgain.onClick.AddListener(delegate() {
             Hide();
-            _gameManager.BuildLevel();
+
         });
     }
 

@@ -16,6 +16,32 @@ MonoBehaviour:
   chapter_name: Chapter 1
   levels:
   - chapter_number: 1
-    level_prefab: {fileID: 234617627, guid: b86499ca95e41d749abb68726120d15f, type: 3}
+    is_complete: 0
+    prefab_name: level0
   - chapter_number: 2
-    level_prefab: {fileID: 234617627, guid: 09256358ed009344c9b9a823af20995c, type: 3}
+    is_complete: 0
+    prefab_name: level1
+  - chapter_number: 3
+    is_complete: 0
+    prefab_name: level1
+  - chapter_number: 4
+    is_complete: 0
+    prefab_name: level1
+  - chapter_number: 5
+    is_complete: 0
+    prefab_name: level1
+  - chapter_number: 6
+    is_complete: 0
+    prefab_name: level1
+  - chapter_number: 7
+    is_complete: 0
+    prefab_name: level1
+  - chapter_number: 8
+    is_complete: 0
+    prefab_name: level1
+  - chapter_number: 9
+    is_complete: 0
+    prefab_name: level1
+  - chapter_number: 10
+    is_complete: 0
+    prefab_name: level1

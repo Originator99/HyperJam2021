@@ -1,16 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 public class ChapterBox : MonoBehaviour {
+    public Button startButton;
     public Transform levelParent;
     public GameObject levelIconPrefab;
 
     private ChapterSettingsInstaller.ChapterSettings _chapterSettings;
+    private GameManager _gameManager;
+
     [Inject]
-    public void Construct(ChapterSettingsInstaller.ChapterSettings chapterSettings) {
+    public void Construct(ChapterSettingsInstaller.ChapterSettings chapterSettings, GameManager gameManager) {
         _chapterSettings = chapterSettings;
+        _gameManager = gameManager;
     }
 
     public void RenderCurrentChapter(int chapter_id) {
@@ -36,6 +41,7 @@ public class ChapterBox : MonoBehaviour {
                     ChapterIcon controller = child.GetComponent<ChapterIcon>();
                     if(controller != null) {
                         controller.RenderIcon(chapters[index], 1);
+                        controller.OnSelected += SetStartButton;
                     }
                     index++;
                 } else {
@@ -45,5 +51,12 @@ public class ChapterBox : MonoBehaviour {
         } else {
             Debug.LogError("Level prefabs are null");
         }
+    }
+
+    public void SetStartButton(Chapter data) {
+        startButton.onClick.RemoveAllListeners();
+        startButton.onClick.AddListener(delegate() {
+            _gameManager.BuildLevel(data.prefab_name);
+        });
     }
 }

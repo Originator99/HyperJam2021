@@ -7,20 +7,9 @@ using Zenject;
 public class StartScreenUI : MonoBehaviour {
     public ChapterBox chapterBox;
 
-    private GameManager _gameManager;
-    [Inject]
-    public void Construct(GameManager gameManager) {
-        _gameManager = gameManager;
-    }
-
     public Button startButton;
 
     private void Start() {
-        startButton.onClick.RemoveAllListeners();
-        startButton.onClick.AddListener(delegate() {
-            HideStartScreen();
-            _gameManager.BuildLevel();
-        });
         chapterBox.RenderCurrentChapter(1);
     }
 

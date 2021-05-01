@@ -35,8 +35,16 @@ public class GameManager :IInitializable, ITickable {
         _uiManager.ShowStartScren();
     }
 
-    public void BuildLevel() {
-        GameObject levelPrefab = FetchLevelPrefab("level0");
+    public void BuildLevel(string prefab_name) {
+        if(!string.IsNullOrEmpty(prefab_name)) {
+            GameObject levelPrefab = FetchLevelPrefab(prefab_name);
+            LoadLevel(levelPrefab);
+        } else {
+            Debug.LogError("Prefab name is empty");
+        }
+    }
+
+    public void LoadLevel(GameObject levelPrefab) {
         if(levelPrefab != null) {
             GameObject level = GameObject.Instantiate(levelPrefab);
             _levelManager.RenderLevel(level.GetComponent<Level>());

@@ -6,9 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public class LocalSave {
-    private readonly string saveFilePath = Application.persistentDataPath + "/level.cyber";
-
-    public void SaveData(object data) {
+    public void SaveData(object data, string saveFilePath) {
         try {
             FileStream stream = new FileStream(saveFilePath, FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
@@ -19,11 +17,11 @@ public class LocalSave {
         }
     }
 
-    public LevelLogic FetchData() {
+    public object FetchData(string saveFilePath) {
         if(File.Exists(saveFilePath)) {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(saveFilePath, FileMode.Open);
-            LevelLogic data = formatter.Deserialize(stream) as LevelLogic;
+            object data = formatter.Deserialize(stream);
             stream.Close();
             return data;
         } else {
