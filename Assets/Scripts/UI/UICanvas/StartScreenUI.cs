@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using Zenject;
 
 public class StartScreenUI : MonoBehaviour {
+    public ChapterBox chapterBox;
+
     private GameManager _gameManager;
     [Inject]
     public void Construct(GameManager gameManager) {
@@ -19,6 +21,7 @@ public class StartScreenUI : MonoBehaviour {
             HideStartScreen();
             _gameManager.BuildLevel();
         });
+        chapterBox.RenderCurrentChapter(1);
     }
 
     public void ShowStartScreen() {
