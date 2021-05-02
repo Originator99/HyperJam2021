@@ -27,9 +27,9 @@ public class ChapterBox : MonoBehaviour {
         }
     }
 
-    private void RenderChaperLevels(List<LevelData> chapters) {
-        if(chapters != null) {
-            int new_icons = chapters.Count - levelParent.childCount;
+    private void RenderChaperLevels(List<LevelData> levels) {
+        if(levels != null) {
+            int new_icons = levels.Count - levelParent.childCount;
             for(int i = 0; i < new_icons; i++) {
                 Instantiate(levelIconPrefab, levelParent);
             }
@@ -37,10 +37,10 @@ public class ChapterBox : MonoBehaviour {
             int index = 0;
             for(int i = 0; i < levelParent.childCount; i++) {
                 Transform child = levelParent.GetChild(i);
-                if(index < chapters.Count) {
+                if(index < levels.Count) {
                     ChapterIcon controller = child.GetComponent<ChapterIcon>();
                     if(controller != null) {
-                        controller.RenderIcon(chapters[index], 1);
+                        controller.RenderIcon(levels[index], GetActiveLevel(levels));
                         controller.OnSelected += SetStartButton;
                     }
                     index++;
@@ -51,6 +51,16 @@ public class ChapterBox : MonoBehaviour {
         } else {
             Debug.LogError("Level prefabs are null");
         }
+    }
+
+    private int GetActiveLevel(List<LevelData> levels) {
+        if(levels != null) {
+            LevelData data = levels.Find(x => !x.is_complete);
+            if(data != null) {
+                return data.level_number;
+            }
+        }
+        return 1;
     }
 
     public void SetStartButton(LevelData data) {

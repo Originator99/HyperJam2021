@@ -9,21 +9,28 @@ public class LevelManager :ITickable {
 
     private readonly SignalBus _signalBus;
     private readonly Player _player;
+    private readonly ChapterDataManager _chapterDataManager;
 
     private Level currentLevel;
-    private LevelData currentChapter;
 
-    public LevelManager(SignalBus signalBus, Player player, DiContainer container) {
+    private LevelData currentLevelData;
+
+    public LevelManager(SignalBus signalBus, Player player, ChapterDataManager chapterDataManager) {
         _player = player;
         _signalBus = signalBus;
+        _chapterDataManager = chapterDataManager;
 
         _signalBus.Subscribe<PlayerDiedSignal>(OnPlayerDied);
         _signalBus.Subscribe<PlayerReachedEndSignal>(OnLevelEnd);
     }
 
-    public void RenderLevel(Level level, LevelData chapter) {
+    public void RenderLevel(Level level, LevelData levelData) {
+        if(currentLevel != null) {
+            GameObject.Destroy(currentLevel.gameObject);
+        }
+
         currentLevel = level;
-        currentChapter = chapter;
+        currentLevelData = levelData;
 
         _player.ResetPlayerPosition(currentLevel.GetStartBrick());
         _signalBus.Fire(new LevelStartedSignal { levelSettings = currentLevel.levelSettings });
@@ -55,7 +62,8 @@ public class LevelManager :ITickable {
 
     private void OnLevelEnd(PlayerReachedEndSignal signalData) {
         if(signalData.hasWon) {
-            
+            ChapterData currentChapter = _chapterDataManager.GetCurrentChapter();
+            _chapterDataManager.SetChapterLevelAsCompelte(currentChapter.chaper_id, currentLevelData.level_number);
         }
     }
 

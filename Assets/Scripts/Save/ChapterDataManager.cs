@@ -86,7 +86,7 @@ public class ChapterDataManager : IInitializable, IDisposable {
                                 localChapterData.chapters[index].levels.Add(level);
                             }
                         }
-                        if(localChapterData.chapters[index].levels.Count > data.chapter_data.levels.Count) {
+                        if(localChapterData.chapters[index].levels.Count != data.chapter_data.levels.Count) {
                             //probably an extra entry in local which needs to be removed
                             Debug.Log("Found extra level in chapter when compared to local, removing them now..");
                             localChapterData.chapters[index].levels.RemoveAll(x => !data.chapter_data.levels.Exists(y => x.level_number == y.level_number));
@@ -112,6 +112,38 @@ public class ChapterDataManager : IInitializable, IDisposable {
             }
         }
         return null;
+    }
+
+    public ChapterData GetChapterByID(int chapter_id) {
+        if(localChapterData != null && localChapterData.chapters != null) {
+            int index = localChapterData.chapters.FindIndex(x => x.chaper_id == chapter_id);
+            if(index >= 0) {
+                return localChapterData.chapters[index];
+            }
+        }
+        return null;
+    }
+
+    public void SetChapterLevelAsCompelte(int chapter_id, int level_number) {
+        if(localChapterData != null && localChapterData.chapters != null) {
+            int index = localChapterData.chapters.FindIndex(x => x.chaper_id == chapter_id);
+            if(index >= 0) {
+                int levelIndex = localChapterData.chapters[index].levels.FindIndex(x => x.level_number == level_number);
+                if(level_number >= 0) {
+                    localChapterData.chapters[index].levels[levelIndex].is_complete = true;
+
+                    bool allLevelsCompelete = localChapterData.chapters[index].levels.All(x => x.is_complete);
+                    if(allLevelsCompelete) {
+                        Debug.Log("All levels in this chapter are compelete, marking chapter as complete");
+                        localChapterData.chapters[index].is_complete = true;
+                    }
+                } else {
+                    Debug.LogError("Level not found with level number :" + level_number + " , in chapter ID " + chapter_id);
+                }
+            } else {
+                Debug.LogError("Chapter not found with ID : " + chapter_id);
+            }
+        }
     }
 
     [System.Serializable]

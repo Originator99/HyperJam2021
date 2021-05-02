@@ -35,19 +35,19 @@ public class GameManager :IInitializable, ITickable {
         _uiManager.ShowStartScren();
     }
 
-    public void BuildLevel(LevelData chapter) {
-        if(chapter != null && !string.IsNullOrEmpty(chapter.prefab_name)) {
-            GameObject levelPrefab = FetchLevelPrefab(chapter.prefab_name);
-            LoadLevel(levelPrefab, chapter);
+    public void BuildLevel(LevelData levelData) {
+        if(levelData != null && !string.IsNullOrEmpty(levelData.prefab_name)) {
+            GameObject levelPrefab = FetchLevelPrefab(levelData.prefab_name);
+            LoadLevel(levelPrefab, levelData);
         } else {
             Debug.LogError("Prefab name is empty");
         }
     }
 
-    public void LoadLevel(GameObject levelPrefab, LevelData chapter) {
+    public void LoadLevel(GameObject levelPrefab, LevelData levelData) {
         if(levelPrefab != null) {
             GameObject level = GameObject.Instantiate(levelPrefab);
-            _levelManager.RenderLevel(level.GetComponent<Level>(), chapter);
+            _levelManager.RenderLevel(level.GetComponent<Level>(), levelData);
 
             StartGame();
         } else {
@@ -69,7 +69,7 @@ public class GameManager :IInitializable, ITickable {
     }
 
     private void OnGameOver(bool hasWon) {
-        _uiManager.ShowGameOver(hasWon);
+        _uiManager.ShowStartScren();
     }
 
     private void OnBrickDestroyed(BrickDestroyedSignal signalData) {
