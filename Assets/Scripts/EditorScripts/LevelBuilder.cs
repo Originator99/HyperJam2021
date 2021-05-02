@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class LevelBuilder : MonoBehaviour {
     [Header("Level Settings")]
+    public int chapter_id;
     public int levelID;
     public float bombChance;
     public Vector3 worldSize;

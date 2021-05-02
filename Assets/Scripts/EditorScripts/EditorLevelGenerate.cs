@@ -16,7 +16,7 @@ public class EditorLevelGenerate :Editor {
         if(GUILayout.Button("Save Level")) {
             script.SaveLevelSettings();
             if(script.levelRoot != null) {
-                PrefabUtility.SaveAsPrefabAsset(script.levelRoot, "Assets/Resources/LevelPrefabs/level" + script.levelID + ".prefab");
+                PrefabUtility.SaveAsPrefabAsset(script.levelRoot, "Assets/Resources/LevelPrefabs/cp_" + script.chapter_id + "_level_" + script.levelID + ".prefab");
             }
         }
         if(GUILayout.Button("Shuffle Level")) {

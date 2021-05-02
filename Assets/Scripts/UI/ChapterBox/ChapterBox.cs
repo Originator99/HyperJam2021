@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using DG.Tweening;
 
 public class ChapterBox : MonoBehaviour {
     public Button startButton;
@@ -64,6 +65,13 @@ public class ChapterBox : MonoBehaviour {
     }
 
     public void SetStartButton(LevelData data) {
+        startButton.interactable = false;
+        startButton.transform.DOScale(new Vector3(0, 0, 0), 0.15f).OnComplete(delegate () {
+            startButton.transform.DOScale(new Vector3(1, 1, 1), 0.15f).OnComplete(delegate() {
+                startButton.interactable = true;
+            });
+        });
+
         startButton.onClick.RemoveAllListeners();
         startButton.onClick.AddListener(delegate() {
             _gameManager.BuildLevel(data);
