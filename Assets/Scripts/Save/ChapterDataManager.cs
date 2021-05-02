@@ -89,7 +89,7 @@ public class ChapterDataManager : IInitializable, IDisposable {
                         if(localChapterData.chapters[index].levels.Count > data.chapter_data.levels.Count) {
                             //probably an extra entry in local which needs to be removed
                             Debug.Log("Found extra level in chapter when compared to local, removing them now..");
-                            localChapterData.chapters[index].levels.RemoveAll(x => data.chapter_data.levels.Any(y => y.level_number != x.level_number));
+                            localChapterData.chapters[index].levels.RemoveAll(x => !data.chapter_data.levels.Exists(y => x.level_number == y.level_number));
                         }
                     } else {
                         //new chapter found

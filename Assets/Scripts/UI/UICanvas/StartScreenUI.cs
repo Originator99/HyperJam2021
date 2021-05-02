@@ -10,6 +10,10 @@ public class StartScreenUI : MonoBehaviour {
     public Button startButton;
 
     private void Start() {
+        Invoke(nameof(RenderChapterBox), 1f);
+    }
+
+    private void RenderChapterBox() {   
         chapterBox.RenderCurrentChapter();
     }
 
