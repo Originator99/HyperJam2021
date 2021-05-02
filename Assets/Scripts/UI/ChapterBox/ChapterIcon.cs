@@ -9,17 +9,17 @@ public class ChapterIcon :MonoBehaviour {
     public TMP_Text level_number;
     public GameObject activeState, lockedState, completeState;
 
-    public System.Action<Chapter> OnSelected;
+    public System.Action<LevelData> OnSelected;
 
-    public void RenderIcon(Chapter data, int current_level_number) {
+    public void RenderIcon(LevelData data, int current_level_number) {
         gameObject.SetActive(true);
 
-        level_number.text = data.chapter_number.ToString();
+        level_number.text = data.level_number.ToString();
 
         if(data.is_complete) {
             SetAsComplete();
         } else {
-            if(data.chapter_number == current_level_number) {
+            if(data.level_number == current_level_number) {
                 SetAsActive();
             } else {
                 SetAsLocked();

@@ -10,7 +10,7 @@ public class StartScreenUI : MonoBehaviour {
     public Button startButton;
 
     private void Start() {
-        chapterBox.RenderCurrentChapter(1);
+        chapterBox.RenderCurrentChapter();
     }
 
     public void ShowStartScreen() {

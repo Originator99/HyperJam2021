@@ -832,6 +832,7 @@ GameObject:
   - component: {fileID: 156402351}
   - component: {fileID: 156402353}
   - component: {fileID: 156402354}
+  - component: {fileID: 156402355}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -858,6 +859,7 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 156402353}
   - {fileID: 156402354}
+  - {fileID: 156402355}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -911,6 +913,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4545d9212d997844990e2dbd35b92355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &156402355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 156402350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b416147dde0026849b4aa322b9074981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &171547552
@@ -3521,7 +3535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &712122275
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4216,7 +4230,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 17.3}
-  m_SizeDelta: {x: -943.19995, y: -222.3446}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1093310333
 MonoBehaviour:
@@ -6204,7 +6218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1889398520
 RectTransform:
   m_ObjectHideFlags: 0

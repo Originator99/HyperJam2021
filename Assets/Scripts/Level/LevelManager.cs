@@ -11,7 +11,7 @@ public class LevelManager :ITickable {
     private readonly Player _player;
 
     private Level currentLevel;
-    private Chapter currentChapter;
+    private LevelData currentChapter;
 
     public LevelManager(SignalBus signalBus, Player player, DiContainer container) {
         _player = player;
@@ -21,7 +21,7 @@ public class LevelManager :ITickable {
         _signalBus.Subscribe<PlayerReachedEndSignal>(OnLevelEnd);
     }
 
-    public void RenderLevel(Level level, Chapter chapter) {
+    public void RenderLevel(Level level, LevelData chapter) {
         currentLevel = level;
         currentChapter = chapter;
 

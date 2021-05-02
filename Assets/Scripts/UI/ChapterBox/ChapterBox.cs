@@ -9,25 +9,25 @@ public class ChapterBox : MonoBehaviour {
     public Transform levelParent;
     public GameObject levelIconPrefab;
 
-    private ChapterSettingsInstaller.ChapterSettings _chapterSettings;
+    private ChapterDataManager _chapterDataManager;
     private GameManager _gameManager;
 
     [Inject]
-    public void Construct(ChapterSettingsInstaller.ChapterSettings chapterSettings, GameManager gameManager) {
-        _chapterSettings = chapterSettings;
+    public void Construct(ChapterDataManager chapterDataManager, GameManager gameManager) {
+        _chapterDataManager = chapterDataManager;
         _gameManager = gameManager;
     }
 
-    public void RenderCurrentChapter(int chapter_id) {
-        ChapterSO chapter = _chapterSettings.GetChapterByID(chapter_id);
+    public void RenderCurrentChapter() {
+        ChapterData chapter = _chapterDataManager.GetCurrentChapter();
         if(chapter != null) {
             RenderChaperLevels(chapter.levels);
         } else {
-            Debug.LogError("Cannot find chapter with ID : " + chapter_id);
+            Debug.LogError("Cannot find chapter ");
         }
     }
 
-    private void RenderChaperLevels(List<Chapter> chapters) {
+    private void RenderChaperLevels(List<LevelData> chapters) {
         if(chapters != null) {
             int new_icons = chapters.Count - levelParent.childCount;
             for(int i = 0; i < new_icons; i++) {
@@ -53,7 +53,7 @@ public class ChapterBox : MonoBehaviour {
         }
     }
 
-    public void SetStartButton(Chapter data) {
+    public void SetStartButton(LevelData data) {
         startButton.onClick.RemoveAllListeners();
         startButton.onClick.AddListener(delegate() {
             _gameManager.BuildLevel(data);

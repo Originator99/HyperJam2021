@@ -9,18 +9,10 @@ public class ChapterSettingsInstaller :ScriptableObjectInstaller<ChapterSettings
         Container.BindInstance(chapterSettings);
     }
 
-    public ChapterSettings chapterSettings;
+    public DefaultChapterSettings chapterSettings;
 
     [System.Serializable]
-    public class ChapterSettings {
+    public class DefaultChapterSettings {
         public List<ChapterSO> chapters;
-
-        public ChapterSO GetChapterByID(int id) {
-            if(chapters != null && chapters.Count > 0) {
-                int index = chapters.FindIndex(x => x.id == id);
-                return chapters[index];
-            }
-            return null;
-        }
     }
 }

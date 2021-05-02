@@ -5,8 +5,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public class LocalSave {
-    public void SaveData(object data, string saveFilePath) {
+public static class LocalSave {
+    public static void SaveData(object data, string saveFilePath) {
         try {
             FileStream stream = new FileStream(saveFilePath, FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
@@ -17,7 +17,7 @@ public class LocalSave {
         }
     }
 
-    public object FetchData(string saveFilePath) {
+    public static object FetchData(string saveFilePath) {
         if(File.Exists(saveFilePath)) {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(saveFilePath, FileMode.Open);

@@ -3,20 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class OfflineDataManager :IInitializable {
-    private ChapterSettingsInstaller.ChapterSettings _chapterSettings;
-
-    public OfflineDataManager(ChapterSettingsInstaller.ChapterSettings chapterSettings) {
-        _chapterSettings = chapterSettings;
-    }
-
+public class OfflineDataManager: IInitializable {
     public void Initialize() {
 
     }
 
-    public void MarkChapterLevelAsComplete(Chapter data) {
-        if(_chapterSettings != null && _chapterSettings.chapters != null) {
-            
-        }
+    public void SaveData(string path, System.Object data) {
+        LocalSave.SaveData(data, path);
+    }
+
+    public System.Object FetchData(string path) {
+        return LocalSave.FetchData(path);
     }
 }
