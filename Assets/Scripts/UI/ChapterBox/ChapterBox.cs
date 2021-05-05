@@ -42,7 +42,7 @@ public class ChapterBox : MonoBehaviour {
                     ChapterIcon controller = child.GetComponent<ChapterIcon>();
                     if(controller != null) {
                         controller.RenderIcon(levels[index], GetActiveLevel(levels));
-                        controller.OnSelected += SetStartButton;
+                        controller.OnSelected += StartGame;
                     }
                     index++;
                 } else {
@@ -64,17 +64,7 @@ public class ChapterBox : MonoBehaviour {
         return 1;
     }
 
-    public void SetStartButton(LevelData data) {
-        startButton.interactable = false;
-        startButton.transform.DOScale(new Vector3(0, 0, 0), 0.15f).OnComplete(delegate () {
-            startButton.transform.DOScale(new Vector3(1, 1, 1), 0.15f).OnComplete(delegate() {
-                startButton.interactable = true;
-            });
-        });
-
-        startButton.onClick.RemoveAllListeners();
-        startButton.onClick.AddListener(delegate() {
-            _gameManager.BuildLevel(data);
-        });
+    public void StartGame(LevelData data) {
+        _gameManager.BuildLevel(data);
     }
 }

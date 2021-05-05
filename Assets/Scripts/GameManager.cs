@@ -32,7 +32,7 @@ public class GameManager :IInitializable, ITickable {
     }
 
     public void Initialize() {
-        _uiManager.ShowStartScren();
+        ShowStartScreen();
     }
 
     public void BuildLevel(LevelData levelData) {
@@ -68,8 +68,13 @@ public class GameManager :IInitializable, ITickable {
         _uiManager.ShowHUD();
     }
 
-    private void OnGameOver(bool hasWon) {
+    public void ShowStartScreen() {
+        _levelManager.CheckAndDestroyCurrentLevel();
         _uiManager.ShowStartScren();
+    }
+
+    private void OnGameOver(bool hasWon) {
+        _uiManager.ShowGameOver(hasWon);
     }
 
     private void OnBrickDestroyed(BrickDestroyedSignal signalData) {

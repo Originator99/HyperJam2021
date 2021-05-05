@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using DG.Tweening;
 using Zenject;
 
 public class EndScreenUI : MonoBehaviour {
-    public TMP_Text finalScore;
-    public Button playAgain;
+    public Animator animator;
+    public CanvasGroup canvasGroup;
+    public TMP_Text bricksDestroyed, header;
 
-    GameManager _gameManager;
-    ScoreHelper _scoreHelper;
+    public Color wonHeaderColor, lostHeaderColor;
+
+    private ScoreHelper _scoreHelper;
+    private GameManager _gameManager;
 
     [Inject]
     public void Construct(GameManager gameManager, ScoreHelper scoreHelper) {
@@ -18,24 +21,34 @@ public class EndScreenUI : MonoBehaviour {
         _scoreHelper = scoreHelper;
     }
 
-    private void Start() {
-        playAgain.onClick.RemoveAllListeners();
-        playAgain.onClick.AddListener(delegate() {
-            Hide();
+    private void OnEnable() {
+        canvasGroup.alpha = 1;
+        animator.enabled = true;
+        animator.Play("Complete");
+    }
 
-        });
+    public async void AutoDisable() {
+        await System.Threading.Tasks.Task.Delay(2000);
+        Hide();
     }
 
     public void Show(bool hasWon) {
         if(!gameObject.activeSelf) {
+            bricksDestroyed.text = _scoreHelper.GetMovesMade().ToString();
+            header.text = hasWon ? "LEVEL COMPLETE" : "LEVEL LOST";
+            header.color = hasWon ? wonHeaderColor : lostHeaderColor;
+
             gameObject.SetActive(true);
 
-            finalScore.text = "TOTAL MOVES MADE : " + _scoreHelper.GetMovesMade();
         }
     }
     public void Hide() {
         if(gameObject.activeSelf) {
-            gameObject.SetActive(false);
+            animator.enabled = false;
+            canvasGroup.DOFade(0, 0.5f).OnComplete(delegate () {
+                gameObject.SetActive(false);
+                _gameManager.ShowStartScreen();
+            });
         }
     }
 }

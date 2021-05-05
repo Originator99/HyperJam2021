@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ChapterIcon :MonoBehaviour {
     public Button button;
@@ -16,18 +17,24 @@ public class ChapterIcon :MonoBehaviour {
 
         level_number.text = data.level_number.ToString();
 
+        bool isLocked = false;
         if(data.is_complete) {
             SetAsComplete();
         } else {
             if(data.level_number == current_level_number) {
                 SetAsActive();
             } else {
+                isLocked = true;
                 SetAsLocked();
             }
         }
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(delegate() {
-            OnSelected(data);
+            if(isLocked || data.is_complete) {
+                lockedState.transform.DOShakePosition(0.15f, new Vector3(10, 0), 50, 0);
+            } else {
+                OnSelected(data);
+            }
         });
     }
 

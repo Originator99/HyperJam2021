@@ -25,9 +25,7 @@ public class LevelManager :ITickable {
     }
 
     public void RenderLevel(Level level, LevelData levelData) {
-        if(currentLevel != null) {
-            GameObject.Destroy(currentLevel.gameObject);
-        }
+        CheckAndDestroyCurrentLevel();
 
         currentLevel = level;
         currentLevelData = levelData;
@@ -49,6 +47,12 @@ public class LevelManager :ITickable {
         } else {
             Debug.LogError("Current level is null, cannot find brick in direction: " + direction.ToString());
             return null;
+        }
+    }
+
+    public void CheckAndDestroyCurrentLevel() {
+        if(currentLevel != null) {
+            GameObject.Destroy(currentLevel.gameObject);
         }
     }
 
