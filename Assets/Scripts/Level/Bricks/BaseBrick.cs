@@ -85,7 +85,7 @@ public class BaseBrick : MonoBehaviour {
 
     public virtual void DestroyBrick() {
         if(destroyEffect != null) {
-            Instantiate(destroyEffect, transform.position, Quaternion.identity);
+            Instantiate(destroyEffect, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
         }
         SwitchToPath();
     }
