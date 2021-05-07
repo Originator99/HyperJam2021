@@ -41,18 +41,20 @@ public class Player :MonoBehaviour {
     }
 
     public void ResetPlayerPosition(BaseBrick brickCell) {
-        if(!gameObject.activeSelf) {
-            gameObject.SetActive(true);
+        if(gameObject != null) {
+            if(!gameObject.activeSelf) {
+                gameObject.SetActive(true);
+            }
+            brickCell.SwitchToPath();
+            currentBrickCell = brickCell;
+            transform.position = brickCell.transform.position;
+            if(dashSequence == null) {
+                dashSequence = new Dictionary<string, BaseBrick>();
+            } else {
+                dashSequence.Clear();
+            }
+            ChangeState(PlayerStates.WaitingToStart);
         }
-        brickCell.SwitchToPath();
-        currentBrickCell = brickCell;
-        transform.position = brickCell.transform.position;
-        if(dashSequence == null) {
-            dashSequence = new Dictionary<string, BaseBrick>();
-        } else {
-            dashSequence.Clear();
-        }
-        ChangeState(PlayerStates.WaitingToStart);
     }
 
     public void ChangeState(PlayerStates state) {

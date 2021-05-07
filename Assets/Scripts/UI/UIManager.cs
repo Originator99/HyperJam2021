@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour {
     public StartScreenUI startScreen;
     public EndScreenUI endScreen;
     public HUDCanvas hudCanvas;
+    public LoadingScreen loadingScreen;
     public DialogBoxController dialogBoxController;
 
     public void ShowStartScren() {
@@ -30,5 +31,9 @@ public class UIManager : MonoBehaviour {
     }
     public void ShowDialogueBox(DialogBoxData data) {
         dialogBoxController.ShowDialogBox(data);
+    }
+
+    public void ShowLoadingScreen(float forTime) {
+        loadingScreen.ShowLoadingScreen(forTime);
     }
 }

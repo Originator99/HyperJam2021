@@ -13,8 +13,6 @@ public class ChapterIcon :MonoBehaviour {
     public System.Action<LevelData> OnSelected;
 
     public void RenderIcon(LevelData data, int current_level_number) {
-        gameObject.SetActive(true);
-
         level_number.text = data.level_number.ToString();
 
         bool isLocked = false;
@@ -30,12 +28,15 @@ public class ChapterIcon :MonoBehaviour {
         }
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(delegate() {
-            if(isLocked || data.is_complete) {
-                lockedState.transform.DOShakePosition(0.15f, new Vector3(10, 0), 50, 0);
-            } else {
-                OnSelected(data);
-            }
+            //if(isLocked || data.is_complete) {
+            //    lockedState.transform.DOShakePosition(0.15f, new Vector3(10, 0), 50, 0);
+            //} else {
+            //    OnSelected(data);
+            //}
+            OnSelected(data);
         });
+        gameObject.SetActive(true);
+        DoAnimation();
     }
 
     public void SetAsActive() {
@@ -54,5 +55,10 @@ public class ChapterIcon :MonoBehaviour {
         activeState.SetActive(false);
         lockedState.SetActive(false);
         completeState.SetActive(true);
+    }
+
+    private void DoAnimation() {
+        transform.localScale = new Vector3(0, 0, 0);
+        transform.DOScale(new Vector3(1,1,1), 0.5f);
     }
 }

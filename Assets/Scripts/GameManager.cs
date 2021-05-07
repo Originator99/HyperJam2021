@@ -35,8 +35,10 @@ public class GameManager :IInitializable, ITickable {
         ShowStartScreen();
     }
 
-    public void BuildLevel(LevelData levelData) {
+    public async void BuildLevel(LevelData levelData) {
         if(levelData != null && !string.IsNullOrEmpty(levelData.prefab_name)) {
+            ShowLoadingScreen(2f);
+            await System.Threading.Tasks.Task.Delay(750);
             GameObject levelPrefab = FetchLevelPrefab(levelData.prefab_name);
             LoadLevel(levelPrefab, levelData);
         } else {
@@ -84,6 +86,10 @@ public class GameManager :IInitializable, ITickable {
 
     private GameObject FetchLevelPrefab(string levelID) {
         return Resources.Load("LevelPrefabs/" + levelID) as GameObject;
+    }
+
+    public void ShowLoadingScreen(float forTime) {
+        _uiManager.ShowLoadingScreen(forTime);
     }
 }
 

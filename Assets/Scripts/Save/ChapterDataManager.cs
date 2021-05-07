@@ -110,6 +110,7 @@ public class ChapterDataManager : IInitializable, IDisposable {
                     return localChapterData.chapters[i]; //returning the first incomplete chapter
                 }
             }
+            return localChapterData.chapters.Last(); //returns the last chapter if current chapter not found
         }
         return null;
     }

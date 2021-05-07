@@ -37,6 +37,7 @@ public class Immortality_PU :IPowerUp, ITickable {
     }
 
     public void Activate() {
+        return;
         Debug.Log("Activating immortality");
         _signalBus.Fire(new PowerUpActivated { type = PowerUpType.IMMORTALITY });
         timer = _settings.immortality_time;
