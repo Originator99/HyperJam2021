@@ -69,6 +69,7 @@ public class LevelManager :ITickable {
             ChapterData currentChapter = _chapterDataManager.GetCurrentChapter();
             _chapterDataManager.SetChapterLevelAsCompelte(currentChapter.chaper_id, currentLevelData.level_number);
         }
+        _player.gameObject.SetActive(false);
     }
 
 }
