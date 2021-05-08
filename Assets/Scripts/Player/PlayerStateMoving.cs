@@ -33,24 +33,6 @@ public class PlayerStateMoving :PlayerState {
     }
 
     public override void Update() {
-        //if(!EventSystem.current.IsPointerOverGameObject()) {
-        //    if(Input.GetMouseButtonDown(0)) {
-        //        waitForDash = _settings.touchTimeBeforeDash;
-        //    }
-        //    if(Input.GetMouseButton(0)) {
-        //        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - _player.transform.position;
-        //        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        //        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        //        _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, 15 * Time.unscaledDeltaTime);
-
-        //        if(waitForDash > 0) {
-        //            waitForDash -= Time.unscaledDeltaTime;
-        //        }
-        //    }
-        //    if(Input.GetMouseButtonUp(0)) {
-        //        RotateToClosest();
-        //    }
-        //}
         if(!EventSystem.current.IsPointerOverGameObject()) {
             if(Input.GetMouseButtonDown(0)) {
                 RaycastHit2D[] hits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f);
@@ -73,7 +55,7 @@ public class PlayerStateMoving :PlayerState {
                 if(hit.collider != null) {
                     BaseBrick brick = hit.collider.GetComponent<BaseBrick>();
                     if(brick != null && CheckIfAdjacentBrick(brick.ID, out BaseBrick adj)) {
-                        _player.ModifyDashSequence(adj, out currentBrickInTouch);
+                        _player.ModifyDashSequence(adj, _settings.bricksToMove, out currentBrickInTouch);
                         GenerateAdjacentBricks(currentBrickInTouch);
                     }
                 }
@@ -219,6 +201,7 @@ public class PlayerStateMoving :PlayerState {
     public class Settings {
         public float rotateSpeed;
         public float touchTimeBeforeDash;
+        public int bricksToMove;
 
         public AudioClip rotateSFX;
     }

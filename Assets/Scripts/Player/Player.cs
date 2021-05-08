@@ -78,7 +78,7 @@ public class Player :MonoBehaviour {
         }
     }
 
-    public void ModifyDashSequence(BaseBrick brick, out BaseBrick lastBrick) {
+    public void ModifyDashSequence(BaseBrick brick, int brickLimit, out BaseBrick lastBrick) {
         lastBrick = brick;
         if(dashSequence != null) {
             //checking if sequence already has the brick in sequence or not. If not then we will add it to sequence
@@ -94,6 +94,7 @@ public class Player :MonoBehaviour {
                     if(pair.Key != brick.ID) {
                         toRemove.Add(pair.Key);
                     }
+
                     if(pair.Key == brick.ID) {
                         toRemove.Add(pair.Key);
                         break;

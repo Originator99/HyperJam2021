@@ -13,15 +13,23 @@ public class BaseBrick : MonoBehaviour {
     public BrickType currentType;
     
     [SerializeField]
-    protected SpriteRenderer gfx, selectedState;
+    protected SpriteRenderer gfx, selectedState, pathState;
     [SerializeField]
     protected GameObject destroyEffect;
     [SerializeField]
     protected BrickData brickData;
+    [SerializeField]
+    protected Animator animator;
 
     protected SignalBus _signalBus;
     public void Construct(SignalBus signalBus) {
         _signalBus = signalBus;
+    }
+
+    private void Start() {
+        if(animator == null) {
+            animator = GetComponent<Animator>();
+        }
     }
 
     public void Initialize(BrickData data) {
@@ -51,7 +59,12 @@ public class BaseBrick : MonoBehaviour {
         if(gfx != null) {
             gfx.enabled = true;
         } else {
-            Debug.LogWarning("Sprite renderer is null for brick : " + transform.name);
+            Debug.LogWarning("original Sprite renderer is null for brick : " + transform.name);
+        }
+        if(pathState != null) {
+            pathState.enabled = false;
+        } else {
+            Debug.LogWarning("path sprite renderer is null for brick : " + transform.name);
         }
 
         OnSwitchedToOriginal();
@@ -62,7 +75,12 @@ public class BaseBrick : MonoBehaviour {
         if(gfx != null) {
             gfx.enabled = false;
         } else {
-            Debug.LogWarning("Sprite renderer is null for brick : " + transform.name);
+            Debug.LogWarning("Original Sprite renderer is null for brick : " + transform.name);
+        }
+        if(pathState != null) {
+            pathState.enabled = true;
+        } else {
+            Debug.LogWarning("path sprite renderer is null for brick : " + transform.name);
         }
 
         OnSwitchedToPath();
@@ -72,6 +90,9 @@ public class BaseBrick : MonoBehaviour {
         if(selectedState != null) {
             if(!selectedState.gameObject.activeSelf) {
                 selectedState.gameObject.SetActive(true);
+            }
+            if(animator != null) {
+                animator.SetBool("Selected", state);
             }
             selectedState.enabled = state;
         } else {

@@ -16,6 +16,7 @@ MonoBehaviour:
     stateMoving:
       rotateSpeed: 0.1
       touchTimeBeforeDash: 0.15
+      bricksToMove: 4
       rotateSFX: {fileID: 8300000, guid: ad4f60c9406941849b679e5db4a1aaea, type: 3}
     stateDash:
       dashSpeed: 0.1
