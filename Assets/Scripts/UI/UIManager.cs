@@ -8,7 +8,6 @@ public class UIManager : MonoBehaviour {
     public EndScreenUI endScreen;
     public HUDCanvas hudCanvas;
     public LoadingScreen loadingScreen;
-    public DialogBoxController dialogBoxController;
 
     public void ShowStartScren() {
         hudCanvas.HideHUD();
@@ -28,9 +27,6 @@ public class UIManager : MonoBehaviour {
         startScreen.HideStartScreen();
 
         endScreen.Show(hasWon);
-    }
-    public void ShowDialogueBox(DialogBoxData data) {
-        dialogBoxController.ShowDialogBox(data);
     }
 
     public void ShowLoadingScreen(float forTime) {
