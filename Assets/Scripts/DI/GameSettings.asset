@@ -42,4 +42,4 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 512
     radius: 5
-    bricksToDestroyForRadar: 5
+    bricksToDestroyForRadar: 3

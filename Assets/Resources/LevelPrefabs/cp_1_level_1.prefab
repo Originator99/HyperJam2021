@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 234617628}
   - component: {fileID: 234617629}
   m_Layer: 0
-  m_Name: level1
+  m_Name: cp_1_level_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,6 +104,7 @@ MonoBehaviour:
     worldSize: {x: 15, y: 15, z: 0}
     gridSpace: 1.5
     bombChance: 0
+    totalRadars: 3
   levelBricks:
   - {fileID: 3927432807935669129}
   - {fileID: 9134311285697250647}

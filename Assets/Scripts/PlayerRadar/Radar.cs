@@ -11,29 +11,30 @@ public class Radar :ITickable {
 
     private List<Collider2D> colliders;
 
-    private int bricksDestroyed;
+    private int radarsAvailable;
 
-    public event Action OnRadarReady;
+    public event Action OnRadarReady, OnRadarNotReady;
 
     public Radar(SignalBus signalBus, Settings settings, Player player) {
         _settings = settings;
         _player = player;
         _signalBus = signalBus;
 
-        _signalBus.Subscribe<BrickDestroyedSignal>(OnBrickDestroyed);
+        _signalBus.Subscribe<LevelStartedSignal>(OnLevelStarted);
 
         colliders = new List<Collider2D>();
     }
 
     public bool CanActivateRadar() {
-        return bricksDestroyed >= _settings.bricksToDestroyForRadar;
+        return radarsAvailable > 0;
     }
 
     public void ActivateRadar() {
-        if(bricksDestroyed >= _settings.bricksToDestroyForRadar) {
+        if(CanActivateRadar()) {
             colliders.Clear();
-            bricksDestroyed = 0;
+            radarsAvailable--;
             CheckBombsAroundPlayer();
+            CheckAndReactivateRadar();
         }
     }
 
@@ -41,10 +42,16 @@ public class Radar :ITickable {
 
     }
 
-    private void OnBrickDestroyed(BrickDestroyedSignal signalData) {
-        bricksDestroyed++;
+    private void OnLevelStarted(LevelStartedSignal signalData) {
+        radarsAvailable = signalData.levelSettings.totalRadars;
+        CheckAndReactivateRadar();
+    }
+
+    private void CheckAndReactivateRadar() {
         if(CanActivateRadar())
             OnRadarReady?.Invoke();
+        else
+            OnRadarNotReady?.Invoke();
     }
 
     private void CheckBombsAroundPlayer() {
@@ -67,6 +74,5 @@ public class Radar :ITickable {
         public GameObject radarEnemyPrefab;
         public LayerMask layersToShowOnRadar;
         public float radius;
-        public int bricksToDestroyForRadar;
     }
 }

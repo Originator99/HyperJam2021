@@ -92,5 +92,6 @@ public class Level : MonoBehaviour {
         public Vector3 worldSize;
         public float gridSpace;
         public float bombChance;
+        public int totalRadars;
     }
 }

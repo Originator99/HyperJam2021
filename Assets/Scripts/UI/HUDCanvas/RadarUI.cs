@@ -16,6 +16,7 @@ public class RadarUI : MonoBehaviour {
         _radar = radar;
 
         _radar.OnRadarReady += HandleRadarReady;
+        _radar.OnRadarNotReady += HandleRadarNotReady;
     }
 
     private void Start() {
@@ -23,15 +24,15 @@ public class RadarUI : MonoBehaviour {
         radarButton.onClick.AddListener(delegate() {
             if(_radar.CanActivateRadar()) {
                 _radar.ActivateRadar();
-                SetAsInactive();
             }
         });
-
-        SetAsInactive();
     }
 
     private void HandleRadarReady() {
         SetAsActive();
+    }
+    private void HandleRadarNotReady() {
+        SetAsInactive();
     }
 
     private void SetAsActive() {

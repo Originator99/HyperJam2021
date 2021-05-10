@@ -26,5 +26,4 @@ public class GameGraphics : ScriptableObject {
     public GameObject boomBot;
     public GameObject randomBoomBrick;
     public GameObject portalBrick;
-
 }
