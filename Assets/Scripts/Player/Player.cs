@@ -5,6 +5,8 @@ using UnityEngine;
 using Zenject;
 
 public class Player :MonoBehaviour {
+    public Transform inputPointer;
+
     private AudioSource audioSource;
 
     private PlayerStateFactory _stateFactory;
@@ -91,13 +93,13 @@ public class Player :MonoBehaviour {
                 List<string> toRemove = new List<string>();
                 //finding all the bricks from the end of the sequence to the point user has touched
                 foreach(KeyValuePair<string, BaseBrick> pair in dashSequence.Reverse()) {
-                    if(pair.Key != brick.ID) {
-                        toRemove.Add(pair.Key);
-                    }
-
                     if(pair.Key == brick.ID) {
                         toRemove.Add(pair.Key);
                         break;
+                    }
+
+                    if(pair.Key != brick.ID) {
+                        toRemove.Add(pair.Key);
                     }
                 }
                 //removing it from the sequence

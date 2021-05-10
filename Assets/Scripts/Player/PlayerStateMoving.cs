@@ -7,21 +7,24 @@ using UnityEngine.EventSystems;
 
 public class PlayerStateMoving :PlayerState {
     private bool rotating;
-    private Settings _settings;
-    private Player _player;
-    private LevelManager _levelManager;
+    private readonly Settings _settings;
+    private readonly Player _player;
+    private readonly LevelManager _levelManager;
     private readonly SignalBus _signalBus;
+    public readonly FloatingJoystick _mobileInput;
 
     private float waitForDash; //going to use this variable to check touch time of a user. We dont want to dash as soon as touch
     private List<BaseBrick> currentAdjacentBricks;
     private BaseBrick currentBrickInTouch;
     private int brickLayerMask;
+    private bool isInputMoving;
 
-    public PlayerStateMoving(Settings settings, Player player, LevelManager levelManager, SignalBus signalBus) {
+    public PlayerStateMoving(Settings settings, Player player, LevelManager levelManager, SignalBus signalBus, [Inject(Id = "joystick")] FloatingJoystick mobileInput) {
         _settings = settings;
         _player = player;
         _signalBus = signalBus;
         _levelManager = levelManager;
+        _mobileInput = mobileInput;
 
         _signalBus.Subscribe<PlayerInputSignal>(OnPlayerInput);
 
@@ -33,39 +36,90 @@ public class PlayerStateMoving :PlayerState {
     }
 
     public override void Update() {
-        if(!EventSystem.current.IsPointerOverGameObject()) {
-            if(Input.GetMouseButtonDown(0)) {
-                RaycastHit2D[] hits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f);
-                foreach(RaycastHit2D hit in hits) {
-                    if(hit.collider != null && hit.collider.CompareTag("Player")) {
-                        canDash = true;
-                        GenerateAdjacentBricks(currentBrickInTouch = _player.currentBrickCell);
-                        Debug.Log("Player Found, Staring to dash");
-                    }
+        if(Input.GetMouseButtonDown(0)) {
+            _player.inputPointer.transform.position = _player.transform.position;
+            RaycastHit2D[] hits = Physics2D.RaycastAll(_player.inputPointer.transform.position, Vector2.down, 2f);
+            foreach(RaycastHit2D hit in hits) {
+                if(hit.collider != null && hit.collider.CompareTag("Player")) {
+                    canDash = true;
+                    GenerateAdjacentBricks(currentBrickInTouch = _player.currentBrickCell);
+                    Debug.Log("Player Found, Staring to dash");
                 }
-                _player.ResetDash();
             }
-            if(Input.GetMouseButton(0) && canDash) {
-                Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - _player.transform.position;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, 15 * Time.unscaledDeltaTime);
+            _player.ResetDash();
+        }
+        if(canDash && !isInputMoving) {
+            Vector2 moveDirection = Vector2.zero;
+            if(_mobileInput.Horizontal > 0.5f || _mobileInput.Horizontal < -0.5f) {
+                if(_mobileInput.Horizontal > 0.5f)
+                    moveDirection = Vector2.right;
+                else if(_mobileInput.Horizontal < -0.5f)
+                    moveDirection = Vector2.left;
+            } else if(_mobileInput.Vertical > 0.5f || _mobileInput.Vertical < -0.5f) {
+                if(_mobileInput.Vertical > 0.5f)
+                    moveDirection = Vector2.up;
+                else if(_mobileInput.Vertical < -0.5f)
+                    moveDirection = Vector2.down;
+            }
 
-                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f, brickLayerMask);
-                if(hit.collider != null) {
-                    BaseBrick brick = hit.collider.GetComponent<BaseBrick>();
-                    if(brick != null && CheckIfAdjacentBrick(brick.ID, out BaseBrick adj)) {
-                        _player.ModifyDashSequence(adj, _settings.bricksToMove, out currentBrickInTouch);
-                        GenerateAdjacentBricks(currentBrickInTouch);
+            if(moveDirection != Vector2.zero) {
+                RaycastHit2D[] hits = Physics2D.RaycastAll(_player.inputPointer.transform.position, moveDirection, 2f, brickLayerMask);
+                if(hits != null && hits.Length > 0) {
+                    foreach(var hit in hits) {
+                        if(hit.collider != null) {
+                            BaseBrick brick = hit.collider.GetComponent<BaseBrick>();
+                            if(brick != null && brick.ID != currentBrickInTouch.ID /*&& CheckIfAdjacentBrick(brick.ID, out BaseBrick adj)*/) {
+                                _player.ModifyDashSequence(brick, _settings.bricksToMove, out currentBrickInTouch);
+                                GenerateAdjacentBricks(currentBrickInTouch);
+                                isInputMoving = true;
+                                _player.inputPointer.DOMove(currentBrickInTouch.transform.position, 0.25f).OnComplete(delegate () {
+                                    isInputMoving = false;
+                                });
+                            }
+                        }
                     }
                 }
-            }
-            if(Input.GetMouseButtonUp(0)) {
-                currentBrickInTouch = null;
-                canDash = false;
-                _player.ChangeState(PlayerStates.Dash);
             }
         }
+        if(Input.GetMouseButtonUp(0)) {
+            currentBrickInTouch = null;
+            canDash = false;
+            _player.ChangeState(PlayerStates.Dash);
+        }
+
+        //if(!EventSystem.current.IsPointerOverGameObject()) {
+        //    if(Input.GetMouseButtonDown(0)) {
+        //        RaycastHit2D[] hits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f);
+        //        foreach(RaycastHit2D hit in hits) {
+        //            if(hit.collider != null && hit.collider.CompareTag("Player")) {
+        //                canDash = true;
+        //                GenerateAdjacentBricks(currentBrickInTouch = _player.currentBrickCell);
+        //                Debug.Log("Player Found, Staring to dash");
+        //            }
+        //        }
+        //        _player.ResetDash();
+        //    }
+        //    if(Input.GetMouseButton(0) && canDash) {
+        //        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - _player.transform.position;
+        //        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        //        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        //        _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, 15 * Time.unscaledDeltaTime);
+
+        //        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down, 2f, brickLayerMask);
+        //        if(hit.collider != null) {
+        //            BaseBrick brick = hit.collider.GetComponent<BaseBrick>();
+        //            if(brick != null && CheckIfAdjacentBrick(brick.ID, out BaseBrick adj)) {
+        //                _player.ModifyDashSequence(adj, _settings.bricksToMove, out currentBrickInTouch);
+        //                GenerateAdjacentBricks(currentBrickInTouch);
+        //            }
+        //        }
+        //    }
+        //    if(Input.GetMouseButtonUp(0)) {
+        //        currentBrickInTouch = null;
+        //        canDash = false;
+        //        _player.ChangeState(PlayerStates.Dash);
+        //    }
+        //}
     }
 
     bool canDash;
