@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Follow: {fileID: 415080905}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 15
+    OrthographicSize: 11
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -1285,9 +1285,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSettings:
-    levelID: 10
-    worldSize: {x: 34, y: 30, z: 0}
-    gridSpace: 1.5
+    levelID: 1
+    worldSize: {x: 20, y: 20, z: 0}
+    gridSpace: 2
     bombChance: 0
   levelBricks: []
   safePathIDs: []
@@ -3944,7 +3944,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 11
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -5875,10 +5875,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chapter_id: 1
-  levelID: 10
+  levelID: 1
   bombChance: 0
-  worldSize: {x: 34, y: 30, z: 0}
-  gridSpace: 1.5
+  worldSize: {x: 20, y: 20, z: 0}
+  gridSpace: 2
   gameGraphics: {fileID: 11400000, guid: 4686d8049140e6748887da1aac552ee5, type: 2}
   levelRoot: {fileID: 234617627}
   brickGridParent: {fileID: 146491444}
