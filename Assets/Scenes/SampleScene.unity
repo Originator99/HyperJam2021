@@ -3913,7 +3913,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6caee229a1998c345bdc3f69b085e59f, type: 3}
   m_Name: 
@@ -5875,16 +5875,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ee74443e8e4af4aa3c56378b75a5de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chapter_id: 1
-  levelID: 1
-  bombChance: 0
-  worldSize: {x: 20, y: 20, z: 0}
-  gridSpace: 2
-  gameGraphics: {fileID: 11400000, guid: 4686d8049140e6748887da1aac552ee5, type: 2}
-  levelRoot: {fileID: 234617627}
-  brickGridParent: {fileID: 146491444}
-  switchBrick: {fileID: 0}
-  safePath: []
 --- !u!1 &924458431
 GameObject:
   m_ObjectHideFlags: 0
