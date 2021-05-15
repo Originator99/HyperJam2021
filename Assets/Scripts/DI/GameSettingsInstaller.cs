@@ -12,12 +12,16 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
 
         Container.BindInstance(powerUpSettings.immortalitySettings);
         Container.BindInstance(comboSettings);
+
+        Container.BindInstance(cameraZoomSettings);
     }
 
     public PlayerSettings playerSettings;
     public PowerUpSettings powerUpSettings;
     public ComboUI.Settings comboSettings;
     public Radar.Settings radarSettings;
+    [Header("Camera Related")]
+    public CameraStateZoom.Settings cameraZoomSettings;
 
     [System.Serializable]
     public class PlayerSettings {

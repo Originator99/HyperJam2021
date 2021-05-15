@@ -59,17 +59,7 @@ public class GameManager :IInitializable, ITickable {
 
     public void Tick() {
         if(Input.GetKeyDown(KeyCode.Escape)) {
-            List<TutorialData> tutorials = new List<TutorialData>();
-            TutorialData data = new TutorialData() {
-                header = "HELLO !",
-                content = "THIS IS THE FIRST TUTORIAL",
-                highLightPanels = new List<Transform> { _uiManager.hudCanvas.score.transform },
-                callback = delegate () {
-                    Debug.Log("tutorial over");
-                }
-            };
-            tutorials.Add(data);
-            _signalBus.Fire<TutorialSignal>(new TutorialSignal { tutorials = tutorials });
+            _signalBus.Fire<CameraZoomSingal>(new CameraZoomSingal { isZoom = true });
         }
     }
 

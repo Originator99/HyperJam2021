@@ -42,4 +42,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 512
     radius: 5
-    bricksToDestroyForRadar: 3
+  cameraZoomSettings:
+    originalOrthoSize: 11
+    zoomOutOrthoSize: 20
+    zoomSpeed: 28

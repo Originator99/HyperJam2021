@@ -278,7 +278,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 2086765530}
-  _identifier: CameraBounds
+  - {fileID: 15933784}
+  _identifier: Camera
   _useSceneContext: 0
   _context: {fileID: 0}
   _bindType: 0

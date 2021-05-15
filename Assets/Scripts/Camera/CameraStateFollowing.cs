@@ -9,7 +9,7 @@ public class CameraStateFollowing :CameraState {
     private readonly SignalBus _signalBus;
     private readonly Transform _bounds;
 
-    public CameraStateFollowing(SignalBus signalBus, [Inject(Id ="CameraBounds")] Transform bounds) {
+    public CameraStateFollowing(SignalBus signalBus, [Inject(Id ="Camera")] Transform bounds) {
         _signalBus = signalBus;
         _bounds = bounds;
 
@@ -17,6 +17,10 @@ public class CameraStateFollowing :CameraState {
     }
 
     public override void LateUpdate() {
+
+    }
+
+    public override void UpdateState(System.Object data) {
 
     }
 

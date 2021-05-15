@@ -45,6 +45,9 @@ public class GameInstaller : MonoInstaller {
         Container.Bind<CameraStateFactory>().AsSingle();
 
         Container.BindFactory<CameraStateFollowing, CameraStateFollowing.Factory>().WhenInjectedInto<CameraStateFactory>();
+        Container.BindFactory<CameraStateZoom, CameraStateZoom.Factory>().WhenInjectedInto<CameraStateFactory>();
+
+        Container.DeclareSignal<CameraZoomSingal>().OptionalSubscriber();
     }
 
     private void InstallExcecutionOrder() {

@@ -36,3 +36,7 @@ public struct PowerUpActivated {
 public struct PowerUpDeactivated {
     public PowerUpType type;
 }
+
+public struct CameraZoomSingal {
+    public bool isZoom;
+}
