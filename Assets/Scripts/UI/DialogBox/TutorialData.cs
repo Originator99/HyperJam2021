@@ -9,6 +9,12 @@ public class TutorialData {
     public System.Action callback;
 }
 
+[System.Serializable]
+public class TutorialText {
+    public string header;
+    public string content;
+}
+
 
 public struct TutorialSignal {
     public List<TutorialData> tutorials;
