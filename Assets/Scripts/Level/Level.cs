@@ -88,6 +88,7 @@ public class Level : MonoBehaviour {
 
     [System.Serializable]
     public class Settings {
+        public int chapterID;
         public int levelID;
         public Vector3 worldSize;
         public float gridSpace;

@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSettings:
+    chapterID: 1
     levelID: 1
     worldSize: {x: 15, y: 15, z: 0}
     gridSpace: 1.5

@@ -139,10 +139,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSettings:
+    chapterID: 1
     levelID: 6
     worldSize: {x: 24, y: 24, z: 0}
     gridSpace: 1.5
     bombChance: 0
+    totalRadars: 0
   levelBricks:
   - {fileID: 542912992458149639}
   - {fileID: 2446144017503002064}
