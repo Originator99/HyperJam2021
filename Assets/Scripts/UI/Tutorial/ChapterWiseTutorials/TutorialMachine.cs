@@ -30,6 +30,9 @@ public class TutorialMachine : IInitializable {
             _tutorial = null;
         }
         _tutorial = _tutorialFactory.CreateFactory(type);
+        if(_tutorial != null) {
+            _tutorial.Start();
+        }
 
         UnityEngine.Debug.Log("Switching tutorial state to : " + type.ToString());
     }

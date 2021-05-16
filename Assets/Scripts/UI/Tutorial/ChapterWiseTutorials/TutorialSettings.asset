@@ -12,3 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: TutorialSettings
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSettings
+  dashboardTutorialSettings:
+    tutorialTexts: []
+  chapter1TutorialSettings:
+    tutorialTexts:
+    - id: c1_l1
+      sequenceNumber: 1
+      header: Ratta
+      content: Welcome To Maze Roulette!
+    - id: c1_l1
+      sequenceNumber: 2
+      header: Ratta
+      content: You need to help me
+    - id: c1_l1
+      sequenceNumber: 3
+      header: Ratta
+      content: I beg I beg I beg

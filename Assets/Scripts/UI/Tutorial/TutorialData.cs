@@ -11,6 +11,8 @@ public class TutorialData {
 
 [System.Serializable]
 public class TutorialText {
+    public string id;
+    public int sequenceNumber;
     public string header;
     public string content;
 }

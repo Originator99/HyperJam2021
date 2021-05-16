@@ -5,6 +5,10 @@ using Zenject;
 
 public class DashboardTutorials : Tutorial {
 
+    public override async void CheckAndStartTutorial() {
+
+    }
+
     #region Settings and Factory
     [System.Serializable]
     public class Settings {
