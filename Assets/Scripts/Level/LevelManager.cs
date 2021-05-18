@@ -60,6 +60,15 @@ public class LevelManager :ITickable {
         }
     }
 
+    public List<BaseBrick> GetPortalBricks() {
+        if(currentLevel != null) {
+            return currentLevel.GetPortalBricks();
+        } else {
+            Debug.LogError("Current level is null, cannot find portal bricks ");
+            return null;
+        }
+    }
+
     private async void OnPlayerDied(PlayerDiedSignal signalData) {
         _player.ChangeState(PlayerStates.Dead);
         await Task.Delay(1000);

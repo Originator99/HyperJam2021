@@ -86,6 +86,10 @@ public class Level : MonoBehaviour {
         return null;
     }
 
+    public List<BaseBrick> GetPortalBricks() {
+        return levelBricks.FindAll(x => x.currentType == BrickType.END);
+    }
+
     [System.Serializable]
     public class Settings {
         public int chapterID;

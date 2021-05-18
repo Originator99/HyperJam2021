@@ -7,10 +7,12 @@ public class Chapter1Tutorials : Tutorial {
     private readonly SignalBus _signalBus;
     private readonly LevelManager _levelManager;
     private readonly Settings _settings;
-    public Chapter1Tutorials(SignalBus signalBus, Settings settings, LevelManager levelManager, [Inject(Id ="brickCount")] RectTransform brickCount, [Inject(Id = "radar")] RectTransform radar) {
+    private readonly SpriteRenderer _playerSprite;
+    public Chapter1Tutorials(SignalBus signalBus, Settings settings, LevelManager levelManager, [Inject(Id ="brickCount")] RectTransform brickCount, [Inject(Id = "radar")] RectTransform radar, [Inject(Id = "playerSprite")] SpriteRenderer playerSprite) {
         _signalBus = signalBus;
         _settings = settings;
         _levelManager = levelManager;
+        _playerSprite = playerSprite;
     }
 
     public override void Start() {
@@ -34,16 +36,23 @@ public class Chapter1Tutorials : Tutorial {
         if(_settings != null && _settings.tutorialTexts != null) {
             List<TutorialData> sequence = new List<TutorialData>();
 
-            List<TutorialText> tutorialTexts = FetchTutorialTexts(_settings.tutorialTexts, "c1_l1");
+            List<TutorialText> tutorialTexts = FetchTutorialTexts(_settings.tutorialTexts, "c1_l1_1");
             if(tutorialTexts != null) {
                 foreach(var tutText in tutorialTexts) {
-                    TutorialData data = GenerateTutorialData(tutText.header, tutText.content);
+                    List<Transform> highlight = new List<Transform> { _playerSprite.transform };
+                    if(tutText.sequenceNumber == 7) {
+                        List<BaseBrick> portals = _levelManager.GetPortalBricks();
+                        if(portals != null && portals.Count > 0) {
+                            highlight.Add(portals[0].transform);
+                        }
+                    }
+                    TutorialData data = GenerateTutorialData(tutText.header, tutText.content, highlight);
                     sequence.Add(data);
                 }
             }
 
             _signalBus.Fire<TutorialSignal>(new TutorialSignal { tutorials = sequence });
-            PlayerPrefs.SetInt("chapter_1_level_1_tutorial", 1);
+           // PlayerPrefs.SetInt("chapter_1_level_1_tutorial", 1);
         }
     }
 

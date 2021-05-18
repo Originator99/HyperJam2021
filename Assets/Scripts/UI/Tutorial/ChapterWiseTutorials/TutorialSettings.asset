@@ -16,15 +16,33 @@ MonoBehaviour:
     tutorialTexts: []
   chapter1TutorialSettings:
     tutorialTexts:
-    - id: c1_l1
+    - id: c1_l1_1
       sequenceNumber: 1
       header: Ratta
-      content: Welcome To Maze Roulette!
-    - id: c1_l1
+      content: It's been 1032 years since I was stuck in this world with many mazes.
+    - id: c1_l1_1
       sequenceNumber: 2
       header: Ratta
-      content: You need to help me
-    - id: c1_l1
+      content: Everytime I try to escape, I find myself back where I started.
+    - id: c1_l1_1
       sequenceNumber: 3
       header: Ratta
-      content: I beg I beg I beg
+      content: 'You are my saviour. '
+    - id: c1_l1_1
+      sequenceNumber: 4
+      header: Ratta
+      content: Please help me escape this dimension and I will forever be in your
+        debt.
+    - id: c1_l1_1
+      sequenceNumber: 5
+      header: Ratta
+      content: 'And you know what they say? Rattas always pay their debts. '
+    - id: c1_l1_1
+      sequenceNumber: 6
+      header: Ratta
+      content: You can help me by choosing my path for me. Hold me and drag me. Once
+        you have my path for me, I will move.
+    - id: c1_l1_1
+      sequenceNumber: 7
+      header: Ratta
+      content: Move me to this portal. It will help us escape this maze.

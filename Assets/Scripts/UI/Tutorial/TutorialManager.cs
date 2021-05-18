@@ -69,8 +69,8 @@ public class TutorialManager : MonoBehaviour {
             foreach(var panel in panelsToHighlight) {
                 //Transform clone = Instantiate(panel, highlightPanelsOverlay.transform).transform;
                 Transform clone = _container.InstantiatePrefab(panel, highlightPanelsOverlay.transform).transform;
-                clone.localPosition = panel.localPosition;
-                clone.localScale = panel.localScale;
+                clone.position = panel.position;
+                clone.localScale = panel.lossyScale;
             }
         }
     }
