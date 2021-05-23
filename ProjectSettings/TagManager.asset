@@ -53,6 +53,12 @@ TagManager:
   - name: Effects
     uniqueID: 3973790837
     locked: 0
+  - name: UI
+    uniqueID: 1392649271
+    locked: 0
+  - name: Tutorial
+    uniqueID: 4197706415
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

@@ -8,8 +8,12 @@ using System;
 public class CameraStateFollowing :CameraState {
     private readonly SignalBus _signalBus;
     private readonly Transform _bounds;
+    private readonly CinemachineVirtualCamera _playerCamera;
+    private readonly Camera _uiCamera;
 
-    public CameraStateFollowing(SignalBus signalBus, [Inject(Id ="Camera")] Transform bounds) {
+    public CameraStateFollowing(SignalBus signalBus, [Inject(Id = "PlayerCamera")] Transform bounds, [Inject(Id = "UICamera")] Camera uiCamera, [Inject(Id = "PlayerCamera")] CinemachineVirtualCamera playerCamera) {
+        _playerCamera = playerCamera;
+        _uiCamera = uiCamera;
         _signalBus = signalBus;
         _bounds = bounds;
 
@@ -17,7 +21,7 @@ public class CameraStateFollowing :CameraState {
     }
 
     public override void LateUpdate() {
-
+        _uiCamera.orthographicSize = _playerCamera.m_Lens.OrthographicSize;
     }
 
     public override void UpdateState(System.Object data) {

@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: TutorialSettings
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSettings
+  tutorialManagerSettings:
+    TutorialSortingLayer: Tutorial
+    TutorialLayerMask: UI
   dashboardTutorialSettings:
     tutorialTexts: []
   chapter1TutorialSettings:
@@ -46,3 +49,12 @@ MonoBehaviour:
       sequenceNumber: 7
       header: Ratta
       content: Move me to this portal. It will help us escape this maze.
+    - id: c1_l1_end
+      sequenceNumber: 1
+      header: Ratta
+      content: 'You proved yourself to be a good guide. Let''s escape this world
+        together. '
+    - id: c1_l1_end
+      sequenceNumber: 2
+      header: Ratta
+      content: But beware, mazes will only get harder.

@@ -6,13 +6,15 @@ using Cinemachine;
 using DG.Tweening;
 
 public class CameraStateZoom :CameraState {
-    private Settings _settings;
-    private CinemachineVirtualCamera _camera;
+    private readonly Settings _settings;
+    private readonly CinemachineVirtualCamera _playerCamera;
+    private readonly Camera _uiCamera;
 
     private bool isZooming;
 
-    public CameraStateZoom([Inject(Id = "Camera")] CinemachineVirtualCamera camera, Settings settings) {
-        _camera = camera;
+    public CameraStateZoom([Inject(Id = "PlayerCamera")] CinemachineVirtualCamera playerCamera, [Inject(Id ="UICamera")] Camera uiCamera, Settings settings) {
+        _playerCamera = playerCamera;
+        _uiCamera = uiCamera;
         _settings = settings;
 
         isZooming = false;
@@ -21,14 +23,15 @@ public class CameraStateZoom :CameraState {
 
     public override void LateUpdate() {
         if(isZooming) {
-            if(_camera.m_Lens.OrthographicSize <= _settings.zoomOutOrthoSize) {
-                _camera.m_Lens.OrthographicSize += 1f * _settings.zoomSpeed * Time.deltaTime;
+            if(_playerCamera.m_Lens.OrthographicSize <= _settings.zoomOutOrthoSize) {
+                _playerCamera.m_Lens.OrthographicSize += 1f * _settings.zoomSpeed * Time.deltaTime;
             }
         } else {
-            if(_camera.m_Lens.OrthographicSize >= _settings.originalOrthoSize) {
-                _camera.m_Lens.OrthographicSize -= 1f * _settings.zoomSpeed * Time.deltaTime;
+            if(_playerCamera.m_Lens.OrthographicSize >= _settings.originalOrthoSize) {
+                _playerCamera.m_Lens.OrthographicSize -= 1f * _settings.zoomSpeed * Time.deltaTime;
             }
         }
+        _uiCamera.orthographicSize = _playerCamera.m_Lens.OrthographicSize;
     }
 
     public override void UpdateState(System.Object data) {
@@ -38,7 +41,7 @@ public class CameraStateZoom :CameraState {
     }
 
     private void SwitchZoom(CameraZoomSingal data) {
-        if(data.isZoom && _camera.m_Lens.OrthographicSize <= _settings.originalOrthoSize) {
+        if(data.isZoom && _playerCamera.m_Lens.OrthographicSize <= _settings.originalOrthoSize) {
             isZooming = true;
         } else {
             isZooming = false;
