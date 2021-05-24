@@ -812,7 +812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 106.72, y: -25}
+  m_AnchoredPosition: {x: 106.720215, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &153866202
@@ -1142,7 +1142,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 229.29999, y: -25}
+  m_AnchoredPosition: {x: 229.2998, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &199843357
@@ -1216,7 +1216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 65.859985, y: -25}
+  m_AnchoredPosition: {x: 65.85986, y: -25}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &208338695
@@ -5635,7 +5635,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -7.6799316}
+  m_AnchoredPosition: {x: 0, y: -7.6796875}
   m_SizeDelta: {x: 1000, y: 241.46997}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &879208269
@@ -6931,7 +6931,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -36.100098}
-  m_SizeDelta: {x: -1840, y: -523}
+  m_SizeDelta: {x: -1833.36, y: -243.26001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1093310333
 MonoBehaviour:
@@ -6962,13 +6962,13 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: -23
+    m_Top: -27
     m_Bottom: 0
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 115.2, y: 100}
+  m_CellSize: {x: 300, y: 300}
+  m_Spacing: {x: -6.64, y: -16.26}
   m_Constraint: 2
   m_ConstraintCount: 2
 --- !u!1 &1101888270
@@ -8195,7 +8195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startButton: {fileID: 1843474585}
   levelParent: {fileID: 1093310332}
-  levelIconPrefab: {fileID: 22204947881076995, guid: d68bdfa81959b29489407019dfeee855,
+  levelIconPrefab: {fileID: 4564486025930634699, guid: d68bdfa81959b29489407019dfeee855,
     type: 3}
 --- !u!1 &1495787331
 GameObject:
