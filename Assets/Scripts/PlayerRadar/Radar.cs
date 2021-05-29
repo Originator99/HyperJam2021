@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -33,9 +34,14 @@ public class Radar :ITickable {
         if(CanActivateRadar()) {
             colliders.Clear();
             radarsAvailable--;
-            CheckBombsAroundPlayer();
-            CheckAndReactivateRadar();
+            //CheckBombsAroundPlayer();
+            //CheckAndReactivateRadar();
+            ShowRipple();
         }
+    }
+
+    public int GetTotalRadars() {
+        return radarsAvailable;
     }
 
     public void Tick() {
@@ -69,9 +75,26 @@ public class Radar :ITickable {
         }
     }
 
+    private async void ShowRipple() {
+        if(_settings.radarRipple != null) {
+            GameObject rippleGO = GameObject.Instantiate(_settings.radarRipple, _player.transform.position, Quaternion.identity);
+            ParticleSystem ripple = rippleGO.GetComponent<ParticleSystem>();
+            if(ripple != null){
+                ParticleSystem.MainModule main = ripple.main;
+                main.startSize = _settings.radius * _settings.radius / 2;
+
+                await Task.Delay(500);
+
+                CheckBombsAroundPlayer();
+                CheckAndReactivateRadar();
+            }
+        }
+    }
+
     [System.Serializable]
     public class Settings {
         public GameObject radarEnemyPrefab;
+        public GameObject radarRipple;
         public LayerMask layersToShowOnRadar;
         public float radius;
     }

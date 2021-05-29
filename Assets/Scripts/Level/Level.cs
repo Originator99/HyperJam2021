@@ -82,7 +82,6 @@ public class Level : MonoBehaviour {
                 }
             }
         }
-        Debug.LogError("Could not find brick in the direction : " + direction.ToString());
         return null;
     }
 

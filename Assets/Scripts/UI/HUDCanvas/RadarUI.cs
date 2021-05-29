@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using DG.Tweening;
+using TMPro;
 
 public class RadarUI : MonoBehaviour {
     public CanvasGroup radarGFX;
     public Button radarButton;
+    public TMP_Text totalCount;
 
     private Radar _radar;
 
@@ -29,9 +31,11 @@ public class RadarUI : MonoBehaviour {
     }
 
     private void HandleRadarReady() {
+        totalCount.text = _radar.GetTotalRadars().ToString();
         SetAsActive();
     }
     private void HandleRadarNotReady() {
+        totalCount.text = _radar.GetTotalRadars().ToString();
         SetAsInactive();
     }
 

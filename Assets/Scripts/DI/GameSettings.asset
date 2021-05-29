@@ -20,6 +20,7 @@ MonoBehaviour:
       rotateSFX: {fileID: 8300000, guid: ad4f60c9406941849b679e5db4a1aaea, type: 3}
     stateDash:
       dashSpeed: 0.1
+      rotateSpeedWhileDashing: 0.15
       dashSFX: {fileID: 8300000, guid: 6fe4eccf63417d145ae7c960988ab336, type: 3}
       destroyBrickSFX: {fileID: 8300000, guid: 6ce1e6592b7805c44a23c29a1fb6c0e6, type: 3}
       deathSFX: {fileID: 8300000, guid: 8a7a67b81feb3a343b3417051c889550, type: 3}
@@ -38,6 +39,8 @@ MonoBehaviour:
   radarSettings:
     radarEnemyPrefab: {fileID: 5457183417739550743, guid: 4b526b4c563239049af6ec1dd2926f21,
       type: 3}
+    radarRipple: {fileID: 3764163845654643106, guid: 1c1e8811f8d4f0d44bfc8be83efb68e0,
+      type: 3}
     layersToShowOnRadar:
       serializedVersion: 2
       m_Bits: 512
@@ -46,3 +49,4 @@ MonoBehaviour:
     originalOrthoSize: 11
     zoomOutOrthoSize: 20
     zoomSpeed: 28
+    autoZoomInTime: 2

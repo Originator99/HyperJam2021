@@ -80,6 +80,12 @@ public class PlayerStateDash :PlayerState {
             dashing = true;
             _player.currentBrickCell = nextBrickCell;
             _player.PlaySFX(_settings.dashSFX);
+
+            Vector2 direction = nextBrickCell.transform.position - _player.transform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            tweenSequence.Append(_player.transform.DORotateQuaternion(rotation, _settings.rotateSpeedWhileDashing));
             tweenSequence.Append(_player.transform.DOMove(nextBrickCell.transform.position, _settings.dashSpeed).OnComplete(delegate () {
                 dashing = false;
             }));
@@ -92,6 +98,7 @@ public class PlayerStateDash :PlayerState {
     [System.Serializable]
     public class Settings {
         public float dashSpeed;
+        public float rotateSpeedWhileDashing;
         public AudioClip dashSFX;
         public AudioClip destroyBrickSFX;
         public AudioClip deathSFX;

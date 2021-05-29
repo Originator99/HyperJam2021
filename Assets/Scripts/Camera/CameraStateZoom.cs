@@ -53,6 +53,7 @@ public class CameraStateZoom :CameraState {
         public float originalOrthoSize;
         public float zoomOutOrthoSize;
         public float zoomSpeed;
+        public float autoZoomInTime;
     }
 
     public class Factory :PlaceholderFactory<CameraStateZoom> {
