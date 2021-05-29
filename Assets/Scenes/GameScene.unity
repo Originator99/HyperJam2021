@@ -1121,10 +1121,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSettings:
-    chapterID: 0
-    levelID: 1
+    chapterID: 1
+    levelID: 4
     worldSize: {x: 20, y: 20, z: 0}
-    gridSpace: 2
+    gridSpace: 1.5
     bombChance: 0
     totalRadars: 0
   levelBricks: []
@@ -5269,6 +5269,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ee74443e8e4af4aa3c56378b75a5de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chapterID: 1
+  levelID: 4
+  bombChance: 0
+  worldSize: {x: 20, y: 20, z: 0}
+  gridSpace: 1.5
+  gameGraphics: {fileID: 11400000, guid: 4686d8049140e6748887da1aac552ee5, type: 2}
+  levelRoot: {fileID: 234617627}
+  brickGridParent: {fileID: 146491444}
+  switchBrick: {fileID: 0}
+  safePath: []
 --- !u!1 &924458431
 GameObject:
   m_ObjectHideFlags: 0
@@ -9400,7 +9410,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9bcde0a635fe57647a68d8c4e25729fa, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
