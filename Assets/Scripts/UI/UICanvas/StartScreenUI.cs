@@ -9,12 +9,19 @@ public class StartScreenUI : MonoBehaviour {
 
     public Button startButton;
 
+    private bool hasFetchedData;
+
     private void OnEnable() {
-        Invoke(nameof(RenderChapterBox), 1f);
+        if(!hasFetchedData) {
+            Invoke(nameof(RenderChapterBox), 1f);
+        } else {
+            RenderChapterBox();
+        }
     }
 
     private void RenderChapterBox() {   
         chapterBox.RenderCurrentChapter();
+        hasFetchedData = true;
     }
 
     public void ShowStartScreen() {
