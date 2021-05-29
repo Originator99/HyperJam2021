@@ -90,6 +90,16 @@ public class TutorialManager : MonoBehaviour {
                 }
                 panel.gameObject.layer = LayerMask.NameToLayer(_settings.TutorialLayerMask);
 
+                if(panel.GetComponent<RectTransform>() != null) {
+                    Canvas canvas = panel.GetComponent<Canvas>();
+                    if(canvas == null) {
+                        canvas = panel.gameObject.AddComponent<Canvas>();
+                    }
+                    if(canvas != null) {
+                        canvas.overrideSorting = true;
+                    }
+                }
+
                 currentHighlightedPanels.Add(highlight);
             }
         }
@@ -143,6 +153,11 @@ public class TutorialManager : MonoBehaviour {
                         spriteRender.sortingLayerID = data.originalSortingMask;
                     }
                     data.panel.gameObject.layer = data.originalLayerMask;
+                    
+                    Canvas canvas = data.panel.GetComponent<Canvas>();
+                    if(canvas != null) {
+                        Destroy(canvas);
+                    }
                 }
             }
             currentHighlightedPanels.Clear();

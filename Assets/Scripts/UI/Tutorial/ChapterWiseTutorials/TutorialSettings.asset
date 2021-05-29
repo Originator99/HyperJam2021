@@ -58,3 +58,12 @@ MonoBehaviour:
       sequenceNumber: 2
       header: Ratta
       content: But beware, mazes will only get harder.
+    - id: c1_l2_radar
+      sequenceNumber: 1
+      header: Ratta
+      content: Ahh, I smell bombs. Be careful of bombs. I have the ability to smell
+        bombs.
+    - id: c1_l2_radar
+      sequenceNumber: 2
+      header: Ratta
+      content: Let me show you. Click this

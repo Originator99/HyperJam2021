@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using DG.Tweening;
+using System;
 
 public class ZoomUI :MonoBehaviour {
+    public GameObject zoomPanel; 
     public Image zoomFill;
     public Button zoomBtn;
 
@@ -18,6 +20,16 @@ public class ZoomUI :MonoBehaviour {
     public void Construct(SignalBus signalBus, CameraStateZoom.Settings zoomSettings) {
         _signalBus = signalBus;
         autoZoomOutTimeLimit = zoomSettings.autoZoomInTime;
+
+        _signalBus.Subscribe<LevelStartedSignal>(OnLevelStarted);
+    }
+
+    private void OnLevelStarted(LevelStartedSignal signalData) {
+        if(signalData.levelSettings != null && signalData.levelSettings.worldSize.x > 25 && signalData.levelSettings.worldSize.y > 25) {
+            zoomPanel.SetActive(true);
+        } else {
+            zoomPanel.SetActive(false);
+        }
     }
 
     private void Start() {

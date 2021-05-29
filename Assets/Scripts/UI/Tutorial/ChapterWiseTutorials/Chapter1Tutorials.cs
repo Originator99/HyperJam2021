@@ -9,11 +9,13 @@ public class Chapter1Tutorials : Tutorial {
     private readonly LevelManager _levelManager;
     private readonly Settings _settings;
     private readonly SpriteRenderer _playerSprite;
+    private readonly RectTransform _radar;
     public Chapter1Tutorials(SignalBus signalBus, Settings settings, LevelManager levelManager, [Inject(Id ="brickCount")] RectTransform brickCount, [Inject(Id = "radar")] RectTransform radar, [Inject(Id = "playerSprite")] SpriteRenderer playerSprite) {
         _signalBus = signalBus;
         _settings = settings;
         _levelManager = levelManager;
         _playerSprite = playerSprite;
+        _radar = radar;
 
         _signalBus.Subscribe<PlayerReachedEndSignal>(OnLevelEnd);
     }
@@ -35,6 +37,12 @@ public class Chapter1Tutorials : Tutorial {
             if(!tutorial_complete) {
                 await Task.Delay(500);
                 Level1Tutorial();
+            }
+        } else if(levelSettings.levelID == 2) {
+            bool tutorial_complete = PlayerPrefs.GetInt("chapter_1_level_2_radar_tutorial", 0) == 1;
+            if(!tutorial_complete) {
+                await Task.Delay(500);
+                Level2RadarTutorial();
             }
         }
     }
@@ -87,6 +95,26 @@ public class Chapter1Tutorials : Tutorial {
             }
             _signalBus.Fire<TutorialSignal>(new TutorialSignal { tutorials = sequence });
             PlayerPrefs.SetInt("chapter_1_level_1_end_tutorial", 1);
+        }
+    }
+
+    private void Level2RadarTutorial() {
+        if(_settings != null && _settings.tutorialTexts != null) {
+            List<TutorialData> sequence = new List<TutorialData>();
+
+            List<TutorialText> tutorialTexts = FetchTutorialTexts(_settings.tutorialTexts, "c1_l2_radar");
+            if(tutorialTexts != null) {
+                foreach(var tutText in tutorialTexts) {
+                    List<Transform> highlight = new List<Transform> { _playerSprite.transform };
+                    if(tutText.sequenceNumber == 2) {
+                        highlight.Add(_radar.transform);
+                    }
+                    TutorialData data = GenerateTutorialData(tutText.header, tutText.content, highlight);
+                    sequence.Add(data);
+                }
+            }
+            _signalBus.Fire<TutorialSignal>(new TutorialSignal { tutorials = sequence });
+            //PlayerPrefs.SetInt("chapter_1_level_2_radar_tutorial", 1);
         }
     }
 
