@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using DG.Tweening;
 
 public class BaseBrick : MonoBehaviour {
     public string ID {
@@ -102,6 +103,12 @@ public class BaseBrick : MonoBehaviour {
 
     public void SwitchPositions(Vector2 new_position) {
         transform.position = new_position;
+    }
+
+    public void DoShuffleHint() {
+        if(animator != null) {
+            animator.SetTrigger("ShuffleHint");
+        }
     }
 
     public virtual void DestroyBrick() {

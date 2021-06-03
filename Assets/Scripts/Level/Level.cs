@@ -28,7 +28,7 @@ public class Level : MonoBehaviour {
     /// <summary>
     /// Shuffles the current level items
     /// </summary>
-    public void ShuffleLevel() {
+    public async void ShuffleLevel() {
         if(levelBricks != null) {
             //making a copy to shuffle items
             List<BaseBrick> levelCopy = new List<BaseBrick>(levelBricks);

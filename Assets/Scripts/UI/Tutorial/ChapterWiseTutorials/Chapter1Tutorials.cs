@@ -78,7 +78,7 @@ public class Chapter1Tutorials : Tutorial {
             }
 
             _signalBus.Fire<TutorialSignal>(new TutorialSignal { tutorials = sequence });
-           // PlayerPrefs.SetInt("chapter_1_level_1_tutorial", 1);
+           PlayerPrefs.SetInt("chapter_1_level_1_tutorial", 1);
         }
     }
 
@@ -114,7 +114,7 @@ public class Chapter1Tutorials : Tutorial {
                 }
             }
             _signalBus.Fire<TutorialSignal>(new TutorialSignal { tutorials = sequence });
-            //PlayerPrefs.SetInt("chapter_1_level_2_radar_tutorial", 1);
+            PlayerPrefs.SetInt("chapter_1_level_2_radar_tutorial", 1);
         }
     }
 
