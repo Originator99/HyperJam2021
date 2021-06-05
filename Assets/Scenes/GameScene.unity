@@ -1122,8 +1122,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelSettings:
     chapterID: 1
-    levelID: 4
-    worldSize: {x: 20, y: 20, z: 0}
+    levelID: 6
+    worldSize: {x: 25, y: 25, z: 0}
     gridSpace: 1.5
     bombChance: 0
     totalRadars: 0
@@ -5226,14 +5226,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chapterID: 1
-  levelID: 4
+  levelID: 6
   bombChance: 0
-  worldSize: {x: 20, y: 20, z: 0}
+  worldSize: {x: 25, y: 25, z: 0}
   gridSpace: 1.5
   gameGraphics: {fileID: 11400000, guid: 4686d8049140e6748887da1aac552ee5, type: 2}
   levelRoot: {fileID: 234617627}
   brickGridParent: {fileID: 146491444}
-  switchBrick: {fileID: 0}
+  switchBricks: []
   safePath: []
 --- !u!1 &924458431
 GameObject:

@@ -161,7 +161,7 @@ MonoBehaviour:
     worldSize: {x: 28, y: 26, z: 0}
     gridSpace: 1.5
     bombChance: 0
-    totalRadars: 0
+    totalRadars: 3
   levelBricks:
   - {fileID: 288708569076403279}
   - {fileID: 3647711214850149071}

@@ -25,7 +25,7 @@ public class LevelBuilder : MonoBehaviour {
     public Transform brickGridParent;
 
     [Space(10)]
-    public BaseBrick switchBrick;
+    public List<BaseBrick> switchBricks;
     [Space(10)]
     public List<BaseBrick> safePath;
 
@@ -106,8 +106,10 @@ public class LevelBuilder : MonoBehaviour {
     }
 
     public void SwitchBrickToType(BrickType type) {
-        if(switchBrick != null) {
-            SwitchBrickToType(switchBrick, type);
+        if(switchBricks != null) {
+            foreach(var brick in switchBricks) {
+                SwitchBrickToType(brick, type);
+            }
         } else {
             Debug.LogError("Brick that is to be switched is null");
         }
