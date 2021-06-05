@@ -73,7 +73,7 @@ public class LevelManager :ITickable {
         _player.ChangeState(PlayerStates.Dead);
         await Task.Delay(1000);
         currentLevel.ShuffleLevel();
-        await Task.Delay(1000);
+        await Task.Delay(1500);
         _player.ResetPlayerPosition(currentLevel.GetStartBrick());
     }
 

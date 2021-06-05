@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using UnityEngine.UI;
+using System;
 
 public class TutorialPopup : MonoBehaviour {
     public RectTransform box;

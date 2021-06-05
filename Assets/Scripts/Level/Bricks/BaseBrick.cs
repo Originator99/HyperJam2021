@@ -27,7 +27,7 @@ public class BaseBrick : MonoBehaviour {
         _signalBus = signalBus;
     }
 
-    private void Start() {
+    private void OnEnable() {
         if(animator == null) {
             animator = GetComponent<Animator>();
         }

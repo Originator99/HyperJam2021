@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Level : MonoBehaviour {
@@ -42,8 +43,15 @@ public class Level : MonoBehaviour {
 
             shuffle.RemoveAll(x => safePathIDs.Any(y => y == x.ID));
 
+            int shuffleAnimIndex = 0;
             //reassigning the shuffled bricks to thier positions
             foreach(BaseBrick brick in levelBricks) {
+                if(shuffleAnimIndex % 5 == 0) {
+                    await Task.Delay(50);
+                }
+
+                brick.DoShuffleHint();
+
                 if(!safePathIDs.Contains(brick.ID)) {
                     int sIndex = levelBricks.FindIndex(x => x.ID == shuffle[0].ID);
                     Vector2 tempPos = levelBricks[sIndex].transform.position;
@@ -51,6 +59,7 @@ public class Level : MonoBehaviour {
                     brick.SwitchPositions(tempPos);
                 }
                 brick.ResetBrick();
+                shuffleAnimIndex++;
             }
         }
         //resetting start brick
