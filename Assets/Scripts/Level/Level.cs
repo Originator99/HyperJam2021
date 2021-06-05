@@ -47,10 +47,10 @@ public class Level : MonoBehaviour {
             //reassigning the shuffled bricks to thier positions
             foreach(BaseBrick brick in levelBricks) {
                 if(shuffleAnimIndex % 5 == 0) {
-                    await Task.Delay(50);
+                    await Task.Delay(50); // a little delay adds a good effect to shuffle animation
                 }
 
-                brick.DoShuffleHint();
+                brick.DoShuffleHint(); // shuffle animation
 
                 if(!safePathIDs.Contains(brick.ID)) {
                     int sIndex = levelBricks.FindIndex(x => x.ID == shuffle[0].ID);
