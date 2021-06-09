@@ -9,6 +9,9 @@ using UnityEngine;
 /// </summary>
 
 public class LevelBuilder : MonoBehaviour {
+    [Header("Level Load")]
+    public GameObject loadedLevelGO;
+
     [Header("Level Settings")]
     public int chapterID;
     public int levelID;
@@ -54,6 +57,26 @@ public class LevelBuilder : MonoBehaviour {
         }
         Debug.Log("Bricks added to level controller");
         AddPathToLevelController();
+    }
+
+    public void LoadLevel() {
+        if(loadedLevelGO != null) {
+            GameObject levelPrefab = Instantiate(loadedLevelGO, levelRoot.transform.parent);
+
+            var controller = levelPrefab.GetComponent<Level>();
+
+            levelController = controller;
+            levelRoot = controller.gameObject;
+            levelLogic = new LevelLogic(null, gameGraphics);
+
+            chapterID = levelController.levelSettings.chapterID;
+            levelID = levelController.levelSettings.levelID;
+            bombChance = levelController.levelSettings.bombChance;
+            worldSize = levelController.levelSettings.worldSize;
+            gridSpace = levelController.levelSettings.gridSpace;
+        } else {
+            Debug.LogError("Cannot load level, level is null");
+        }
     }
 
     public void ShuffleLevel() {

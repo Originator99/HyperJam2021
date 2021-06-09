@@ -33,6 +33,12 @@ public class EditorLevelGenerate :Editor {
             script.ToggleSafePath(false);
         }
 
+        GUILayout.Space(15);
+        GUILayout.Label("Load level");
+        if(GUILayout.Button("Load")) {
+            script.LoadLevel();
+        }
+
         DrawBrickChange(script);
         SafePath(script);
     }

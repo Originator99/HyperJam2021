@@ -790,36 +790,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 110313730}
   m_CullTransparentMesh: 0
---- !u!1 &146491443
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 146491444}
-  m_Layer: 0
-  m_Name: BrickGrid
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &146491444
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146491443}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 234617628}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &156402350
 GameObject:
   m_ObjectHideFlags: 0
@@ -1101,10 +1071,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234617627}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.18317592, y: 3.6570616, z: 0.99454707}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 146491444}
+  - {fileID: 1803635077}
   m_Father: {fileID: 650994875}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1122,8 +1092,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelSettings:
     chapterID: 1
-    levelID: 8
-    worldSize: {x: 28, y: 26, z: 0}
+    levelID: 10
+    worldSize: {x: 34, y: 30, z: 0}
     gridSpace: 1.5
     bombChance: 0
     totalRadars: 0
@@ -5207,7 +5177,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913842320}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.18317592, y: 3.6570616, z: 0.99454707}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 650994875}
@@ -5225,16 +5195,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ee74443e8e4af4aa3c56378b75a5de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadedLevelGO: {fileID: 234617627, guid: 4495fb4821968b8479d9d817d344da50, type: 3}
   chapterID: 1
-  levelID: 8
+  levelID: 10
   bombChance: 0
-  worldSize: {x: 28, y: 26, z: 0}
+  worldSize: {x: 34, y: 30, z: 0}
   gridSpace: 1.5
   gameGraphics: {fileID: 11400000, guid: 4686d8049140e6748887da1aac552ee5, type: 2}
   levelRoot: {fileID: 234617627}
-  brickGridParent: {fileID: 146491444}
-  switchBricks:
-  - {fileID: 0}
+  brickGridParent: {fileID: 1803635077}
+  switchBricks: []
   safePath: []
 --- !u!1 &924458431
 GameObject:
@@ -7896,6 +7866,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1701112844}
   m_CullTransparentMesh: 0
+--- !u!1 &1803635076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1803635077}
+  m_Layer: 0
+  m_Name: BrickGrid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1803635077
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803635076}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 234617628}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1819521032
 GameObject:
   m_ObjectHideFlags: 0
@@ -8781,7 +8781,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1930464359
 Transform:
   m_ObjectHideFlags: 0
