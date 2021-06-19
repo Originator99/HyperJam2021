@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42033097fa404684db20f4c3aa1a8e37, type: 3}
+  m_Name: TutorialSettingsNew
+  m_EditorClassIdentifier: 
+  tutorialManagerSettings:
+    TutorialSortingLayer: Tutorial
+    TutorialLayerMask: UI
+  dashboardTutorialSettings:
+    tutorialTexts: []
+  chapter1TutorialSettings:
+    tutorialTexts:
+    - id: c1_l1_1
+      sequenceNumber: 1
+      header: Ratta
+      content: It's been 1032 years since I was stuck in this world with many mazes.
+    - id: c1_l1_1
+      sequenceNumber: 2
+      header: Ratta
+      content: Everytime I try to escape, I find myself back where I started.
+    - id: c1_l1_1
+      sequenceNumber: 3
+      header: Ratta
+      content: 'You are my saviour. '
+    - id: c1_l1_1
+      sequenceNumber: 1
+      header: Ratta
+      content: It's been 1032 years since I was stuck in this world with many mazes.
+    - id: c1_l1_1
+      sequenceNumber: 5
+      header: Ratta
+      content: 'And you know what they say? Rattas always pay their debts. '
+    - id: c1_l1_1
+      sequenceNumber: 6
+      header: Ratta
+      content: You can help me by choosing my path for me. Hold me and drag me. Once
+        you have my path for me, I will move.
+    - id: c1_l1_1
+      sequenceNumber: 7
+      header: Ratta
+      content: Move me to this portal. It will help us escape this maze.
+    - id: c1_l1_end
+      sequenceNumber: 1
+      header: Ratta
+      content: 'You proved yourself to be a good guide. Let''s escape this world
+        together. '
+    - id: c1_l1_end
+      sequenceNumber: 2
+      header: Ratta
+      content: But beware, mazes will only get harder.
+    - id: c1_l2_radar
+      sequenceNumber: 1
+      header: Ratta
+      content: Ahh, I smell bombs. Be careful of bombs. I have the ability to smell
+        bombs.
+    - id: c1_l2_radar
+      sequenceNumber: 2
+      header: Ratta
+      content: Let me show you. Click this
