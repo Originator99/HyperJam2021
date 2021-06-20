@@ -58,7 +58,7 @@ public class ChapterIcon :MonoBehaviour {
     }
 
     private void DoAnimation() {
-        transform.localScale = new Vector3(0, 0, 0);
-        transform.DOScale(new Vector3(1,1,1), 0.5f);
+        //transform.localScale = new Vector3(0, 0, 0);
+        //transform.DOScale(new Vector3(1,1,1), 0.5f);
     }
 }

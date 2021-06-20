@@ -46,6 +46,8 @@ public class MenuBar : MonoBehaviour {
         settingsBtn.onClick.AddListener(delegate() {
             SwitchToSettings();
         });
+
+        Invoke("SwitchToChapter", 1f);
     }
 
     private void SwitchToChapter() {
