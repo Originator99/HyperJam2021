@@ -5,10 +5,12 @@ using UnityEngine.UI;
 using Zenject;
 using DG.Tweening;
 
-public class ChapterBox : MonoBehaviour {
+public class ChapterBox : MonoBehaviour, IMenuItem {
     public Button startButton;
     public Transform levelParent;
     public GameObject levelIconPrefab;
+
+    public CanvasGroup mainChaptersPanel;
 
     private ChapterDataManager _chapterDataManager;
     private GameManager _gameManager;
@@ -17,6 +19,20 @@ public class ChapterBox : MonoBehaviour {
     public void Construct(ChapterDataManager chapterDataManager, GameManager gameManager) {
         _chapterDataManager = chapterDataManager;
         _gameManager = gameManager;
+    }
+
+    public void Show() {
+        mainChaptersPanel.gameObject.SetActive(true);
+        mainChaptersPanel.DOFade(1, 0.25f).OnComplete(delegate() {
+            RenderCurrentChapter();
+        });
+    }
+
+    public void Hide(System.Action callback) {
+        mainChaptersPanel.DOFade(1, 0.25f).OnComplete(delegate() {
+            mainChaptersPanel.gameObject.SetActive(false);
+            callback?.Invoke();
+        });
     }
 
     public void RenderCurrentChapter() {

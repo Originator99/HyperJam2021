@@ -5,5 +5,6 @@ using Zenject;
 public class UI_SettingsInstaller :ScriptableObjectInstaller<GameSettingsInstaller> {
     public override void InstallBindings() {
 
+
     }
 }
