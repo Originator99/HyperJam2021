@@ -8,6 +8,7 @@ public class MenuBar : MonoBehaviour {
 
     public ChapterBox chapterBox;
     public ControlsBox controlBox;
+    public ShopBox shopBox;
 
     public Button chapterBtn, shopBtn, controlsBtn, settingsBtn;
 
@@ -65,7 +66,10 @@ public class MenuBar : MonoBehaviour {
         if(currentMenuItem != MenuItem.SHOP) {
             currentMenuItem = MenuItem.SHOP;
             menuItemHighlight.DOMove(shopBtn.transform.position, 0.15f);
-            HideCurrent(null);
+            HideCurrent(delegate() {
+                currentController = shopBox.GetComponent<IMenuItem>();
+                ShowCurrent();
+            });
         }
     }
 

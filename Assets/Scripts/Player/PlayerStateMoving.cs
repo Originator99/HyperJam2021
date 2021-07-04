@@ -30,6 +30,7 @@ public class PlayerStateMoving :PlayerState {
 
     public override void Start() {
         _player.gameObject.SetActive(true);
+        //Rotate(Direction.RIGHT);
     }
 
     public override void Update() {

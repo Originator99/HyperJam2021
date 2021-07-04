@@ -20,8 +20,7 @@ public class ChapterDataManager : IInitializable, IDisposable {
     }
 
     public void Dispose() {
-        Debug.Log("Saved Local Chapter Data");
-        _offlineDataManager.SaveData(path + file_name, localChapterData);
+        SaveChapterDataLocally();
     }
 
     public ChapterDataManager(ChapterSettingsInstaller.DefaultChapterSettings defaultData, OfflineDataManager offlineDataManager) {
@@ -138,6 +137,9 @@ public class ChapterDataManager : IInitializable, IDisposable {
                         Debug.Log("All levels in this chapter are compelete, marking chapter as complete");
                         localChapterData.chapters[index].is_complete = true;
                     }
+
+                    SaveChapterDataLocally();
+
                 } else {
                     Debug.LogError("Level not found with level number :" + level_number + " , in chapter ID " + chapter_id);
                 }
@@ -145,6 +147,11 @@ public class ChapterDataManager : IInitializable, IDisposable {
                 Debug.LogError("Chapter not found with ID : " + chapter_id);
             }
         }
+    }
+
+    private void SaveChapterDataLocally() {
+        Debug.Log("Saved Local Chapter Data");
+        _offlineDataManager.SaveData(path + file_name, localChapterData);
     }
 
     [System.Serializable]

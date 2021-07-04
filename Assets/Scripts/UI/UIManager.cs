@@ -5,6 +5,7 @@ using Zenject;
 
 public class UIManager : MonoBehaviour {
     public StartScreenUI startScreen;
+    public ChapterBox chapterBox;
     public EndScreenUI endScreen;
     public HUDCanvas hudCanvas;
     public LoadingScreen loadingScreen;
@@ -14,6 +15,7 @@ public class UIManager : MonoBehaviour {
         endScreen.Hide();
 
         startScreen.ShowStartScreen();
+        chapterBox.RenderCurrentChapter();
     }
     public void ShowHUD() {
         hudCanvas.ShowHUD();

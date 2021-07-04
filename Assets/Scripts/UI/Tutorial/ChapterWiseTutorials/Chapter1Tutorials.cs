@@ -35,12 +35,14 @@ public class Chapter1Tutorials : Tutorial {
         if(levelSettings.levelID == 1) {
             bool tutorial_complete = PlayerPrefs.GetInt("chapter_1_level_1_tutorial", 0) == 1;
             if(!tutorial_complete) {
+                PlayerPrefs.SetInt("chapter_1_level_1_tutorial", 1);
                 await Task.Delay(500);
                 Level1Tutorial();
             }
         } else if(levelSettings.levelID == 2) {
             bool tutorial_complete = PlayerPrefs.GetInt("chapter_1_level_2_radar_tutorial", 0) == 1;
             if(!tutorial_complete) {
+                PlayerPrefs.SetInt("chapter_1_level_2_radar_tutorial", 1);
                 await Task.Delay(500);
                 Level2RadarTutorial();
             }
@@ -52,6 +54,7 @@ public class Chapter1Tutorials : Tutorial {
         if(levelSettings.levelID == 1 && hasWon) {
             bool tutorial_complete = PlayerPrefs.GetInt("chapter_1_level_1_end_tutorial", 0) == 1;
             if(!tutorial_complete) {
+                PlayerPrefs.SetInt("chapter_1_level_1_end_tutorial", 1);
                 await Task.Delay(1500);
                 Level1EndTutorial();
             }
@@ -78,7 +81,6 @@ public class Chapter1Tutorials : Tutorial {
             }
 
             _signalBus.Fire<TutorialSignal>(new TutorialSignal { tutorials = sequence });
-           PlayerPrefs.SetInt("chapter_1_level_1_tutorial", 1);
         }
     }
 
@@ -94,7 +96,6 @@ public class Chapter1Tutorials : Tutorial {
                 }
             }
             _signalBus.Fire<TutorialSignal>(new TutorialSignal { tutorials = sequence });
-            PlayerPrefs.SetInt("chapter_1_level_1_end_tutorial", 1);
         }
     }
 
@@ -114,7 +115,6 @@ public class Chapter1Tutorials : Tutorial {
                 }
             }
             _signalBus.Fire<TutorialSignal>(new TutorialSignal { tutorials = sequence });
-            PlayerPrefs.SetInt("chapter_1_level_2_radar_tutorial", 1);
         }
     }
 
