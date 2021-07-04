@@ -189,6 +189,7 @@ MonoBehaviour:
   - 33
   - 34
   - 44
+  - 45
   brickLayerMask:
     serializedVersion: 2
     m_Bits: 512
